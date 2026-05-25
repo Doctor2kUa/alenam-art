@@ -1,26 +1,152 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import GalleryImage from '../components/GalleryImage.astro';
 
 const title = 'Art Never Comes From Happiness';
 const description = 'Alena Martsyanava — indie artist from Eastern Europe. Art never comes from happiness.';
 ---
 
 <BaseLayout title={title} description={description}>
-  <section class="pt-24 pb-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-    <div class="max-w-3xl">
-      <h1 class="text-4xl md:text-6xl font-display mb-6">Art Never Comes From Happiness</h1>
-      <p class="text-lg text-secondary leading-relaxed">
-        Welcome to the portfolio of Alena Martsyanava — an indie artist from Eastern Europe.
-      </p>
+  <!-- Hero Cover -->
+  <section class="relative h-[80vh] min-h-[500px] flex items-center justify-center overflow-hidden bg-[#3d3636]">
+    <img
+      src="https://alenam.art/wp-content/uploads/2024/12/alena-mart-1.avif"
+      alt=""
+      class="absolute inset-0 w-full h-full object-cover opacity-60"
+    />
+    <div class="relative z-10 text-center">
+      <h1 class="text-4xl md:text-6xl lg:text-7xl font-display text-white px-4">
+        ART NEVER COMES FROM HAPPINESS
+      </h1>
     </div>
   </section>
 
-  <section class="px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto pb-20">
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      <GalleryImage href="/art/first-expo/" src="/uploads/2025/01/IMG_9008-2_resized.jpg" alt="First Expo" title="First Expo" aspectRatio="aspect-[4/3]" />
-      <GalleryImage href="/art/confessions-should-be-better-planned/" src="/uploads/2025/01/IMG_5566.avif" alt="Confessions" title="Confessions should be better planned" aspectRatio="aspect-[4/3]" />
-      <GalleryImage href="/art/flora/" src="/uploads/2025/02/5332760235598803087.avif" alt="Flora" title="Flora" aspectRatio="aspect-[4/3]" />
+  <!-- MY ART section -->
+  <section class="py-16">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h2 class="text-sm uppercase tracking-[0.3em] text-secondary mb-4">MY ART</h2>
+      <h3 class="text-2xl md:text-3xl font-display leading-relaxed mb-12">
+        Art is the magic glue that is capable of sticking a broken heart back together and filling it with hope and love
+      </h3>
     </div>
+
+    <!-- Art images grid -->
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <!-- Row 1: two images side by side -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+        <img
+          src="https://alenam.art/wp-content/uploads/2024/12/photo_5262728453080344965_y-3.avif"
+          alt="Alena artwork"
+          class="w-full h-auto rounded-sm"
+          loading="lazy"
+        />
+        <img
+          src="https://alenam.art/wp-content/uploads/2025/01/tramvai-alena.avif"
+          alt="Tram artwork"
+          class="w-full h-auto rounded-sm"
+          loading="lazy"
+        />
+      </div>
+
+      <!-- Row 2: video + image -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+        <img
+          src="https://alenam.art/wp-content/uploads/2024/12/4.avif"
+          alt="Alena artwork"
+          class="w-full h-auto rounded-sm"
+          loading="lazy"
+        />
+        <img
+          src="https://alenam.art/wp-content/uploads/2024/12/alena-mart-1.avif"
+          alt="Alena artwork"
+          class="w-full h-auto rounded-sm"
+          loading="lazy"
+        />
+      </div>
+
+      <!-- Row 3: two more images -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <img
+          src="https://alenam.art/wp-content/uploads/2024/12/3.avif"
+          alt="Alena artwork"
+          class="w-full h-auto rounded-sm"
+          loading="lazy"
+        />
+        <img
+          src="https://alenam.art/wp-content/uploads/2024/12/tramvai-alena.avif"
+          alt="Alena artwork"
+          class="w-full h-auto rounded-sm"
+          loading="lazy"
+        />
+      </div>
+    </div>
+  </section>
+
+  <!-- Divider -->
+  <hr class="border-gray-200 max-w-4xl mx-auto" />
+
+  <!-- COLLECTIONS section -->
+  <section class="py-16">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h2 class="text-sm uppercase tracking-[0.3em] text-secondary mb-8 text-center">COLLECTIONS</h2>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div>
+          <a href="/art/big-city-life/" class="block">
+            <img
+              src="https://alenam.art/wp-content/uploads/2025/01/tramvai-alena.avif"
+              alt="Big City Life"
+              class="w-full h-auto rounded-sm mb-4"
+              loading="lazy"
+            />
+          </a>
+          <h3 class="font-display text-lg text-center">
+            <a href="/art/big-city-life/" class="hover:text-accent transition-colors">Big City Life</a>
+          </h3>
+        </div>
+
+        <div>
+          <a href="/art/bits-and-pieces/" class="block">
+            <img
+              src="https://alenam.art/wp-content/uploads/2025/01/IMG_5841.avif"
+              alt="Bits and Pieces"
+              class="w-full h-auto rounded-sm mb-4"
+              loading="lazy"
+            />
+          </a>
+          <h3 class="font-display text-lg text-center">
+            <a href="/art/bits-and-pieces/" class="hover:text-accent transition-colors">Bits and Pieces</a>
+          </h3>
+        </div>
+
+        <div>
+          <a href="/art/little-pleasures/" class="block">
+            <img
+              src="https://alenam.art/wp-content/uploads/2025/01/IMG_5801.avif"
+              alt="Little Pleasures"
+              class="w-full h-auto rounded-sm mb-4"
+              loading="lazy"
+            />
+          </a>
+          <h3 class="font-display text-lg text-center">
+            <a href="/art/little-pleasures/" class="hover:text-accent transition-colors">Little Pleasures</a>
+          </h3>
+        </div>
+      </div>
+
+      <div class="text-center mt-8">
+        <a href="/art/" class="inline-block text-sm font-medium uppercase tracking-wider hover:text-accent transition-colors border-b border-current pb-0.5">
+          View All
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Divider -->
+  <hr class="border-gray-200 max-w-4xl mx-auto" />
+
+  <!-- Upcoming events -->
+  <section class="py-16 text-center">
+    <h2 class="text-sm uppercase tracking-[0.3em] text-secondary mb-4">Upcoming events</h2>
+    <a href="/blog/" class="font-display text-xl hover:text-accent transition-colors">Upcoming events</a>
   </section>
 </BaseLayout>

@@ -3,9 +3,6 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 
 export function getStaticPaths() {
   const posts = [
-    { slug: 'amazing-evening-amazing-place-amazing-people' },
-    { slug: 'a-presentation-of-the-art-collection-confessions-should-be-better-planned-by-alena-martsyanava' },
-    { slug: 'confessions-should-be-better-planned-1-0-in-warsaw' },
     { slug: 'flora' },
     { slug: 'big-city-life' },
     { slug: 'bits-and-pieces' },
@@ -13,6 +10,9 @@ export function getStaticPaths() {
     { slug: 'at-the-seaside' },
     { slug: 'mind-games' },
     { slug: 'confessions-should-be-better-planned' },
+    { slug: 'amazing-evening-amazing-place-amazing-people' },
+    { slug: 'a-presentation-of-the-art-collection-confessions-should-be-better-planned-by-alena-martsyanava' },
+    { slug: 'confessions-should-be-better-planned-1-0-in-warsaw' },
     { slug: 'taking-part-in-contro-la-violenza-sulle-donne-expo' },
     { slug: 'auction-in-wroclaw-poland' },
     { slug: 'interpretation-of-moments-boys-vs-girls' },
@@ -27,95 +27,201 @@ export function getStaticPaths() {
 const { slug } = Astro.params;
 
 const allPosts = {
-  'amazing-evening-amazing-place-amazing-people': {
-    title: 'Amazing evening, amazing place, amazing people!', date: '2025-06-01',
-    content: `<p>Thanks a million to @sante_praha for hosting my art collection "Confessions should be better planned", to @wine.you.prague for supporting my idea, to @trambitskaya_photo for being my dearest content maker!</p><p>The artworks are in Prague for a few months in summer, so don't miss the opportunity to see them, buy them and support the special needs children via @burrenchernobyl!</p>`,
-    images: [{ src: 'https://alenam.art/wp-content/uploads/2025/06/alena.mp4', alt: 'Prague exhibition' }], prevSlug: 'a-presentation-of-the-art-collection-confessions-should-be-better-planned-by-alena-martsyanava', prevTitle: 'A presentation of the art collection',
-  },
-  'a-presentation-of-the-art-collection-confessions-should-be-better-planned-by-alena-martsyanava': {
-    title: 'A presentation of the art collection "Confessions Should Be Better Planned"', date: '2025-05-07',
-    content: `<p>On the 23rd of May, SANTE in Prague is welcoming the audience for a special event: A presentation of the art collection "Confessions Should Be Better Planned" by Alena Martsyanava.</p><p><strong>The concept: buy art and help people.</strong></p><p>All artworks are for sale, and ⅓ of the money will go to support children in institutions via the <a href="https://burrenchernobyl.ie/" target="_blank" rel="noopener noreferrer">Burren Chernobyl Project</a>.</p><p><strong>Date:</strong> 23 May 2025<br><strong>Place:</strong> SANTE, Prague<br><strong>Time:</strong> 18.00<br><strong>Entrance:</strong> FREE</p>`,
-    images: [{ src: 'https://alenam.art/wp-content/uploads/2025/05/alena.avif', alt: 'Prague presentation' }], prevSlug: 'confessions-should-be-better-planned-1-0-in-warsaw', prevTitle: 'Confessions 1.0 in Warsaw', nextSlug: 'amazing-evening-amazing-place-amazing-people', nextTitle: 'Amazing evening',
-  },
-  'confessions-should-be-better-planned-1-0-in-warsaw': {
-    title: 'Confessions should be better planned 1.0 in Warsaw', date: '2025-03-02',
-    content: `<p>On February 16, 2025, the art-beauty shop ALAR in Warsaw launched the first expo. Only 8 works were exhibited. A closed event with the presentation was a real success.</p>`,
-    images: [
-      { src: 'https://alenam.art/wp-content/uploads/2025/03/photo_5334917533247075315_y-1.avif', alt: 'Warsaw' },
-      { src: 'https://alenam.art/wp-content/uploads/2025/03/photo_5334917533247075316_y-1.avif', alt: 'Warsaw' },
-      { src: 'https://alenam.art/wp-content/uploads/2025/03/photo_5334917533247075323_y-1.avif', alt: 'Warsaw' },
-      { src: 'https://alenam.art/wp-content/uploads/2025/03/photo_5334917533247075326_y-1.avif', alt: 'Warsaw' },
-    ], prevSlug: 'flora', prevTitle: 'Flora', nextSlug: 'a-presentation-of-the-art-collection-confessions-should-be-better-planned-by-alena-martsyanava', nextTitle: 'A presentation of the art collection',
-  },
   'flora': {
-    title: 'Flora', date: '2025-02-26',
-    content: `<p>The timeless bond between girls and flowers inspires this collection. The fleeting beauty of blooms finds eternal life on canvas.</p>`,
-    images: [{ src: 'https://alenam.art/wp-content/uploads/2025/02/5332760235598803087.avif', alt: 'Flora' }], prevSlug: 'big-city-life', prevTitle: 'Big City Life', nextSlug: 'confessions-should-be-better-planned-1-0-in-warsaw', nextTitle: 'Confessions 1.0 in Warsaw',
+    title: 'Flora',
+    date: '2025-02-26',
+    content: '<p>The timeless bond between girls and flowers inspires this collection, a theme that never ceases to captivate. The fleeting beauty of blooms, destined to fade in days, finds eternal life on canvas. Each piece captures moments of joy, sorrow, and the delicate fragrance of memories, preserving their essence forever.</p>',
+    images: [
+      { src: 'https://alenam.art/wp-content/uploads/2025/02/5332760235598803087-1024x674.avif', alt: 'Flora' },
+      { src: 'https://alenam.art/wp-content/uploads/2025/02/5330074966210769624-406x1024.avif', alt: 'Flora artwork' },
+      { src: 'https://alenam.art/wp-content/uploads/2025/02/5330074966210769625-1024x402.avif', alt: 'Flora artwork' },
+      { src: 'https://alenam.art/wp-content/uploads/2025/02/5330074966210769626-1024x1024.avif', alt: 'Flora artwork' },
+      { src: 'https://alenam.art/wp-content/uploads/2025/02/5330074966210769627-1024x751.avif', alt: 'Flora artwork' },
+      { src: 'https://alenam.art/wp-content/uploads/2025/02/5330074966210769628-1024x754.avif', alt: 'Flora artwork' },
+      { src: 'https://alenam.art/wp-content/uploads/2025/02/5330074966210769629-769x1024.avif', alt: 'Flora artwork' },
+      { src: 'https://alenam.art/wp-content/uploads/2025/02/5330074966210769632-823x1024.avif', alt: 'Flora artwork' },
+      { src: 'https://alenam.art/wp-content/uploads/2025/02/5330074966210769634-822x1024.avif', alt: 'Flora artwork' },
+      { src: 'https://alenam.art/wp-content/uploads/2025/02/5330074966210769635-826x1024.avif', alt: 'Flora artwork' },
+      { src: 'https://alenam.art/wp-content/uploads/2025/02/5330510415765039716-1024x1014.avif', alt: 'Flora artwork' },
+      { src: 'https://alenam.art/wp-content/uploads/2025/02/5330510415765039717-874x1024.avif', alt: 'Flora artwork' },
+      { src: 'https://alenam.art/wp-content/uploads/2025/02/5330510415765039718-853x1024.avif', alt: 'Flora artwork' },
+    ],
+    prevSlug: 'confessions-should-be-better-planned',
+    prevTitle: 'Confessions should be better planned',
   },
   'big-city-life': {
-    title: 'Big City Life', date: '2025-01-20',
-    content: `<p>A tribute to the cities that have shaped my journey. Each image captures a fleeting moment, a memory etched into the soul.</p>`,
-    images: [{ src: 'https://alenam.art/wp-content/uploads/2025/01/IMG_5833.avif', alt: 'Big City Life' }], prevSlug: 'bits-and-pieces', prevTitle: 'Bits and Pieces', nextSlug: 'flora', nextTitle: 'Flora',
+    title: 'Big City Life',
+    date: '2025-01-20',
+    content: '<p>A tribute to the cities that have shaped my journey — those I&rsquo;ve called home, wandered through, dreamt of, or might never see. Each image captures a fleeting moment, a memory etched into the soul, where every feeling like joy, hope, love, and even despair finds its own place.</p><p>These are not just places… They are the chapters of a life lived fully, interpreted through every sense and every emotion. Above all, they are the cities I&rsquo;ve loved with all my heart.</p>',
+    images: [
+      { src: 'https://alenam.art/wp-content/uploads/2025/02/tram-1024x679.avif', alt: 'The Tram Oil on canvas' },
+      { src: 'https://alenam.art/wp-content/uploads/2025/01/IMG_5831-732x1024.avif', alt: 'Big City Life artwork' },
+      { src: 'https://alenam.art/wp-content/uploads/2025/01/IMG_5833-694x1024.avif', alt: 'Big City Life artwork' },
+      { src: 'https://alenam.art/wp-content/uploads/2025/01/IMG_5829-1024x838.avif', alt: 'Big City Life artwork' },
+      { src: 'https://alenam.art/wp-content/uploads/2025/01/IMG_5828-1024x1014.avif', alt: 'Big City Life artwork' },
+      { src: 'https://alenam.art/wp-content/uploads/2025/01/IMG_5830-1024x836.avif', alt: 'Big City Life artwork' },
+      { src: 'https://alenam.art/wp-content/uploads/2025/01/IMG_5827-1024x764.avif', alt: 'Big City Life artwork' },
+      { src: 'https://alenam.art/wp-content/uploads/2025/01/IMG_5826-773x1024.avif', alt: 'Big City Life artwork' },
+      { src: 'https://alenam.art/wp-content/uploads/2025/02/2-1024x1015.avif', alt: 'Big City Life artwork' },
+      { src: 'https://alenam.art/wp-content/uploads/2025/02/1-821x1024.avif', alt: 'Big City Life artwork' },
+      { src: 'https://alenam.art/wp-content/uploads/2025/02/5330074966210769603-1024x771.avif', alt: 'Big City Life artwork' },
+    ],
+    prevSlug: 'bits-and-pieces',
+    prevTitle: 'Bits and Pieces',
+    nextSlug: 'flora',
+    nextTitle: 'Flora',
   },
   'bits-and-pieces': {
-    title: 'Bits and Pieces', date: '2025-01-18',
-    content: `<p>Beauty exists in everything — it is all about learning to see it. Small details and grand impressions draw us in.</p>`,
-    images: [{ src: 'https://alenam.art/wp-content/uploads/2025/01/photo_5458821030429715635_y-1.jpg', alt: 'Bits and Pieces' }], prevSlug: 'little-pleasures', prevTitle: 'Little Pleasures', nextSlug: 'big-city-life', nextTitle: 'Big City Life',
+    title: 'Bits and Pieces',
+    date: '2025-01-18',
+    content: '<p>Beauty exists in everything — it is all about learning to see it. Small details and grand impressions alike draw us in, leaving lasting traces of emotions, memories, and sensations.</p><p>Forgotten feelings, familiar scents, and vivid tastes resurface, like the sweetness of ripe fruit, the glow of warm light, or the cool touch of leather. Each piece tells a story of sensory connection and nostalgia.</p>',
+    images: [
+      { src: 'https://alenam.art/wp-content/uploads/2025/01/IMG_5845-784x1024.avif', alt: 'Bits and Pieces artwork' },
+      { src: 'https://alenam.art/wp-content/uploads/2025/01/IMG_5844-1024x1019.avif', alt: 'Bits and Pieces artwork' },
+      { src: 'https://alenam.art/wp-content/uploads/2025/01/IMG_5843-817x1024.avif', alt: 'Bits and Pieces artwork' },
+      { src: 'https://alenam.art/wp-content/uploads/2025/01/IMG_5841-1024x1024.avif', alt: 'Bits and Pieces artwork' },
+      { src: 'https://alenam.art/wp-content/uploads/2025/01/IMG_5842-817x1024.avif', alt: 'Bits and Pieces artwork' },
+      { src: 'https://alenam.art/wp-content/uploads/2025/01/IMG_5840-1024x740.avif', alt: 'Bits and Pieces artwork' },
+      { src: 'https://alenam.art/wp-content/uploads/2025/01/IMG_5839-1024x674.avif', alt: 'Bits and Pieces artwork' },
+      { src: 'https://alenam.art/wp-content/uploads/2025/01/IMG_5837-1024x670.avif', alt: 'Bits and Pieces artwork' },
+      { src: 'https://alenam.art/wp-content/uploads/2025/01/IMG_5836-679x1024.avif', alt: 'Bits and Pieces artwork' },
+      { src: 'https://alenam.art/wp-content/uploads/2024/12/photo_5262762490696168254_y-1-806x1024.avif', alt: 'Bits and Pieces artwork' },
+      { src: 'https://alenam.art/wp-content/uploads/2025/02/5328222409377049919-818x1024.avif', alt: 'Bits and Pieces artwork' },
+    ],
+    prevSlug: 'little-pleasures',
+    prevTitle: 'Little Pleasures',
+    nextSlug: 'big-city-life',
+    nextTitle: 'Big City Life',
   },
   'little-pleasures': {
-    title: 'Little Pleasures', date: '2025-01-18',
-    content: `<p>A soft pastel harmony of everyday objects, illuminated by the magic of light and its playful reflections.</p>`,
-    images: [{ src: 'https://alenam.art/wp-content/uploads/2025/01/IMG_5798.avif', alt: 'Little Pleasures' }], prevSlug: 'at-the-seaside', prevTitle: 'At the Seaside', nextSlug: 'bits-and-pieces', nextTitle: 'Bits and Pieces',
+    title: 'Little Pleasures',
+    date: '2025-01-18',
+    content: '<p>A soft pastel harmony of everyday objects, illuminated by the magic of light and its playful reflections... These seemingly ordinary items transform into sources of joy when we pause to notice their subtle beauty.</p><p>Little pleasures often go unnoticed, yet they hold the power to brighten our days — if only we take the time to see them.</p>',
+    images: [
+      { src: 'https://alenam.art/wp-content/uploads/2025/01/IMG_5798-818x1024.avif', alt: 'Little Pleasures artwork' },
+      { src: 'https://alenam.art/wp-content/uploads/2025/01/IMG_5802-820x1024.avif', alt: 'Little Pleasures artwork' },
+      { src: 'https://alenam.art/wp-content/uploads/2025/01/IMG_5804-820x1024.avif', alt: 'Little Pleasures artwork' },
+      { src: 'https://alenam.art/wp-content/uploads/2025/01/IMG_5797-824x1024.avif', alt: 'Little Pleasures artwork' },
+      { src: 'https://alenam.art/wp-content/uploads/2025/01/IMG_5803-821x1024.avif', alt: 'Little Pleasures artwork' },
+      { src: 'https://alenam.art/wp-content/uploads/2025/01/IMG_5795-1024x754.avif', alt: 'Little Pleasures artwork' },
+      { src: 'https://alenam.art/wp-content/uploads/2025/01/IMG_5799-1024x764.avif', alt: 'Little Pleasures artwork' },
+      { src: 'https://alenam.art/wp-content/uploads/2025/01/IMG_5800-1024x719.avif', alt: 'Little Pleasures artwork' },
+      { src: 'https://alenam.art/wp-content/uploads/2025/01/IMG_5801-1024x679.avif', alt: 'Little Pleasures artwork' },
+      { src: 'https://alenam.art/wp-content/uploads/2025/01/IMG_5796-1024x764.avif', alt: 'Little Pleasures artwork' },
+    ],
+    prevSlug: 'at-the-seaside',
+    prevTitle: 'At the Seaside',
+    nextSlug: 'bits-and-pieces',
+    nextTitle: 'Bits and Pieces',
   },
   'at-the-seaside': {
-    title: 'At the Seaside', date: '2025-01-18',
-    content: `<p>Lakes, seas, and oceans hold a unique energy, bringing strength, inspiration, peace, and hope.</p>`,
-    images: [{ src: 'https://alenam.art/wp-content/uploads/2025/01/IMG_5811.avif', alt: 'At the Seaside' }], prevSlug: 'mind-games', prevTitle: 'Mind Games', nextSlug: 'little-pleasures', nextTitle: 'Little Pleasures',
+    title: 'At the Seaside',
+    date: '2025-01-18',
+    content: '<p>Lakes, seas, and oceans hold a unique energy, bringing strength, inspiration, peace, and hope. They evoke pure happiness and a deep sense of release.</p><p>Boats drifting on the water, palm trees swaying in the breeze, lighthouses standing tall, and endless beaches — each scene inspires art in its own special way.</p>',
+    images: [
+      { src: 'https://alenam.art/wp-content/uploads/2025/01/IMG_5811-826x1024.avif', alt: 'At the Seaside artwork' },
+      { src: 'https://alenam.art/wp-content/uploads/2025/01/IMG_5810-1024x849.avif', alt: 'At the Seaside artwork' },
+      { src: 'https://alenam.art/wp-content/uploads/2025/01/IMG_5809-873x1024.avif', alt: 'At the Seaside artwork' },
+      { src: 'https://alenam.art/wp-content/uploads/2025/01/IMG_5808-863x1024.avif', alt: 'At the Seaside artwork' },
+      { src: 'https://alenam.art/wp-content/uploads/2025/01/IMG_5807-819x1024.avif', alt: 'At the Seaside artwork' },
+      { src: 'https://alenam.art/wp-content/uploads/2025/01/IMG_5806-1024x770.avif', alt: 'At the Seaside artwork' },
+      { src: 'https://alenam.art/wp-content/uploads/2025/01/IMG_5805-1024x840.avif', alt: 'At the Seaside artwork' },
+      { src: 'https://alenam.art/wp-content/uploads/2025/02/5330074966210769592-1024x739.avif', alt: 'At the Seaside artwork' },
+    ],
+    prevSlug: 'mind-games',
+    prevTitle: 'Mind Games',
+    nextSlug: 'little-pleasures',
+    nextTitle: 'Little Pleasures',
   },
   'mind-games': {
-    title: 'Mind Games', date: '2025-01-03',
-    content: `<p>A series of sketches filled with symbols, hidden meanings, and puzzles waiting to be solved.</p><ul><li><strong>Night dweller</strong> — Paper, pencil, A3. July 2021</li><li><strong>Flowers never die</strong> — Paper, pencil, A3. April 2021</li><li><strong>A drop</strong> — Paper, acryl, coal, pencil, A3. November 2021</li><li><strong>My heart's stopped</strong> — Paper, gouache, pencil, A3. July 2021</li><li><strong>Game of chairs</strong> — Paper, pencil, gouache, A3. July 2021</li><li><strong>Fusion</strong> — Paper, pencil, A3. April 2021</li><li><strong>Oops, I spilt the paint</strong> — Gouache, pencil, paper, A3. July 2021</li></ul>`,
-    images: [{ src: 'https://alenam.art/wp-content/uploads/2025/01/IMG_5794.avif', alt: 'Mind Games' }], prevSlug: 'confessions-should-be-better-planned', prevTitle: 'Confessions should be better planned', nextSlug: 'at-the-seaside', nextTitle: 'At the Seaside',
+    title: 'Mind Games',
+    date: '2025-01-03',
+    content: '<p>A series of sketches filled with symbols, hidden meanings, and puzzles waiting to be solved. There&rsquo;s more to see if you look beyond the surface. Bold black-and-white compositions, with touches of red, bring an edge of drama and amplify the story behind each piece.</p><ul><li><strong>Night dweller</strong> — Paper, pencil, size А3. July 2021</li><li><strong>Flowers never die</strong> — Paper, pencil, A3 size. April 2021</li><li><strong>Dandelion earrings</strong> — paper, pencil. A4 size. April 2021</li><li><strong>A drop</strong> — Paper, acryl, coal, pencil. A3 size. November 2021</li><li><strong>Good evening candles</strong> — Paper, pencil, gouache. A3 size. July 2021 — sold</li><li><strong>My heart&rsquo;s stopped, my heart&rsquo;s frozen</strong> — Paper, gouache, pencil, A3 size, July 2021</li><li><strong>Game of chairs</strong> — Paper, pencil, gouache. A3 size. July 2021</li><li><strong>Tears of pomegranates</strong> — Pencil, gouache, paper, A3 size. July 2021</li><li><strong>Fusion</strong> — Paper, pencil, A3 size, April 2021</li><li><strong>Oops, I spilt the paint</strong> — Gouache, pencil, paper, A3 size, July 2021</li></ul>',
+    images: [
+      { src: 'https://alenam.art/wp-content/uploads/2025/01/IMG_5794-822x1024.avif', alt: 'Mind Games artwork' },
+      { src: 'https://alenam.art/wp-content/uploads/2025/01/IMG_5792-821x1024.avif', alt: 'Mind Games artwork' },
+      { src: 'https://alenam.art/wp-content/uploads/2025/01/IMG_5793-1024x762.avif', alt: 'Mind Games artwork' },
+      { src: 'https://alenam.art/wp-content/uploads/2025/01/IMG_5791-810x1024.avif', alt: 'Mind Games artwork' },
+      { src: 'https://alenam.art/wp-content/uploads/2025/01/IMG_5790-846x1024.avif', alt: 'Mind Games artwork' },
+      { src: 'https://alenam.art/wp-content/uploads/2025/01/IMG_5789-824x1024.avif', alt: 'Mind Games artwork' },
+      { src: 'https://alenam.art/wp-content/uploads/2025/01/IMG_5788-824x1024.avif', alt: 'Mind Games artwork' },
+      { src: 'https://alenam.art/wp-content/uploads/2025/01/IMG_5787-1024x803.avif', alt: 'Mind Games artwork' },
+      { src: 'https://alenam.art/wp-content/uploads/2025/01/IMG_5786-820x1024.avif', alt: 'Mind Games artwork' },
+      { src: 'https://alenam.art/wp-content/uploads/2025/01/IMG_5785-1024x718.avif', alt: 'Mind Games artwork' },
+    ],
+    prevSlug: 'confessions-should-be-better-planned',
+    prevTitle: 'Confessions should be better planned',
+    nextSlug: 'at-the-seaside',
+    nextTitle: 'At the Seaside',
   },
   'confessions-should-be-better-planned': {
-    title: 'Confessions should be better planned', date: '2025-01-03',
-    content: `<p>A series exploring the raw and unfiltered nature of expression. Hidden truths revealed, dreams concealed behind masks, and words left unspoken.</p><ul><li><strong>A thought</strong> — Acryl, canvas. 100×70cm. September 2021</li><li><strong>No more stories</strong> — Acrylic on canvas. 100×100cm. October 2021</li><li><strong>A red stone</strong> — Acrylic on canvas. 120×100cm. November 2021</li><li><strong>Connection</strong> — Acrylic on canvas. 50×60cm. October 2021</li><li><strong>Gone</strong> — Acryl on canvas, 40×60cm. February 2022 — Available</li><li><strong>The darkest side</strong> — Acryl on canvas, 70×90cm. December 2022</li><li><strong>The tune</strong> — Acrylics on canvas, 50×70cm — Available</li><li><strong>Disconnect</strong> — Acrylic on canvas, 50×70cm. March 2024 — Available</li><li><strong>Apple</strong> — Acrylic on canvas, 100×70cm. May 2022 — Available</li><li><strong>Angie</strong> — Acrylic on canvas, 120×120cm. April 2022 — Available</li><li><strong>Time to rest</strong> — Acrylic on canvas, 100×70cm. January 2024 — Available</li><li><strong>What have I done?</strong> — Acrylic on canvas, 70×100cm. January 2025 — Available</li></ul><p>This series delves into the intricate and often chaotic realm of human expression.</p>`,
-    images: [{ src: 'https://alenam.art/wp-content/uploads/2025/01/IMG_5566.avif', alt: 'Confessions' }], prevSlug: 'taking-part-in-contro-la-violenza-sulle-donne-expo', prevTitle: 'Taking part in "Contro la Violenza" expo', nextSlug: 'mind-games', nextTitle: 'Mind Games',
+    title: 'Confessions should be better planned',
+    date: '2025-01-03',
+    content: '<p>A series exploring the raw and unfiltered nature of expression. Hidden truths revealed, dreams concealed behind masks, and words left unspoken. Misinterpreted desires and emotions too intense to keep hidden — all reflecting the complexity of communication.</p><ul><li><strong>A thought</strong> — Acryl, canvas. 100×70cm. September 2021</li><li><strong>No more stories</strong> — Acrylic on canvas. 100×100cm. October 2021</li><li><strong>A red stone</strong> — Acrylic on canvas. 120×100cm. November 2021</li><li><strong>Connection</strong> — Acrylic on canvas. 50×60cm. October 2021</li><li><strong>Gone</strong> — Acryl on canvas, 40×60cm. February 2022 — Available</li><li><strong>The darkest side</strong> — Acryl on canvas, 70×90cm. December 2022</li><li><strong>The tune</strong> — Acrylics on canvas, 50×70cm — Available</li><li><strong>Disconnect</strong> — Acrylic on canvas, 50×70cm. March 2024 — Available</li><li><strong>Apple</strong> — Acrylic on canvas, 100×70cm. May 2022 — Available</li><li><strong>Angie</strong> — Acrylic on canvas, 120×120cm. April 2022 — Available</li><li><strong>Time to rest</strong> — Acrylic on canvas, 100×70cm. January 2024 — Available</li><li><strong>What have I done?</strong> — Acrylic on canvas, 70×100cm. January 2025 — Available</li></ul><p>This series delves into the intricate and often chaotic realm of human expression.</p>',
+    images: [
+      { src: 'https://alenam.art/wp-content/uploads/2025/01/IMG_5566-787x1024.avif', alt: 'Confessions artwork' },
+      { src: 'https://alenam.art/wp-content/uploads/2025/01/IMG_5558-1024x1019.avif', alt: 'Confessions artwork' },
+      { src: 'https://alenam.art/wp-content/uploads/2025/01/IMG_5571-818x1024.avif', alt: 'Confessions artwork' },
+      { src: 'https://alenam.art/wp-content/uploads/2025/01/IMG_5550-827x1024.avif', alt: 'Confessions artwork' },
+      { src: 'https://alenam.art/wp-content/uploads/2025/01/IMG_5567-669x1024.avif', alt: 'Confessions artwork' },
+      { src: 'https://alenam.art/wp-content/uploads/2025/01/IMG_5560-1012x1024.avif', alt: 'Confessions artwork' },
+      { src: 'https://alenam.art/wp-content/uploads/2025/01/IMG_5563-786x1024.avif', alt: 'Confessions artwork' },
+      { src: 'https://alenam.art/wp-content/uploads/2025/01/IMG_5552-1024x733.avif', alt: 'Confessions artwork' },
+      { src: 'https://alenam.art/wp-content/uploads/2025/01/IMG_5562-1024x1024.avif', alt: 'Confessions artwork' },
+      { src: 'https://alenam.art/wp-content/uploads/2025/01/IMG_5551-1-1024x725.avif', alt: 'Confessions artwork' },
+      { src: 'https://alenam.art/wp-content/uploads/2025/01/IMG_5555-1-669x1024.avif', alt: 'Confessions artwork' },
+      { src: 'https://alenam.art/wp-content/uploads/2025/01/IMG_5569-1-999x1024.avif', alt: 'Confessions artwork' },
+      { src: 'https://alenam.art/wp-content/uploads/2025/01/IMG_5556-786x1024.avif', alt: 'Confessions artwork' },
+      { src: 'https://alenam.art/wp-content/uploads/2025/01/IMG_5553-1-1024x740.avif', alt: 'Confessions artwork' },
+      { src: 'https://alenam.art/wp-content/uploads/2024/11/Untitled-1-819x1024.avif', alt: 'Confessions artwork' },
+      { src: 'https://alenam.art/wp-content/uploads/2025/02/5330074966210769581-779x1024.avif', alt: 'Confessions artwork' },
+    ],
+    prevSlug: 'taking-part-in-contro-la-violenza-sulle-donne-expo',
+    prevTitle: 'Taking part in "Contro la Violenza" expo',
+    nextSlug: 'mind-games',
+    nextTitle: 'Mind Games',
   },
   'taking-part-in-contro-la-violenza-sulle-donne-expo': {
     title: 'Taking part in "Contro la Violenza sulle Donne" expo', date: '2025-01-03',
-    content: `<p>So proud to have had a chance of participating in the event raising awareness of the domestic violence towards women in Italy. My artwork "oops I spilt the paint" drew a lot of attention.</p>`,
-    images: [{ src: 'https://alenam.art/wp-content/uploads/2025/01/photo_5458821030429715645_x-1.jpg', alt: 'Violenza expo' }], prevSlug: 'auction-in-wroclaw-poland', prevTitle: 'Auction in Wroclaw', nextSlug: 'confessions-should-be-better-planned', nextTitle: 'Confessions should be better planned',
+    content: '<p>So proud to have had a chance of participating in the event raising awareness of the domestic violence towards women in Italy. My artwork "oops I spilt the paint" organically fitted into the collection of works and drew a lot of attention.</p>',
+    images: [{ src: 'https://alenam.art/wp-content/uploads/2025/01/photo_5458821030429715645_x-1.jpg', alt: 'Violenza expo' }],
+    prevSlug: 'auction-in-wroclaw-poland', prevTitle: 'Auction in Wroclaw', nextSlug: 'confessions-should-be-better-planned', nextTitle: 'Confessions',
   },
   'auction-in-wroclaw-poland': {
     title: 'Auction in Wroclaw, Poland', date: '2025-01-03',
-    content: `<p>Alena's artwork in Grattage technique took part in the auction organized by Students Artworks Foundation and was sold.</p>`,
-    images: [{ src: 'https://alenam.art/wp-content/uploads/2025/01/photo_5458821030429715635_y-1.jpg', alt: 'Wroclaw auction' }], prevSlug: 'interpretation-of-moments-boys-vs-girls', prevTitle: 'Interpretation of moments', nextSlug: 'taking-part-in-contro-la-violenza-sulle-donne-expo', nextTitle: 'Taking part in "Contro la Violenza" expo',
+    content: '<p>Alena&rsquo;s artwork in an unusual technique — Grattage — took part in the auction organized by Students Artworks Foundation and was sold to the local art admirer.</p>',
+    images: [{ src: 'https://alenam.art/wp-content/uploads/2025/01/photo_5458821030429715635_y-1.jpg', alt: 'Wroclaw auction' }],
+    prevSlug: 'interpretation-of-moments-boys-vs-girls', prevTitle: 'Interpretation of moments', nextSlug: 'taking-part-in-contro-la-violenza-sulle-donne-expo', nextTitle: 'Violenza expo',
   },
   'interpretation-of-moments-boys-vs-girls': {
     title: 'Interpretation of moments: boys vs girls', date: '2024-12-15',
-    content: `<p>Join-forces-expo with Eugene Buzouski from Minsk. The expo took place in Beetlejuice cafe in December 2019 and lasted over 2 months.</p>`,
-    images: [{ src: 'https://alenam.art/wp-content/uploads/2025/01/photo_5458821030429715608_y.jpg', alt: 'Boys vs girls' }], prevSlug: 'the-dream-on-expo', prevTitle: 'The "Dream on" Expo', nextSlug: 'auction-in-wroclaw-poland', nextTitle: 'Auction in Wroclaw',
+    content: '<p>Another join-forces-expo with a famous rock musician from Minsk — Eugene Buzouski. The expo took place in the iconic Beetlejuice cafe in Minsk in December 2019 and lasted over 2 months.</p>',
+    images: [{ src: 'https://alenam.art/wp-content/uploads/2025/01/photo_5458821030429715608_y.jpg', alt: 'Boys vs girls' }],
+    prevSlug: 'the-dream-on-expo', prevTitle: 'Dream on Expo', nextSlug: 'auction-in-wroclaw-poland', nextTitle: 'Auction in Wroclaw',
   },
   'the-dream-on-expo': {
     title: 'The "Dream on" Expo', date: '2024-12-10',
-    content: `<p>The first time Alena introduced a new young talent — Anna Trusevich from Minsk. In October 2019 the artworks were presented.</p>`,
-    images: [{ src: 'https://alenam.art/wp-content/uploads/2025/01/photo_5458821030429715599_y.jpg', alt: 'Dream on Expo' }], prevSlug: 'the-35-expo', prevTitle: 'The "35" Expo', nextSlug: 'interpretation-of-moments-boys-vs-girls', nextTitle: 'Interpretation of moments',
+    content: '<p>The first time Alena introduced a new young talent — Anna Trusevich from Minsk. In October 2019 the artworks were presented.</p>',
+    images: [{ src: 'https://alenam.art/wp-content/uploads/2025/01/photo_5458821030429715599_y.jpg', alt: 'Dream on Expo' }],
+    prevSlug: 'the-35-expo', prevTitle: 'The 35 Expo', nextSlug: 'interpretation-of-moments-boys-vs-girls', nextTitle: 'Interpretation of moments',
   },
   'the-35-expo': {
     title: 'The "35" Expo', date: '2024-12-05',
-    content: `<p>Dedicated to Alena's 35th anniversary. The Stary Olsa band performed. The expo contained exactly 35 artworks and was available the whole April 2018.</p>`,
-    images: [{ src: 'https://alenam.art/wp-content/uploads/2025/01/photo_5458821030429715570_y.jpg', alt: 'The 35 Expo' }], prevSlug: 'сhaotic-still-life', prevTitle: 'Сhaotic still-life', nextSlug: 'the-dream-on-expo', nextTitle: 'The "Dream on" Expo',
+    content: '<p>Dedicated to Alena&rsquo;s 35th anniversary. The Stary Olsa band performed. The expo contained exactly 35 artworks and was available the whole April 2018.</p>',
+    images: [{ src: 'https://alenam.art/wp-content/uploads/2025/01/photo_5458821030429715570_y.jpg', alt: 'The 35 Expo' }],
+    prevSlug: 'сhaotic-still-life', prevTitle: 'Сhaotic still-life', nextSlug: 'the-dream-on-expo', nextTitle: 'Dream on Expo',
   },
   'сhaotic-still-life': {
     title: 'Сhaotic still-life', date: '2024-11-27',
-    content: `<p>Took place in autumn 2014 while Alena was expecting her baby. About 25 new works of various techniques: from oil painting to sketches and Grattage.</p>`,
-    images: [{ src: 'https://alenam.art/wp-content/uploads/2025/01/photo_5458821030429715564_x.jpg', alt: 'Сhaotic still-life' }], prevSlug: 'first-expo', prevTitle: 'First Expo', nextSlug: 'the-35-expo', nextTitle: 'The "35" Expo',
+    content: '<p>Took place in autumn 2014 while Alena was expecting her baby. About 25 new works of various techniques: from oil painting to sketches and Grattage.</p>',
+    images: [{ src: 'https://alenam.art/wp-content/uploads/2025/01/photo_5458821030429715564_x.jpg', alt: 'Сhaotic still-life' }],
+    prevSlug: 'first-expo', prevTitle: 'First Expo', nextSlug: 'the-35-expo', nextTitle: 'The 35 Expo',
   },
   'first-expo': {
     title: 'First Expo', date: '2024-11-27',
-    content: `<p>First Alena's Expo happened back in 2013 with 30 artworks. A local rock band performed at the opening. It lasted 30 days and attracted more than a thousand visitors.</p>`,
-    images: [{ src: 'https://alenam.art/wp-content/uploads/2025/01/IMG_9008-2_resized.jpg', alt: 'First Expo' }], nextSlug: 'сhaotic-still-life', nextTitle: 'Сhaotic still-life',
+    content: '<p>First Alena&rsquo;s Expo happened back in 2013 with 30 artworks. A local rock band performed at the opening. It lasted 30 days and attracted more than a thousand visitors.</p>',
+    images: [{ src: 'https://alenam.art/wp-content/uploads/2025/01/IMG_9008-2_resized.jpg', alt: 'First Expo' }],
+    nextSlug: 'сhaotic-still-life', nextTitle: 'Сhaotic still-life',
   },
 };
 
@@ -127,23 +233,47 @@ if (!post) return new Response(null, { status: 404 });
   <article class="pt-24 pb-20">
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
       <header class="mb-12">
-        <p class="text-sm font-medium uppercase tracking-[0.3em] text-secondary mb-4">Art</p>
         <h1 class="text-3xl md:text-5xl font-display leading-tight mb-4">{post.title}</h1>
         <time class="text-sm text-secondary">{new Date(post.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</time>
       </header>
+
       <div class="wp-content prose prose-lg max-w-none" set:html={post.content} />
+
       {post.images && post.images.length > 0 && (
-        <div class="mt-12 grid grid-cols-1 md:grid-cols-2 gap-6">
-          {post.images.map((img) => (<figure class="m-0"><img src={img.src} alt={img.alt} class="w-full h-auto rounded-sm" loading="lazy" /></figure>))}
+        <div class="mt-12 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+          {post.images.map((img) => (
+            <figure class="m-0">
+              <img
+                src={img.src}
+                alt={img.alt}
+                class="w-full h-auto rounded-sm"
+                loading="lazy"
+              />
+            </figure>
+          ))}
         </div>
       )}
+
       <nav class="mt-16 pt-8 border-t border-gray-200">
         <div class="flex justify-between items-center">
-          {post.prevSlug ? (<a href={`/art/${post.prevSlug}/`} class="text-sm text-secondary hover:text-primary transition-colors max-w-[45%]"><span class="block text-xs uppercase tracking-wider mb-1">← Prev</span><span class="font-display text-base">{post.prevTitle}</span></a>) : <div />}
-          {post.nextSlug ? (<a href={`/art/${post.nextSlug}/`} class="text-sm text-secondary hover:text-primary transition-colors text-right max-w-[45%]"><span class="block text-xs uppercase tracking-wider mb-1">Next →</span><span class="font-display text-base">{post.nextTitle}</span></a>) : <div />}
+          {post.prevSlug ? (
+            <a href={`/art/${post.prevSlug}/`} class="text-sm text-secondary hover:text-primary transition-colors max-w-[45%]">
+              <span class="block text-xs uppercase tracking-wider mb-1">← Prev</span>
+              <span class="font-display text-base">{post.prevTitle}</span>
+            </a>
+          ) : <div />}
+          {post.nextSlug ? (
+            <a href={`/art/${post.nextSlug}/`} class="text-sm text-secondary hover:text-primary transition-colors text-right max-w-[45%]">
+              <span class="block text-xs uppercase tracking-wider mb-1">Next →</span>
+              <span class="font-display text-base">{post.nextTitle}</span>
+            </a>
+          ) : <div />}
         </div>
       </nav>
-      <div class="mt-8 text-center"><a href="/art/" class="inline-block text-sm font-medium uppercase tracking-wider hover:text-accent transition-colors border-b border-current pb-0.5">← Back to Art</a></div>
+
+      <div class="mt-8 text-center">
+        <a href="/art/" class="inline-block text-sm font-medium uppercase tracking-wider hover:text-accent transition-colors border-b border-current pb-0.5">← Back to Art</a>
+      </div>
     </div>
   </article>
 </BaseLayout>

@@ -3,13 +3,14 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
 const title = 'Art Never Comes From Happiness';
 const description = 'Alena Martsyanava — indie artist from Eastern Europe. Art never comes from happiness.';
+const base = 'https://alenam.art/wp-content/uploads/';
 ---
 
 <BaseLayout title={title} description={description}>
   <!-- Hero Cover -->
   <section class="relative h-[80vh] min-h-[500px] flex items-center justify-center overflow-hidden bg-[#3d3636]">
     <img
-      src="https://alenam.art/wp-content/uploads/2024/12/alena-mart-1.avif"
+      src={base + "2024/12/alena-mart-1.avif"}
       alt=""
       class="absolute inset-0 w-full h-full object-cover opacity-60"
     />
@@ -29,54 +30,15 @@ const description = 'Alena Martsyanava — indie artist from Eastern Europe. Art
       </h3>
     </div>
 
-    <!-- Art images grid -->
+    <!-- Art images grid - matching original -->
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-      <!-- Row 1: two images side by side -->
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-        <img
-          src="https://alenam.art/wp-content/uploads/2024/12/photo_5262728453080344965_y-3.avif"
-          alt="Alena artwork"
-          class="w-full h-auto rounded-sm"
-          loading="lazy"
-        />
-        <img
-          src="https://alenam.art/wp-content/uploads/2025/01/tramvai-alena.avif"
-          alt="Tram artwork"
-          class="w-full h-auto rounded-sm"
-          loading="lazy"
-        />
+        <img src={base + "2024/12/4.avif"} alt="Alena artwork" class="w-full h-auto rounded-sm" loading="lazy" />
+        <img src={base + "2024/12/3.avif"} alt="Alena artwork" class="w-full h-auto rounded-sm" loading="lazy" />
       </div>
-
-      <!-- Row 2: video + image -->
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-        <img
-          src="https://alenam.art/wp-content/uploads/2024/12/4.avif"
-          alt="Alena artwork"
-          class="w-full h-auto rounded-sm"
-          loading="lazy"
-        />
-        <img
-          src="https://alenam.art/wp-content/uploads/2024/12/alena-mart-1.avif"
-          alt="Alena artwork"
-          class="w-full h-auto rounded-sm"
-          loading="lazy"
-        />
-      </div>
-
-      <!-- Row 3: two more images -->
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <img
-          src="https://alenam.art/wp-content/uploads/2024/12/3.avif"
-          alt="Alena artwork"
-          class="w-full h-auto rounded-sm"
-          loading="lazy"
-        />
-        <img
-          src="https://alenam.art/wp-content/uploads/2024/12/tramvai-alena.avif"
-          alt="Alena artwork"
-          class="w-full h-auto rounded-sm"
-          loading="lazy"
-        />
+        <img src={base + "2024/12/tramvai-alena.avif"} alt="Alena artwork" class="w-full h-auto rounded-sm" loading="lazy" />
+        <img src={base + "2024/12/photo_5262762490696168254_y-1.avif"} alt="Alena artwork" class="w-full h-auto rounded-sm" loading="lazy" />
       </div>
     </div>
   </section>
@@ -92,12 +54,7 @@ const description = 'Alena Martsyanava — indie artist from Eastern Europe. Art
       <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
         <div>
           <a href="/art/big-city-life/" class="block">
-            <img
-              src="https://alenam.art/wp-content/uploads/2025/01/tramvai-alena.avif"
-              alt="Big City Life"
-              class="w-full h-auto rounded-sm mb-4"
-              loading="lazy"
-            />
+            <img src={base + "2025/01/tramvai-alena.avif"} alt="Big City Life" class="w-full h-auto rounded-sm mb-4" loading="lazy" />
           </a>
           <h3 class="font-display text-lg text-center">
             <a href="/art/big-city-life/" class="hover:text-accent transition-colors">Big City Life</a>
@@ -106,12 +63,7 @@ const description = 'Alena Martsyanava — indie artist from Eastern Europe. Art
 
         <div>
           <a href="/art/bits-and-pieces/" class="block">
-            <img
-              src="https://alenam.art/wp-content/uploads/2025/01/IMG_5841.avif"
-              alt="Bits and Pieces"
-              class="w-full h-auto rounded-sm mb-4"
-              loading="lazy"
-            />
+            <img src={base + "2025/01/IMG_5841.avif"} alt="Bits and Pieces" class="w-full h-auto rounded-sm mb-4" loading="lazy" />
           </a>
           <h3 class="font-display text-lg text-center">
             <a href="/art/bits-and-pieces/" class="hover:text-accent transition-colors">Bits and Pieces</a>
@@ -120,12 +72,7 @@ const description = 'Alena Martsyanava — indie artist from Eastern Europe. Art
 
         <div>
           <a href="/art/little-pleasures/" class="block">
-            <img
-              src="https://alenam.art/wp-content/uploads/2025/01/IMG_5801.avif"
-              alt="Little Pleasures"
-              class="w-full h-auto rounded-sm mb-4"
-              loading="lazy"
-            />
+            <img src={base + "2025/01/IMG_5801.avif"} alt="Little Pleasures" class="w-full h-auto rounded-sm mb-4" loading="lazy" />
           </a>
           <h3 class="font-display text-lg text-center">
             <a href="/art/little-pleasures/" class="hover:text-accent transition-colors">Little Pleasures</a>

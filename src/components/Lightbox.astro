@@ -1,0 +1,143 @@
+<div id="lightbox" class="fixed inset-0 z-[100] bg-black/95 hidden items-center justify-center" onclick="closeLightbox(event)">
+  <!-- Close button -->
+  <button class="absolute top-4 right-4 text-white/70 hover:text-white z-10 p-2" onclick="closeLightboxBtn(event)" aria-label="Close">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <line x1="18" y1="6" x2="6" y2="18"></line>
+      <line x1="6" y1="6" x2="18" y2="18"></line>
+    </svg>
+  </button>
+
+  <!-- Prev button -->
+  <button class="absolute left-4 top-1/2 -translate-y-1/2 text-white/70 hover:text-white z-10 p-2" onclick="prevImage(event)" aria-label="Previous">
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="15 18 9 12 15 6"></polyline>
+    </svg>
+  </button>
+
+  <!-- Next button -->
+  <button class="absolute right-4 top-1/2 -translate-y-1/2 text-white/70 hover:text-white z-10 p-2" onclick="nextImage(event)" aria-label="Next">
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </button>
+
+  <!-- Image -->
+  <img id="lightbox-img" src="" alt="" class="max-w-[90vw] max-h-[90vh] object-contain" onclick="event.stopPropagation()">
+
+  <!-- Caption -->
+  <div id="lightbox-caption" class="absolute bottom-4 left-0 right-0 text-center text-white/70 text-sm"></div>
+</div>
+
+<script>
+  let lightboxImages = [];
+  let currentIndex = 0;
+
+  function initLightbox() {
+    // Find all images in artwork grids
+    const grids = document.querySelectorAll('.artwork-grid img, .grid img');
+    grids.forEach((img, index) => {
+      img.style.cursor = 'pointer';
+      img.addEventListener('click', (e) => {
+        e.preventDefault();
+        // Collect all images from the same grid
+        const grid = img.closest('.artwork-grid') || img.closest('.grid');
+        if (grid) {
+          lightboxImages = Array.from(grid.querySelectorAll('img'));
+          currentIndex = lightboxImages.indexOf(img);
+          openLightbox();
+        }
+      });
+    });
+  }
+
+  function openLightbox() {
+    const lb = document.getElementById('lightbox');
+    const lbImg = document.getElementById('lightbox-img');
+    const lbCaption = document.getElementById('lightbox-caption');
+    if (!lb || !lbImg) return;
+
+    const img = lightboxImages[currentIndex];
+    lbImg.src = img.src;
+    lbImg.alt = img.alt;
+
+    // Get caption from sibling elements
+    const card = img.closest('.group') || img.closest('div');
+    if (card) {
+      const title = card.querySelector('h3');
+      const details = card.querySelector('p');
+      lbCaption.textContent = title ? title.textContent + (details ? ' — ' + details.textContent : '') : '';
+    }
+
+    lb.classList.remove('hidden');
+    lb.classList.add('flex');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeLightbox(e) {
+    if (e.target.id === 'lightbox') {
+      doClose();
+    }
+  }
+
+  function closeLightboxBtn(e) {
+    e.stopPropagation();
+    doClose();
+  }
+
+  function doClose() {
+    const lb = document.getElementById('lightbox');
+    if (lb) {
+      lb.classList.add('hidden');
+      lb.classList.remove('flex');
+      document.body.style.overflow = '';
+    }
+  }
+
+  function prevImage(e) {
+    e.stopPropagation();
+    if (lightboxImages.length === 0) return;
+    currentIndex = (currentIndex - 1 + lightboxImages.length) % lightboxImages.length;
+    updateLightboxImage();
+  }
+
+  function nextImage(e) {
+    e.stopPropagation();
+    if (lightboxImages.length === 0) return;
+    currentIndex = (currentIndex + 1) % lightboxImages.length;
+    updateLightboxImage();
+  }
+
+  function updateLightboxImage() {
+    const lbImg = document.getElementById('lightbox-img');
+    const lbCaption = document.getElementById('lightbox-caption');
+    if (!lbImg) return;
+
+    const img = lightboxImages[currentIndex];
+    lbImg.src = img.src;
+    lbImg.alt = img.alt;
+
+    const card = img.closest('.group') || img.closest('div');
+    if (card) {
+      const title = card.querySelector('h3');
+      const details = card.querySelector('p');
+      lbCaption.textContent = title ? title.textContent + (details ? ' — ' + details.textContent : '') : '';
+    }
+  }
+
+  // Keyboard navigation
+  document.addEventListener('keydown', (e) => {
+    const lb = document.getElementById('lightbox');
+    if (!lb || lb.classList.contains('hidden')) return;
+
+    if (e.key === 'Escape') doClose();
+    if (e.key === 'ArrowLeft') { e.preventDefault(); currentIndex = (currentIndex - 1 + lightboxImages.length) % lightboxImages.length; updateLightboxImage(); }
+    if (e.key === 'ArrowRight') { e.preventDefault(); currentIndex = (currentIndex + 1) % lightboxImages.length; updateLightboxImage(); }
+  });
+
+  // Initialize on DOM ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initLightbox);
+  } else {
+    initLightbox();
+  }
+</script>

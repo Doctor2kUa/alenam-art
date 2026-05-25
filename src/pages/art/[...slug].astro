@@ -234,20 +234,20 @@ if (!col) return new Response(null, { status: 404 });
 
     {/* Navigation between collections */}
     <nav class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mt-16 pt-8 border-t border-gray-200">
-      <div class="flex justify-between items-center">
+      <div class="flex justify-between items-center gap-4">
         {col.prevSlug ? (
-          <a href={`/art/${col.prevSlug}/`} class="text-sm text-secondary hover:text-primary transition-colors max-w-[45%]">
-            <span class="block text-xs uppercase tracking-wider mb-1">← Previous collection</span>
-            <span class="font-display text-base">{col.prevTitle}</span>
+          <a href={`/art/${col.prevSlug}/`} class="text-sm hover:text-accent transition-colors max-w-[40%]">
+            <span class="block text-xs uppercase tracking-wider text-secondary mb-1">← Previous</span>
+            <span class="font-display text-base text-primary">{col.prevTitle}</span>
           </a>
-        ) : <div />}
-        <a href="/art/" class="text-xs text-secondary hover:text-primary transition-colors">All Collections</a>
+        ) : <div class="max-w-[40%]" />}
+        <a href="/art/" class="text-xs text-secondary hover:text-primary transition-colors flex-shrink-0">All Collections</a>
         {col.nextSlug ? (
-          <a href={`/art/${col.nextSlug}/`} class="text-sm text-secondary hover:text-primary transition-colors text-right max-w-[45%]">
-            <span class="block text-xs uppercase tracking-wider mb-1">Next collection →</span>
-            <span class="font-display text-base">{col.nextTitle}</span>
+          <a href={`/art/${col.nextSlug}/`} class="text-sm hover:text-accent transition-colors max-w-[40%] text-right">
+            <span class="block text-xs uppercase tracking-wider text-secondary mb-1">Next →</span>
+            <span class="font-display text-base text-primary">{col.nextTitle}</span>
           </a>
-        ) : <div />}
+        ) : <div class="max-w-[40%]" />}
       </div>
     </nav>
   </article>

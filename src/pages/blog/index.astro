@@ -1,0 +1,60 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import GalleryImage from '../../components/GalleryImage.astro';
+
+const title = 'Blog';
+const description = 'Blog about art, exhibitions, and life by Alena Martsyanava.';
+
+const posts = [
+  { slug: 'amazing-evening-amazing-place-amazing-people', title: 'Amazing evening, amazing place, amazing people!', date: '2025-06-01', coverImage: '/uploads/2025/06/alena.mp4', type: 'video' },
+  { slug: 'a-presentation-of-the-art-collection-confessions-should-be-better-planned-by-alena-martsyanava', title: 'A presentation of the art collection', date: '2025-05-07', coverImage: '/uploads/2025/05/alena.avif', type: 'image' },
+  { slug: 'confessions-should-be-better-planned-1-0-in-warsaw', title: 'Confessions 1.0 in Warsaw', date: '2025-03-02', coverImage: '/uploads/2025/03/photo_5334917533247075315_y-1.avif', type: 'image' },
+  { slug: 'flora', title: 'Flora', date: '2025-02-26', coverImage: '/uploads/2025/02/5332760235598803087.avif', type: 'image' },
+  { slug: 'big-city-life', title: 'Big City Life', date: '2025-01-20', coverImage: '/uploads/2025/01/IMG_5833.avif', type: 'image' },
+  { slug: 'bits-and-pieces', title: 'Bits and Pieces', date: '2025-01-18', coverImage: '/uploads/2025/01/photo_5458821030429715635_y-1.jpg', type: 'image' },
+  { slug: 'little-pleasures', title: 'Little Pleasures', date: '2025-01-18', coverImage: '/uploads/2025/01/IMG_5798.avif', type: 'image' },
+  { slug: 'at-the-seaside', title: 'At the Seaside', date: '2025-01-18', coverImage: '/uploads/2025/01/IMG_5811.avif', type: 'image' },
+  { slug: 'mind-games', title: 'Mind Games', date: '2025-01-03', coverImage: '/uploads/2025/01/IMG_5794.avif', type: 'image' },
+  { slug: 'confessions-should-be-better-planned', title: 'Confessions should be better planned', date: '2025-01-03', coverImage: '/uploads/2025/01/IMG_5566.avif', type: 'image' },
+  { slug: 'taking-part-in-contro-la-violenza-sulle-donne-expo', title: 'Taking part in "Contro la Violenza" expo', date: '2025-01-03', coverImage: '/uploads/2025/01/photo_5458821030429715645_x-1.jpg', type: 'image' },
+  { slug: 'auction-in-wroclaw-poland', title: 'Auction in Wroclaw, Poland', date: '2025-01-03', coverImage: '/uploads/2025/01/photo_5458821030429715635_y-1.jpg', type: 'image' },
+  { slug: 'interpretation-of-moments-boys-vs-girls', title: 'Interpretation of moments: boys vs girls', date: '2024-12-15', coverImage: '/uploads/2025/01/photo_5458821030429715608_y.jpg', type: 'image' },
+  { slug: 'the-dream-on-expo', title: 'The "Dream on" Expo', date: '2024-12-10', coverImage: '/uploads/2025/01/photo_5458821030429715599_y.jpg', type: 'image' },
+  { slug: 'the-35-expo', title: 'The "35" Expo', date: '2024-12-05', coverImage: '/uploads/2025/01/photo_5458821030429715570_y.jpg', type: 'image' },
+  { slug: 'сhaotic-still-life', title: 'Сhaotic still-life', date: '2024-11-27', coverImage: '/uploads/2025/01/photo_5458821030429715564_x.jpg', type: 'image' },
+  { slug: 'first-expo', title: 'First Expo', date: '2024-11-27', coverImage: '/uploads/2025/01/IMG_9008-2_resized.jpg', type: 'image' },
+];
+---
+
+<BaseLayout title={title} description={description}>
+  <section class="pt-24 pb-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+    <div class="max-w-3xl">
+      <h1 class="text-4xl md:text-6xl font-display mb-6">Blog</h1>
+      <p class="text-lg text-secondary leading-relaxed">Exhibition reviews, behind-the-scenes stories, and thoughts on art and life.</p>
+    </div>
+  </section>
+
+  <section class="px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto pb-20">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
+      {posts.map((post) => (
+        <article class="group">
+          <GalleryImage
+            href={`/blog/${post.slug}/`}
+            src={post.coverImage}
+            alt={post.title}
+            type={post.type}
+            aspectRatio="aspect-[16/9]"
+          />
+          <div class="mt-4">
+            <time class="text-xs text-secondary uppercase tracking-wider">
+              {new Date(post.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+            </time>
+            <h2 class="font-display text-xl md:text-2xl mt-2 group-hover:text-accent transition-colors">
+              <a href={`/blog/${post.slug}/`}>{post.title}</a>
+            </h2>
+          </div>
+        </article>
+      ))}
+    </div>
+  </section>
+</BaseLayout>

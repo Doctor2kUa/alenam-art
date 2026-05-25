@@ -1,0 +1,26 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import GalleryImage from '../components/GalleryImage.astro';
+
+const title = 'Art Never Comes From Happiness';
+const description = 'Alena Martsyanava — indie artist from Eastern Europe. Art never comes from happiness.';
+---
+
+<BaseLayout title={title} description={description}>
+  <section class="pt-24 pb-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+    <div class="max-w-3xl">
+      <h1 class="text-4xl md:text-6xl font-display mb-6">Art Never Comes From Happiness</h1>
+      <p class="text-lg text-secondary leading-relaxed">
+        Welcome to the portfolio of Alena Martsyanava — an indie artist from Eastern Europe.
+      </p>
+    </div>
+  </section>
+
+  <section class="px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto pb-20">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <GalleryImage href="/art/first-expo/" src="/uploads/2025/01/IMG_9008-2_resized.jpg" alt="First Expo" title="First Expo" aspectRatio="aspect-[4/3]" />
+      <GalleryImage href="/art/confessions-should-be-better-planned/" src="/uploads/2025/01/IMG_5566.avif" alt="Confessions" title="Confessions should be better planned" aspectRatio="aspect-[4/3]" />
+      <GalleryImage href="/art/flora/" src="/uploads/2025/02/5332760235598803087.avif" alt="Flora" title="Flora" aspectRatio="aspect-[4/3]" />
+    </div>
+  </section>
+</BaseLayout>

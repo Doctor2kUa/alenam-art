@@ -1,0 +1,164 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+export function getStaticPaths() {
+  const posts = [
+    { slug: 'amazing-evening-amazing-place-amazing-people' },
+    { slug: 'a-presentation-of-the-art-collection-confessions-should-be-better-planned-by-alena-martsyanava' },
+    { slug: 'confessions-should-be-better-planned-1-0-in-warsaw' },
+    { slug: 'flora' },
+    { slug: 'big-city-life' },
+    { slug: 'bits-and-pieces' },
+    { slug: 'little-pleasures' },
+    { slug: 'at-the-seaside' },
+    { slug: 'mind-games' },
+    { slug: 'confessions-should-be-better-planned' },
+    { slug: 'taking-part-in-contro-la-violenza-sulle-donne-expo' },
+    { slug: 'auction-in-wroclaw-poland' },
+    { slug: 'interpretation-of-moments-boys-vs-girls' },
+    { slug: 'the-dream-on-expo' },
+    { slug: 'the-35-expo' },
+    { slug: 'сhaotic-still-life' },
+    { slug: 'first-expo' },
+  ];
+  return posts.map(({ slug }) => ({ params: { slug } }));
+}
+
+const { slug } = Astro.params;
+
+const allPosts = {
+  'amazing-evening-amazing-place-amazing-people': {
+    title: 'Amazing evening, amazing place, amazing people!',
+    date: '2025-06-01',
+    content: `<p>Thanks a million to @sante_praha for hosting my art collection "Confessions should be better planned", to @wine.you.prague for supporting my idea in all the ways, to @trambitskaya_photo for being my dearest content maker!!! And everyone who attended and keeps attending!</p><p>The artworks are in Prague for a few months in summer, so don't miss the opportunity to see them, buy them and support the special needs children via @burrenchernobyl!</p>`,
+    images: [],
+  },
+  'a-presentation-of-the-art-collection-confessions-should-be-better-planned-by-alena-martsyanava': {
+    title: 'A presentation of the art collection "Confessions Should Be Better Planned" by Alena Martsyanava',
+    date: '2025-05-07',
+    content: `<p>On the 23rd of May, a cozy place SANTE in Prague is welcoming the audience for a special event: A presentation of the art collection "Confessions Should Be Better Planned" by Alena Martsyanava.</p><p><strong>The concept: buy art and help people.</strong></p><p>Alena Martsyanava is an indie artist from Eastern Europe, whose life has been closely associated with a lot of traumatic experiences which she poured onto canvas.</p><p>All the artworks in this collection are for sale, and she is planning to forward ⅓ of the money made from the sales of her artworks to support children in institutions in Eastern Europe under the <a href="https://burrenchernobyl.ie/" target="_blank" rel="noopener noreferrer">Burren Chernobyl Project</a>.</p><p><strong>Date:</strong> 23 May 2025<br><strong>Place:</strong> SANTE Puškinovo náměstí 518/8, Prague<br><strong>Time:</strong> 18.00<br><strong>Entrance:</strong> FREE</p>`,
+    images: [{ src: '/uploads/2025/05/alena.avif', alt: 'Art collection in Prague' }],
+  },
+  'confessions-should-be-better-planned-1-0-in-warsaw': {
+    title: 'Confessions should be better planned 1.0 in Warsaw',
+    date: '2025-03-02',
+    content: `<p>On February 16, 2025, the art-beauty shop ALAR in Warsaw launched the first expo of Alena's collection "Confessions should be better planned". This time only 8 works were exhibited. A closed event with the presentation was a real success.</p>`,
+    images: [
+      { src: '/uploads/2025/03/photo_5334917533247075315_y-1.avif', alt: 'Warsaw expo' },
+      { src: '/uploads/2025/03/photo_5334917533247075316_y-1.avif', alt: 'Warsaw expo' },
+      { src: '/uploads/2025/03/photo_5334917533247075323_y-1.avif', alt: 'Warsaw expo' },
+      { src: '/uploads/2025/03/photo_5334917533247075326_y-1.avif', alt: 'Warsaw expo' },
+    ],
+  },
+  'flora': {
+    title: 'Flora',
+    date: '2025-02-26',
+    content: `<p>The timeless bond between girls and flowers inspires this collection, a theme that never ceases to captivate. The fleeting beauty of blooms, destined to fade in days, finds eternal life on canvas.</p>`,
+    images: [{ src: '/uploads/2025/02/5332760235598803087.avif', alt: 'Flora collection' }],
+  },
+  'big-city-life': {
+    title: 'Big City Life',
+    date: '2025-01-20',
+    content: `<p>A tribute to the cities that have shaped my journey — those I've called home, wandered through, dreamt of, or might never see. Each image captures a fleeting moment, a memory etched into the soul.</p><p>These are not just places… They are the chapters of a life lived fully, interpreted through every sense and every emotion.</p>`,
+    images: [{ src: '/uploads/2025/01/IMG_5833.avif', alt: 'Big City Life' }],
+  },
+  'bits-and-pieces': {
+    title: 'Bits and Pieces',
+    date: '2025-01-18',
+    content: `<p>Beauty exists in everything — it is all about learning to see it. Small details and grand impressions alike draw us in, leaving lasting traces of emotions, memories, and sensations.</p>`,
+    images: [{ src: '/uploads/2025/01/photo_5458821030429715635_y-1.jpg', alt: 'Bits and Pieces' }],
+  },
+  'little-pleasures': {
+    title: 'Little Pleasures',
+    date: '2025-01-18',
+    content: `<p>A soft pastel harmony of everyday objects, illuminated by the magic of light and its playful reflections. Little pleasures often go unnoticed, yet they hold the power to brighten our days.</p>`,
+    images: [{ src: '/uploads/2025/01/IMG_5798.avif', alt: 'Little Pleasures' }],
+  },
+  'at-the-seaside': {
+    title: 'At the Seaside',
+    date: '2025-01-18',
+    content: `<p>Lakes, seas, and oceans hold a unique energy, bringing strength, inspiration, peace, and hope. Boats drifting on the water, palm trees swaying in the breeze, lighthouses standing tall, and endless beaches.</p>`,
+    images: [{ src: '/uploads/2025/01/IMG_5811.avif', alt: 'At the Seaside' }],
+  },
+  'mind-games': {
+    title: 'Mind Games',
+    date: '2025-01-03',
+    content: `<p>A series of sketches filled with symbols, hidden meanings, and puzzles waiting to be solved. Bold black-and-white compositions, with touches of red, bring an edge of drama.</p><ul><li><strong>Night dweller</strong> — Paper, pencil, A3. July 2021</li><li><strong>Flowers never die</strong> — Paper, pencil, A3. April 2021</li><li><strong>Dandelion earrings</strong> — Paper, pencil, A4. April 2021</li><li><strong>A drop</strong> — Paper, acryl, coal, pencil, A3. November 2021</li><li><strong>Good evening candles</strong> — Paper, pencil, gouache, A3. July 2021 — sold</li><li><strong>My heart's stopped, my heart's frozen</strong> — Paper, gouache, pencil, A3. July 2021</li><li><strong>Game of chairs</strong> — Paper, pencil, gouache, A3. July 2021</li><li><strong>Tears of pomegranates</strong> — Pencil, gouache, paper, A3. July 2021</li><li><strong>Fusion</strong> — Paper, pencil, A3. April 2021</li><li><strong>Oops, I spilt the paint</strong> — Gouache, pencil, paper, A3. July 2021</li></ul>`,
+    images: [{ src: '/uploads/2025/01/IMG_5794.avif', alt: 'Mind Games' }],
+  },
+  'confessions-should-be-better-planned': {
+    title: 'Confessions should be better planned',
+    date: '2025-01-03',
+    content: `<p>A series exploring the raw and unfiltered nature of expression. Hidden truths revealed, dreams concealed behind masks, and words left unspoken.</p><ul><li><strong>A thought</strong> — Acryl, canvas. 100×70cm. September 2021</li><li><strong>No more stories</strong> — Acrylic on canvas. 100×100cm. October 2021</li><li><strong>A red stone</strong> — Acrylic on canvas. 120×100cm. November 2021</li><li><strong>Connection</strong> — Acrylic on canvas. 50×60cm. October 2021</li><li><strong>Gone</strong> — Acryl on canvas, 40×60cm. February 2022 — Available</li><li><strong>The darkest side</strong> — Acryl on canvas, 70×90cm. December 2022</li><li><strong>The tune</strong> — Acrylics on canvas, 50×70cm — Available</li><li><strong>Disconnect</strong> — Acrylic on canvas, 50×70cm. March 2024 — Available</li><li><strong>Apple</strong> — Acrylic on canvas, 100×70cm. May 2022 — Available</li><li><strong>Angie</strong> — Acrylic on canvas, 120×120cm. April 2022 — Available</li><li><strong>Time to rest</strong> — Acrylic on canvas, 100×70cm. January 2024 — Available</li><li><strong>What have I done?</strong> — Acrylic on canvas, 70×100cm. January 2025 — Available</li></ul><p>This series delves into the intricate and often chaotic realm of human expression, where raw emotions and hidden truths collide.</p>`,
+    images: [{ src: '/uploads/2025/01/IMG_5566.avif', alt: 'Confessions collection' }],
+  },
+  'taking-part-in-contro-la-violenza-sulle-donne-expo': {
+    title: 'Taking part in "Contro la Violenza sulle Donne" expo',
+    date: '2025-01-03',
+    content: `<p>So proud to have had a chance of participating in the event raising awareness of the domestic violence towards women in Italy. My artwork "oops I spilt the paint" organically fitted into the collection of works and drew a lot of attention.</p>`,
+    images: [{ src: '/uploads/2025/01/photo_5458821030429715645_x-1.jpg', alt: 'Violenza expo' }],
+  },
+  'auction-in-wroclaw-poland': {
+    title: 'Auction in Wroclaw, Poland',
+    date: '2025-01-03',
+    content: `<p>Alena's artwork in an unusual technique — Grattage — took part in the auction organized by Students Artworks Foundation and was sold to the local art admirer.</p>`,
+    images: [{ src: '/uploads/2025/01/photo_5458821030429715635_y-1.jpg', alt: 'Auction in Wroclaw' }],
+  },
+  'interpretation-of-moments-boys-vs-girls': {
+    title: 'Interpretation of moments: boys vs girls',
+    date: '2024-12-15',
+    content: `<p>Another join-forces-expo with a famous rock musician from Minsk — Eugene Buzouski. The expo took place in the iconic Beetlejuice cafe in Minsk in December 2019 and lasted over 2 months.</p>`,
+    images: [{ src: '/uploads/2025/01/photo_5458821030429715608_y.jpg', alt: 'Boys vs girls expo' }],
+  },
+  'the-dream-on-expo': {
+    title: 'The "Dream on" Expo',
+    date: '2024-12-10',
+    content: `<p>The name of the exhibition was selected on purpose as it was the first time Alena had decided to introduce a new young talent to the world, joining forces with Anna Trusevich from Minsk. In October 2019 the artworks were presented to the audience.</p>`,
+    images: [{ src: '/uploads/2025/01/photo_5458821030429715599_y.jpg', alt: 'Dream on Expo' }],
+  },
+  'the-35-expo': {
+    title: 'The "35" Expo',
+    date: '2024-12-05',
+    content: `<p>This particular event was dedicated to Alena's 35th anniversary. The fire in the hall was ensured by the famous Stary Olsa band. The expo contained exactly 35 artworks and was available the whole April 2018.</p>`,
+    images: [{ src: '/uploads/2025/01/photo_5458821030429715570_y.jpg', alt: 'The 35 Expo' }],
+  },
+  'сhaotic-still-life': {
+    title: 'Сhaotic still-life',
+    date: '2024-11-27',
+    content: `<p>Took place at the same venue in autumn 2014 while Alena was expecting her baby. Featuring mainly still-lives and moments of Alena's life, the expo exposed about 25 new works of various techniques: from oil painting to sketches and Grattage.</p>`,
+    images: [{ src: '/uploads/2025/01/photo_5458821030429715564_x.jpg', alt: 'Сhaotic still-life' }],
+  },
+  'first-expo': {
+    title: 'First Expo',
+    date: '2024-11-27',
+    content: `<p>First Alena's Expo happened back in 2013 and had in the exposition 30 artworks. Featured by the local rock band performance at the opening, the expo was a true success. It lasted 30 days and attracted more than a thousand visitors.</p>`,
+    images: [{ src: '/uploads/2025/01/IMG_9008-2_resized.jpg', alt: 'First Expo' }],
+  },
+};
+
+const post = allPosts[slug];
+if (!post) return new Response(null, { status: 404 });
+---
+
+<BaseLayout title={post.title}>
+  <article class="pt-24 pb-20">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+      <header class="mb-10">
+        <p class="text-sm font-medium uppercase tracking-[0.3em] text-secondary mb-4">Blog</p>
+        <h1 class="text-3xl md:text-5xl font-display leading-tight mb-4">{post.title}</h1>
+        <time class="text-sm text-secondary">{new Date(post.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</time>
+      </header>
+      <div class="wp-content prose prose-lg max-w-none" set:html={post.content} />
+      {post.images && post.images.length > 0 && (
+        <div class="mt-10 space-y-6">
+          {post.images.map((img) => (
+            <figure class="m-0"><img src={img.src} alt={img.alt} class="w-full h-auto rounded-sm" loading="lazy" /></figure>
+          ))}
+        </div>
+      )}
+      <div class="mt-16 pt-8 border-t border-gray-200 text-center">
+        <a href="/blog/" class="inline-block text-sm font-medium uppercase tracking-wider hover:text-accent transition-colors border-b border-current pb-0.5">← Back to Blog</a>
+      </div>
+    </div>
+  </article>
+</BaseLayout>

@@ -1,53 +1,60 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 
-const title = 'ART';
-const description = 'Explore the art collections and exhibitions by Alena Martsyanava.';
+const title = 'Collections';
+const description = 'Explore the art collections by Alena Martsyanava. Each series reveals a different emotional landscape.';
 const base = 'https://alenam.art/wp-content/uploads/';
 
-// Collections in the same order as original (newest first)
 const collections = [
   {
     slug: 'big-city-life',
     title: 'Big City Life',
     image: base + '2025/01/tramvai-alena.avif',
-    excerpt: 'A tribute to the cities that have shaped my journey — those I&rsquo;ve called home, wandered through, dreamt of, or might never see. Each image captures a fleeting moment, a memory etched into the soul.',
+    description: 'Cities, memories and emotional landscapes.',
+    works: 11,
   },
   {
     slug: 'bits-and-pieces',
     title: 'Bits and Pieces',
     image: base + '2025/01/IMG_5841.avif',
-    excerpt: 'Beauty exists in everything — it is all about learning to see it. Small details and grand impressions alike draw us in, leaving lasting traces of emotions, memories, and sensations.',
+    description: 'Small details, grand impressions, emotional traces.',
+    works: 11,
   },
   {
     slug: 'little-pleasures',
     title: 'Little Pleasures',
     image: base + '2025/01/IMG_5801.avif',
-    excerpt: 'A soft pastel harmony of everyday objects, illuminated by the magic of light and its playful reflections... These seemingly ordinary items transform into sources of joy when we pause to notice their subtle beauty.',
+    description: 'Everyday objects turned into quiet joy.',
+    works: 10,
   },
   {
     slug: 'at-the-seaside',
     title: 'At the Seaside',
     image: base + '2025/01/IMG_5810.avif',
-    excerpt: 'Lakes, seas, and oceans hold a unique energy, bringing strength, inspiration, peace, and hope. They evoke pure happiness and a deep sense of release.',
+    description: 'Water as strength, peace and release.',
+    works: 8,
   },
   {
     slug: 'mind-games',
     title: 'Mind Games',
     image: base + '2025/01/IMG_5785.avif',
-    excerpt: 'A series of sketches filled with symbols, hidden meanings, and puzzles waiting to be solved. There&rsquo;s more to see if you look beyond the surface.',
+    description: 'Symbols, puzzles and hidden meanings.',
+    works: 10,
   },
   {
     slug: 'confessions-should-be-better-planned',
     title: 'Confessions should be better planned',
     image: base + '2025/01/IMG_5550-2-scaled.avif',
-    excerpt: 'A series exploring the raw and unfiltered nature of expression. Hidden truths revealed, dreams concealed behind masks, and words left unspoken.',
+    description: 'Raw expression, masks, hidden emotions.',
+    works: 16,
+    hasAvailable: true,
   },
   {
     slug: 'flora',
     title: 'Flora',
     image: base + '2025/02/5330074966210769632.avif',
-    excerpt: 'The timeless bond between girls and flowers inspires this collection, a theme that never ceases to captivate. The fleeting beauty of blooms, destined to fade in days, finds eternal life on canvas.',
+    description: 'Flowers, femininity, fragility and preserved memory.',
+    works: 13,
   },
 ];
 ---
@@ -55,31 +62,43 @@ const collections = [
 <BaseLayout title={title} description={description}>
   <section class="pt-24 pb-12 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto">
     <h1 class="text-4xl md:text-6xl font-display mb-6">{title}</h1>
+    <p class="text-lg text-secondary leading-relaxed">
+      Each series reveals a different emotional landscape — from city memories to hidden confessions, symbolic sketches and fragile flowers.
+    </p>
   </section>
 
-  <section class="px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto pb-20">
-    <ul class="space-y-0">
+  <section class="px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto pb-20">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
       {collections.map((col) => (
-        <li class="py-8 border-b border-gray-200 last:border-b-0">
-          <h2 class="text-2xl md:text-3xl font-display mb-4">
+        <div class="group">
+          <a href={`/art/${col.slug}/`} class="block">
+            <img
+              src={col.image}
+              alt={col.title}
+              class="w-full h-auto rounded-sm mb-4 group-hover:opacity-90 transition-opacity"
+              loading="lazy"
+            />
+          </a>
+          <h2 class="font-display text-xl mb-1">
             <a href={`/art/${col.slug}/`} class="hover:text-accent transition-colors">{col.title}</a>
           </h2>
-          <figure class="mb-4">
-            <a href={`/art/${col.slug}/`}>
-              <img
-                src={col.image}
-                alt={col.title}
-                class="w-full h-auto rounded-sm"
-                loading="lazy"
-              />
-            </a>
-          </figure>
-          <p class="text-secondary leading-relaxed mb-2">{col.excerpt}</p>
-          <p>
-            <a href={`/art/${col.slug}/`} class="text-sm font-medium text-accent hover:text-accent/80 transition-colors">see more</a>
-          </p>
-        </li>
+          <p class="text-sm text-secondary mb-2">{col.description}</p>
+          <div class="flex items-center justify-between">
+            <span class="text-xs text-secondary">{col.works} works</span>
+            {col.hasAvailable && <span class="text-xs text-accent font-medium">Available works inside</span>}
+          </div>
+          <a href={`/art/${col.slug}/`} class="inline-block mt-3 text-sm font-medium text-accent hover:text-accent/80 transition-colors">
+            View collection →
+          </a>
+        </div>
       ))}
-    </ul>
+    </div>
+
+    <div class="mt-16 pt-8 border-t border-gray-200 text-center">
+      <p class="text-secondary mb-4">Looking for a specific piece?</p>
+      <a href="/contact/" class="inline-block text-sm font-medium uppercase tracking-wider hover:text-accent transition-colors border-b border-current pb-0.5">
+        Contact the Artist
+      </a>
+    </div>
   </section>
 </BaseLayout>

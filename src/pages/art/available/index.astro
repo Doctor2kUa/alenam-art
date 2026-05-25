@@ -10,70 +10,72 @@ const availableWorks = [
     name: 'Gone',
     technique: 'Acrylic on canvas',
     size: '40×60 cm',
-    year: 'February 2022',
+    year: '2022',
+    collection: 'Confessions should be better planned',
+    collectionSlug: 'confessions-should-be-better-planned',
     image: base + '2025/01/IMG_5567-669x1024.avif',
   },
   {
     name: 'Disconnect',
     technique: 'Acrylic on canvas',
     size: '50×70 cm',
-    year: 'March 2024',
+    year: '2024',
+    collection: 'Confessions should be better planned',
+    collectionSlug: 'confessions-should-be-better-planned',
     image: base + '2025/01/IMG_5560-1012x1024.avif',
   },
   {
     name: 'Apple',
     technique: 'Acrylic on canvas',
     size: '100×70 cm',
-    year: 'May 2022',
+    year: '2022',
+    collection: 'Confessions should be better planned',
+    collectionSlug: 'confessions-should-be-better-planned',
     image: base + '2025/01/IMG_5556-786x1024.avif',
   },
   {
     name: 'Angie',
     technique: 'Acrylic on canvas',
     size: '120×120 cm',
-    year: 'April 2022',
+    year: '2022',
+    collection: 'Confessions should be better planned',
+    collectionSlug: 'confessions-should-be-better-planned',
     image: base + '2025/01/IMG_5562-1024x1024.avif',
   },
   {
     name: 'Time to rest',
     technique: 'Acrylic on canvas',
     size: '100×70 cm',
-    year: 'January 2024',
+    year: '2024',
+    collection: 'Confessions should be better planned',
+    collectionSlug: 'confessions-should-be-better-planned',
     image: base + '2025/01/Untitled-1-819x1024.avif',
   },
   {
     name: 'What have I done?',
     technique: 'Acrylic on canvas',
     size: '70×100 cm',
-    year: 'January 2025',
+    year: '2025',
+    collection: 'Confessions should be better planned',
+    collectionSlug: 'confessions-should-be-better-planned',
     image: base + '2025/02/5330074966210769581-779x1024.avif',
-  },
-  {
-    name: 'Flora I',
-    technique: 'Oil on canvas',
-    size: '50×70 cm',
-    year: '2022',
-    image: base + '2025/02/5332760235598803087-1024x674.avif',
-  },
-  {
-    name: 'Flora VIII',
-    technique: 'Oil on canvas',
-    size: '50×70 cm',
-    year: '2022',
-    image: base + '2025/02/5330510415765039716-1024x1014.avif',
   },
   {
     name: 'April in Minsk',
     technique: 'Oil on canvas',
     size: '60×60 cm',
-    year: 'May 2013',
+    year: '2013',
+    collection: 'Big City Life',
+    collectionSlug: 'big-city-life',
     image: base + '2025/01/IMG_5829-1024x838.avif',
   },
   {
     name: 'Madam Tussauds in NY',
     technique: 'Oil on canvas',
     size: '50×70 cm',
-    year: 'April 2013',
+    year: '2013',
+    collection: 'Big City Life',
+    collectionSlug: 'big-city-life',
     image: base + '2025/02/1-821x1024.avif',
   },
   {
@@ -81,25 +83,46 @@ const availableWorks = [
     technique: 'Pastel, paper',
     size: 'A4',
     year: '2021',
+    collection: 'Little Pleasures',
+    collectionSlug: 'little-pleasures',
     image: base + '2025/01/IMG_5795-1024x754.avif',
   },
+  {
+    name: 'Flora I',
+    technique: 'Oil on canvas',
+    size: '50×70 cm',
+    year: '2022',
+    collection: 'Flora',
+    collectionSlug: 'flora',
+    image: base + '2025/02/5332760235598803087-1024x674.avif',
+  },
+  {
+    name: 'Flora VIII',
+    technique: 'Oil on canvas',
+    size: '50×70 cm',
+    year: '2022',
+    collection: 'Flora',
+    collectionSlug: 'flora',
+    image: base + '2025/02/5330510415765039716-1024x1014.avif',
+  },
 ];
+---
 
---- 
 <BaseLayout title={title} description={description}>
   <section class="pt-24 pb-12 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto">
     <h1 class="text-4xl md:text-6xl font-display mb-6">{title}</h1>
     <p class="text-lg text-secondary leading-relaxed">
-      Discover artworks currently available for acquisition. Each piece is ready to find its new home.
+      Original artworks available for purchase. Each piece is ready to find its new home.
     </p>
   </section>
 
   <section class="px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto pb-20">
-    <h2 class="text-sm uppercase tracking-[0.3em] text-secondary mb-8 text-center">Filter by medium</h2>
     <div class="flex flex-wrap gap-2 mb-12">
       <button class="px-3 py-1 text-xs uppercase tracking-wider bg-primary text-white rounded-sm">All</button>
       <button class="px-3 py-1 text-xs uppercase tracking-wider bg-gray-100 text-secondary hover:bg-gray-200 rounded-sm transition-colors">Paintings</button>
       <button class="px-3 py-1 text-xs uppercase tracking-wider bg-gray-100 text-secondary hover:bg-gray-200 rounded-sm transition-colors">Drawings</button>
+      <button class="px-3 py-1 text-xs uppercase tracking-wider bg-gray-100 text-secondary hover:bg-gray-200 rounded-sm transition-colors">Small format</button>
+      <button class="px-3 py-1 text-xs uppercase tracking-wider bg-gray-100 text-secondary hover:bg-gray-200 rounded-sm transition-colors">Large format</button>
     </div>
 
     <div class="grid artwork-grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
@@ -115,6 +138,9 @@ const availableWorks = [
           </figure>
           <h3 class="font-display text-base mb-1">{work.name}</h3>
           <p class="text-xs text-secondary">{work.technique} · {work.size} · {work.year}</p>
+          <p class="text-xs text-secondary mt-1">
+            <a href={`/art/${work.collectionSlug}/`} class="hover:text-accent transition-colors">{work.collection}</a>
+          </p>
           <p class="mt-2 text-xs font-medium text-accent">Available</p>
           <a href="/contact/" class="block mt-3 text-xs font-medium text-accent hover:text-accent/80">
             Request price →

@@ -1,0 +1,24 @@
+name: Check Artwork Images
+
+on:
+  push:
+    branches: [main, dev]
+  pull_request:
+    branches: [main]
+  schedule:
+    # Запускать каждый день в 09:00 UTC
+    - cron: '0 9 * * *'
+
+jobs:
+  check-images:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Check all artwork images are accessible
+        run: python .github/scripts/check_artwork_images.py

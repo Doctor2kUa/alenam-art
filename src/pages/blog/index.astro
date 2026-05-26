@@ -8,12 +8,12 @@ const base = 'https://alenam.art/wp-content/uploads/';
 const events = [
   {
     slug: 'amazing-evening-amazing-place-amazing-people',
-    title: 'Amazing evening, amazing place, amazing people!',
+    title: 'A presentation of the art collection "Confessions should be better planned"',
     date: 'September 2025',
     city: 'Prague',
     venue: 'SANTE',
     image: base + '2025/06/Screenshot_2025-09-27_13-00-03.png',
-    excerpt: 'Thanks a million to @sante_praha for hosting my art collection "Confessions should be better planned", to @wine.you.prague for supporting my idea in all the ways, to @trambitskaya_photo for being my dearest content maker!!! And everyone who attended and keeps attending!',
+    excerpt: 'A presentation of the "Confessions should be better planned" collection at SANTE Prague, supported by local partners and attended by the Prague art community.',
   },
   {
     slug: 'a-presentation-of-the-art-collection-confessions-should-be-better-planned-by-alena-martsyanava',
@@ -22,7 +22,7 @@ const events = [
     city: 'Prague',
     venue: 'SANTE',
     image: base + '2025/05/alena.avif',
-    excerpt: 'On the 23rd of May, a cozy place SANTE in Prague is welcoming the audience for a special event: A presentation of the art collection "Confessions Should Be Better Planned" by Alena Martsyanava.',
+    excerpt: 'A presentation of the art collection "Confessions Should Be Better Planned" by Alena Martsyanava at SANTE Prague.',
   },
   {
     slug: 'confessions-should-be-better-planned-1-0-in-warsaw',
@@ -31,7 +31,7 @@ const events = [
     city: 'Warsaw',
     venue: 'ALAR art-beauty shop',
     image: base + '2025/03/photo_5334917533247075316_y-1.avif',
-    excerpt: 'On February 16, 2025, the art-beauty shop ALAR in Warsaw launched the first expo of Alena\'s collection "Confessions should be better planned". This time only 8 works from this very load of paintings were exhibited to the audience.',
+    excerpt: 'The first expo of the "Confessions should be better planned" collection at ALAR art-beauty shop in Warsaw, featuring 8 works from the series.',
   },
   {
     slug: 'taking-part-in-contro-la-violenza-sulle-donne-expo',
@@ -39,7 +39,7 @@ const events = [
     date: 'January 2025',
     city: 'Italy',
     image: base + '2025/01/photo_5458821030429715645_x.avif',
-    excerpt: 'So proud to have had a chance of participating in the event raising awareness of the domestic violence towards women in Italy. My artwork "oops I spilt the paint" organically fitted into the collection of works and drew a lot of attention.',
+    excerpt: 'Participation in an exhibition raising awareness about domestic violence towards women in Italy. The artwork "Oops I spilt the paint" was featured in the collection.',
   },
   {
     slug: 'auction-in-wroclaw-poland',
@@ -49,7 +49,7 @@ const events = [
     country: 'Poland',
     venue: 'Students Artworks Foundation',
     image: base + '2025/01/photo_5458821030429715635_y.avif',
-    excerpt: 'Alena\'s artwork in an unusual technique – Grattage – took part in the auction organized by Students Artworks Foundation and was sold to the local art admirer.',
+    excerpt: 'An artwork in the Grattage technique was sold at auction organized by Students Artworks Foundation in Wroclaw, Poland.',
   },
   {
     slug: 'interpretation-of-moments-boys-vs-girls',
@@ -58,7 +58,7 @@ const events = [
     city: 'Minsk',
     venue: 'Beetlejuice cafe',
     image: base + '2025/01/photo_5458821030429715607_y.avif',
-    excerpt: 'Another join-forces-expo with a famous rock musician from Minsk — Eugene Buzouski. The expo took place in the iconic Beetlejuice cafe in Minsk in December 2019 and lasted over 2 months.',
+    excerpt: 'A joint exhibition with rock musician Eugene Buzouski at the iconic Beetlejuice cafe in Minsk, lasting over 2 months.',
   },
   {
     slug: 'the-dream-on-expo',
@@ -66,7 +66,7 @@ const events = [
     date: 'October 2019',
     city: 'Minsk',
     image: base + '2025/01/photo_5458821030429715600_y.avif',
-    excerpt: 'The first time Alena introduced a new young talent — Anna Trusevich from Minsk. In October 2019 the artworks were presented.',
+    excerpt: 'An exhibition featuring emerging young talent Anna Trusevich from Minsk, presented alongside Alena\'s works.',
   },
   {
     slug: 'the-35-expo',
@@ -74,15 +74,15 @@ const events = [
     date: 'April 2018',
     city: 'Minsk',
     image: base + '2025/01/photo_5458821030429715571_y.avif',
-    excerpt: 'Dedicated to Alena\'s 35th anniversary. The Stary Olsa band performed. The expo contained exactly 35 artworks and was available the whole April 2018.',
+    excerpt: 'An anniversary exhibition dedicated to Alena\'s 35th birthday, featuring exactly 35 artworks and a live performance by Stary Olsa band.',
   },
   {
     slug: 'сhaotic-still-life',
-    title: 'Сhaotic still-life',
+    title: 'Chaotic still-life',
     date: 'Autumn 2014',
     city: 'Minsk',
     image: base + '2025/01/photo_5458821030429715563_x.avif',
-    excerpt: 'Took place in autumn 2014 while Alena was expecting her baby. About 25 new works of various techniques: from oil painting to sketches and Grattage.',
+    excerpt: 'An exhibition of approximately 25 works in various techniques, from oil painting to sketches and Grattage.',
   },
   {
     slug: 'first-expo',
@@ -90,7 +90,7 @@ const events = [
     date: '2013',
     city: 'Minsk',
     image: base + '2025/01/IMG_5665.avif',
-    excerpt: 'First Alena\'s Expo happened back in 2013 with 30 artworks. A local rock band performed at the opening. It lasted 30 days and attracted more than a thousand visitors.',
+    excerpt: 'Alena\'s debut exhibition featuring 30 artworks, with a live rock band performance at the opening. The exhibition ran for 30 days and attracted over 1,000 visitors.',
   },
 ];
 ---
@@ -136,6 +136,9 @@ const events = [
             {event.title}
           </h2>
           <p class="text-secondary leading-relaxed">{event.excerpt}</p>
+          <a href={`/blog/${event.slug}/`} class="inline-block mt-4 text-sm font-medium text-accent hover:text-accent/80 transition-colors">
+            View event →
+          </a>
         </li>
       ))}
     </ul>

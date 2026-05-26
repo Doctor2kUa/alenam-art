@@ -10,3 +10,4 @@ wordpress-backup/
 deploy.zip
 deploy.zip
 dist_clean
+dist/

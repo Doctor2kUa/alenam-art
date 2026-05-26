@@ -8,3 +8,5 @@ wordpress-backup/
 # Local Netlify folder
 .netlify
 deploy.zip
+deploy.zip
+dist_clean

@@ -206,7 +206,7 @@ if (!col) return new Response(null, { status: 404 });
               <a href={`/art/${slug}/${artwork.slug}/`} class="block">
                 <img
                   src={artwork.image}
-                  alt={artwork.name}
+                  alt={`${artwork.name}, ${artwork.technique} by Alena Mart`}
                   class="w-full h-auto rounded-sm group-hover:opacity-90 transition-opacity"
                   loading="lazy"
                 />

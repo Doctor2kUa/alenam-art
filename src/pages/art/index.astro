@@ -12,6 +12,7 @@ const collections = [
     image: base + '2025/01/tramvai-alena.avif',
     description: 'Cities, memories and emotional landscapes.',
     works: 11,
+    available: 2,
   },
   {
     slug: 'bits-and-pieces',
@@ -19,6 +20,7 @@ const collections = [
     image: base + '2025/01/IMG_5841.avif',
     description: 'Small details, grand impressions, emotional traces.',
     works: 11,
+    available: 0,
   },
   {
     slug: 'little-pleasures',
@@ -26,6 +28,7 @@ const collections = [
     image: base + '2025/01/IMG_5801.avif',
     description: 'Everyday objects turned into quiet joy.',
     works: 10,
+    available: 1,
   },
   {
     slug: 'at-the-seaside',
@@ -33,6 +36,7 @@ const collections = [
     image: base + '2025/01/IMG_5810.avif',
     description: 'Water as strength, peace and release.',
     works: 8,
+    available: 0,
   },
   {
     slug: 'mind-games',
@@ -40,22 +44,23 @@ const collections = [
     image: base + '2025/01/IMG_5785.avif',
     description: 'Symbols, puzzles and hidden meanings.',
     works: 10,
+    available: 0,
   },
   {
     slug: 'confessions-should-be-better-planned',
     title: 'Confessions should be better planned',
     image: base + '2025/01/IMG_5550-2-scaled.avif',
     description: 'Raw expression, masks, hidden emotions.',
-    works: 16,
-    hasAvailable: true,
+    works: 12,
+    available: 7,
   },
   {
     slug: 'flora',
     title: 'Flora',
     image: base + '2025/02/5330074966210769632.avif',
     description: 'Flowers, femininity, fragility and preserved memory.',
-    works: 13,
-    hasAvailable: true,
+    works: 10,
+    available: 2,
   },
 ];
 ---
@@ -71,27 +76,22 @@ const collections = [
   <section class="px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto pb-20">
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
       {collections.map((col) => (
-        <div class="group">
-          <a href={`/art/${col.slug}/`} class="block">
-            <img
-              src={col.image}
-              alt={col.title}
-              class="w-full h-auto rounded-sm mb-4 group-hover:opacity-90 transition-opacity"
-              loading="lazy"
-            />
-          </a>
-          <h2 class="font-display text-xl mb-1">
-            <a href={`/art/${col.slug}/`} class="hover:text-accent transition-colors">{col.title}</a>
-          </h2>
+        <a href={`/art/${col.slug}/`} class="group block">
+          <img
+            src={col.image}
+            alt={col.title}
+            class="w-full h-auto rounded-sm mb-4 group-hover:opacity-90 transition-opacity"
+            loading="lazy"
+          />
+          <h2 class="font-display text-xl mb-1 group-hover:text-accent transition-colors">{col.title}</h2>
           <p class="text-sm text-secondary mb-2">{col.description}</p>
           <div class="flex items-center justify-between">
-            <span class="text-xs text-secondary">{col.works} works</span>
-            {col.hasAvailable && <span class="text-xs text-accent font-medium">Available works inside</span>}
+            <span class="text-xs text-secondary">{col.works} works{col.available > 0 && <span class="text-accent"> · {col.available} available</span>}</span>
           </div>
-          <a href={`/art/${col.slug}/`} class="inline-block mt-3 text-sm font-medium text-accent hover:text-accent/80 transition-colors">
+          <span class="inline-block mt-3 text-sm font-medium text-accent hover:text-accent/80 transition-colors">
             View collection →
-          </a>
-        </div>
+          </span>
+        </a>
       ))}
     </div>
 

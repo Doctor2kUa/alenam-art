@@ -13,6 +13,8 @@ const availableWorks = [
     year: '2022',
     collection: 'Confessions should be better planned',
     collectionSlug: 'confessions-should-be-better-planned',
+    type: 'painting',
+    format: 'small',
     image: base + '2025/01/IMG_5567-669x1024.avif',
   },
   {
@@ -22,6 +24,8 @@ const availableWorks = [
     year: '2024',
     collection: 'Confessions should be better planned',
     collectionSlug: 'confessions-should-be-better-planned',
+    type: 'painting',
+    format: 'small',
     image: base + '2025/01/IMG_5560-1012x1024.avif',
   },
   {
@@ -31,6 +35,8 @@ const availableWorks = [
     year: '2022',
     collection: 'Confessions should be better planned',
     collectionSlug: 'confessions-should-be-better-planned',
+    type: 'painting',
+    format: 'large',
     image: base + '2025/01/IMG_5556-786x1024.avif',
   },
   {
@@ -40,6 +46,8 @@ const availableWorks = [
     year: '2022',
     collection: 'Confessions should be better planned',
     collectionSlug: 'confessions-should-be-better-planned',
+    type: 'painting',
+    format: 'large',
     image: base + '2025/01/IMG_5562-1024x1024.avif',
   },
   {
@@ -49,6 +57,8 @@ const availableWorks = [
     year: '2024',
     collection: 'Confessions should be better planned',
     collectionSlug: 'confessions-should-be-better-planned',
+    type: 'painting',
+    format: 'large',
     image: base + '2025/01/Untitled-1-819x1024.avif',
   },
   {
@@ -58,6 +68,8 @@ const availableWorks = [
     year: '2025',
     collection: 'Confessions should be better planned',
     collectionSlug: 'confessions-should-be-better-planned',
+    type: 'painting',
+    format: 'large',
     image: base + '2025/02/5330074966210769581-779x1024.avif',
   },
   {
@@ -67,6 +79,8 @@ const availableWorks = [
     year: '2013',
     collection: 'Big City Life',
     collectionSlug: 'big-city-life',
+    type: 'painting',
+    format: 'small',
     image: base + '2025/01/IMG_5829-1024x838.avif',
   },
   {
@@ -76,6 +90,8 @@ const availableWorks = [
     year: '2013',
     collection: 'Big City Life',
     collectionSlug: 'big-city-life',
+    type: 'painting',
+    format: 'small',
     image: base + '2025/02/1-821x1024.avif',
   },
   {
@@ -85,6 +101,8 @@ const availableWorks = [
     year: '2021',
     collection: 'Little Pleasures',
     collectionSlug: 'little-pleasures',
+    type: 'drawing',
+    format: 'small',
     image: base + '2025/01/IMG_5795-1024x754.avif',
   },
   {
@@ -94,6 +112,8 @@ const availableWorks = [
     year: '2022',
     collection: 'Flora',
     collectionSlug: 'flora',
+    type: 'painting',
+    format: 'small',
     image: base + '2025/02/5332760235598803087-1024x674.avif',
   },
   {
@@ -103,6 +123,8 @@ const availableWorks = [
     year: '2022',
     collection: 'Flora',
     collectionSlug: 'flora',
+    type: 'painting',
+    format: 'small',
     image: base + '2025/02/5330510415765039716-1024x1014.avif',
   },
 ];
@@ -117,17 +139,29 @@ const availableWorks = [
   </section>
 
   <section class="px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto pb-20">
-    <div class="flex flex-wrap gap-2 mb-12">
-      <button class="px-3 py-1 text-xs uppercase tracking-wider bg-primary text-white rounded-sm">All</button>
-      <button class="px-3 py-1 text-xs uppercase tracking-wider bg-gray-100 text-secondary hover:bg-gray-200 rounded-sm transition-colors">Paintings</button>
-      <button class="px-3 py-1 text-xs uppercase tracking-wider bg-gray-100 text-secondary hover:bg-gray-200 rounded-sm transition-colors">Drawings</button>
-      <button class="px-3 py-1 text-xs uppercase tracking-wider bg-gray-100 text-secondary hover:bg-gray-200 rounded-sm transition-colors">Small format</button>
-      <button class="px-3 py-1 text-xs uppercase tracking-wider bg-gray-100 text-secondary hover:bg-gray-200 rounded-sm transition-colors">Large format</button>
+    <div class="flex flex-wrap gap-2 mb-12 available-filters">
+      <button class="filter-btn active px-3 py-1 text-xs uppercase tracking-wider bg-primary text-white rounded-sm" data-filter="all" data-group="type">All</button>
+      <button class="filter-btn px-3 py-1 text-xs uppercase tracking-wider bg-gray-100 text-secondary hover:bg-gray-200 rounded-sm transition-colors" data-filter="painting" data-group="type">Paintings</button>
+      <button class="filter-btn px-3 py-1 text-xs uppercase tracking-wider bg-gray-100 text-secondary hover:bg-gray-200 rounded-sm transition-colors" data-filter="drawing" data-group="type">Drawings</button>
+      <button class="filter-btn px-3 py-1 text-xs uppercase tracking-wider bg-gray-100 text-secondary hover:bg-gray-200 rounded-sm transition-colors" data-filter="small" data-group="format">Small format</button>
+      <button class="filter-btn px-3 py-1 text-xs uppercase tracking-wider bg-gray-100 text-secondary hover:bg-gray-200 rounded-sm transition-colors" data-filter="large" data-group="format">Large format</button>
+    </div>
+
+    <div class="flex flex-wrap gap-2 mb-8 available-filters">
+      <button class="filter-btn active px-3 py-1 text-xs uppercase tracking-wider bg-primary text-white rounded-sm" data-filter="all" data-group="collection">All collections</button>
+      <button class="filter-btn px-3 py-1 text-xs uppercase tracking-wider bg-gray-100 text-secondary hover:bg-gray-200 rounded-sm transition-colors" data-filter="confessions-should-be-better-planned" data-group="collection">Confessions</button>
+      <button class="filter-btn px-3 py-1 text-xs uppercase tracking-wider bg-gray-100 text-secondary hover:bg-gray-200 rounded-sm transition-colors" data-filter="big-city-life" data-group="collection">Big City Life</button>
+      <button class="filter-btn px-3 py-1 text-xs uppercase tracking-wider bg-gray-100 text-secondary hover:bg-gray-200 rounded-sm transition-colors" data-filter="little-pleasures" data-group="collection">Little Pleasures</button>
+      <button class="filter-btn px-3 py-1 text-xs uppercase tracking-wider bg-gray-100 text-secondary hover:bg-gray-200 rounded-sm transition-colors" data-filter="flora" data-group="collection">Flora</button>
+    </div>
+
+    <div id="available-empty" class="hidden text-center py-16">
+      <p class="text-secondary">No works in this category right now.</p>
     </div>
 
     <div class="grid artwork-grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
       {availableWorks.map((work) => (
-        <div class="group">
+        <div class="group available-card" data-type={work.type} data-format={work.format} data-collection={work.collectionSlug}>
           <figure class="m-0 mb-3">
             <img
               src={work.image}
@@ -142,7 +176,7 @@ const availableWorks = [
             <a href={`/art/${work.collectionSlug}/`} class="hover:text-accent transition-colors">{work.collection}</a>
           </p>
           <p class="mt-2 text-xs font-medium text-accent">Available</p>
-          <a href="/contact/" class="block mt-3 text-xs font-medium text-accent hover:text-accent/80">
+          <a href={`/contact/?interest=buy&artwork=${encodeURIComponent(work.name)}&collection=${encodeURIComponent(work.collection)}`} class="block mt-3 text-xs font-medium text-accent hover:text-accent/80">
             Request price →
           </a>
         </div>
@@ -156,4 +190,56 @@ const availableWorks = [
       </a>
     </div>
   </section>
+
+  <script>
+    (function() {
+      var filters = {
+        type: 'all',
+        format: 'all',
+        collection: 'all'
+      };
+      var cards = document.querySelectorAll('.available-card');
+      var emptyMsg = document.getElementById('available-empty');
+      var buttons = document.querySelectorAll('.available-filters .filter-btn');
+
+      function applyFilters() {
+        var visible = 0;
+        cards.forEach(function(card) {
+          var matchType = filters.type === 'all' || card.getAttribute('data-type') === filters.type;
+          var matchFormat = filters.format === 'all' || card.getAttribute('data-format') === filters.format;
+          var matchCollection = filters.collection === 'all' || card.getAttribute('data-collection') === filters.collection;
+          if (matchType && matchFormat && matchCollection) {
+            card.style.display = '';
+            visible++;
+          } else {
+            card.style.display = 'none';
+          }
+        });
+        if (emptyMsg) {
+          emptyMsg.style.display = visible === 0 ? 'block' : 'none';
+        }
+      }
+
+      buttons.forEach(function(btn) {
+        btn.addEventListener('click', function(e) {
+          e.preventDefault();
+          var group = btn.getAttribute('data-group');
+          var filter = btn.getAttribute('data-filter');
+
+          // Update active state within same group
+          buttons.forEach(function(b) {
+            if (b.getAttribute('data-group') === group) {
+              b.classList.remove('bg-primary', 'text-white');
+              b.classList.add('bg-gray-100', 'text-secondary');
+            }
+          });
+          btn.classList.remove('bg-gray-100', 'text-secondary');
+          btn.classList.add('bg-primary', 'text-white');
+
+          filters[group] = filter;
+          applyFilters();
+        });
+      });
+    })();
+  </script>
 </BaseLayout>

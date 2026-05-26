@@ -184,19 +184,24 @@ if (!col) return new Response(null, { status: 404 });
 
     <!-- Filters -->
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mb-8">
-      <div class="flex flex-wrap gap-2">
-        <button class="px-3 py-1 text-xs uppercase tracking-wider bg-primary text-white rounded-sm">All</button>
-        <button class="px-3 py-1 text-xs uppercase tracking-wider bg-gray-100 text-secondary hover:bg-gray-200 rounded-sm transition-colors">Available</button>
-        <button class="px-3 py-1 text-xs uppercase tracking-wider bg-gray-100 text-secondary hover:bg-gray-200 rounded-sm transition-colors">Sold</button>
-        <button class="px-3 py-1 text-xs uppercase tracking-wider bg-gray-100 text-secondary hover:bg-gray-200 rounded-sm transition-colors">Private collection</button>
+      <div class="flex flex-wrap gap-2 artwork-filters">
+        <button class="filter-btn px-3 py-1 text-xs uppercase tracking-wider bg-primary text-white rounded-sm" data-filter="all">All</button>
+        <button class="filter-btn px-3 py-1 text-xs uppercase tracking-wider bg-gray-100 text-secondary hover:bg-gray-200 rounded-sm transition-colors" data-filter="available">Available</button>
+        <button class="filter-btn px-3 py-1 text-xs uppercase tracking-wider bg-gray-100 text-secondary hover:bg-gray-200 rounded-sm transition-colors" data-filter="sold">Sold</button>
+        <button class="filter-btn px-3 py-1 text-xs uppercase tracking-wider bg-gray-100 text-secondary hover:bg-gray-200 rounded-sm transition-colors" data-filter="private-collection">Private collection</button>
       </div>
+    </div>
+
+    <!-- Empty state -->
+    <div id="artwork-empty" class="hidden text-center py-16">
+      <p class="text-secondary">No works in this category right now.</p>
     </div>
 
     <!-- Artwork Grid -->
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="grid artwork-grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {col.artworks.map((artwork) => (
-          <div class="group">
+          <div class="group artwork-card" data-status={artwork.status.toLowerCase().replace(' ', '-')}>
             <figure class="m-0 mb-3">
               <a href={`/art/${slug}/${artwork.slug}/`} class="block">
                 <img
@@ -220,7 +225,7 @@ if (!col) return new Response(null, { status: 404 });
                 <span class="text-xs text-gray-400">{artwork.status}</span>
               )}
               {artwork.cta && (
-                <a href="/contact/" class="text-xs font-medium text-accent hover:text-accent/80">{artwork.cta}</a>
+                <a href={`/contact/?interest=buy&artwork=${encodeURIComponent(artwork.name)}&collection=${encodeURIComponent(col.title)}`} class="text-xs font-medium text-accent hover:text-accent/80">{artwork.cta}</a>
               )}
             </div>
           </div>
@@ -255,4 +260,46 @@ if (!col) return new Response(null, { status: 404 });
       </div>
     </nav>
   </article>
+
+  <script>
+    (function() {
+      var filterContainer = document.querySelector('.artwork-filters');
+      if (!filterContainer) return;
+      var buttons = filterContainer.querySelectorAll('.filter-btn');
+      var cards = document.querySelectorAll('.artwork-card');
+      var emptyMsg = document.getElementById('artwork-empty');
+
+      buttons.forEach(function(btn) {
+        btn.addEventListener('click', function(e) {
+          e.preventDefault();
+          var filter = btn.getAttribute('data-filter');
+
+          // Update active state
+          buttons.forEach(function(b) {
+            b.classList.remove('bg-primary', 'text-white');
+            b.classList.add('bg-gray-100', 'text-secondary');
+          });
+          btn.classList.remove('bg-gray-100', 'text-secondary');
+          btn.classList.add('bg-primary', 'text-white');
+
+          // Filter cards
+          var visible = 0;
+          cards.forEach(function(card) {
+            var status = card.getAttribute('data-status');
+            if (filter === 'all' || status === filter) {
+              card.style.display = '';
+              visible++;
+            } else {
+              card.style.display = 'none';
+            }
+          });
+
+          // Empty state
+          if (emptyMsg) {
+            emptyMsg.style.display = visible === 0 ? 'block' : 'none';
+          }
+        });
+      });
+    })();
+  </script>
 </BaseLayout>

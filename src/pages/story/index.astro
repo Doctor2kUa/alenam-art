@@ -1,0 +1,169 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const title = 'Story';
+const description = 'Artist biography and personal story of Alena Martsyanava — contemporary artist exploring memory, trauma, tenderness and emotional transformation.';
+---
+
+<BaseLayout title={title} description={description}>
+  <!-- Hero -->
+  <section class="pt-24 pb-16 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto">
+    <h1 class="text-4xl md:text-6xl font-display mb-6">{title}</h1>
+    <p class="text-lg text-secondary leading-relaxed">
+      Alena Mart creates emotionally charged works about memory, pain, tenderness, distorted reality and inner transformation.
+    </p>
+  </section>
+
+  <!-- Artist Statement -->
+  <section class="px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto pb-16">
+    <h2 class="text-sm uppercase tracking-[0.3em] text-secondary mb-6">Artist Statement</h2>
+    <div class="prose prose-lg max-w-none">
+      <p class="text-secondary leading-relaxed mb-4">
+        Art never comes from happiness. It comes from the need to process what life puts you through — the memories that won't let go, the emotions too intense to stay inside, the moments that break you and somehow make you whole again.
+      </p>
+      <p class="text-secondary leading-relaxed mb-4">
+        My work is about emotional truth. I paint what I feel, not what I see. Cities, flowers, faces, objects — they all become vessels for something deeper: the weight of memory, the fragility of tenderness, the chaos of communication, the quiet strength of survival.
+      </p>
+      <p class="text-secondary leading-relaxed">
+        Each collection is a chapter. Each piece is a confession I didn't know how to say out loud.
+      </p>
+    </div>
+  </section>
+
+  <hr class="border-gray-200 max-w-4xl mx-auto" />
+
+  <!-- Artistic Themes -->
+  <section class="px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto py-16">
+    <h2 class="text-sm uppercase tracking-[0.3em] text-secondary mb-6">Artistic Themes</h2>
+    <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+      <div class="bg-light p-4 rounded-sm">
+        <h3 class="font-display text-base mb-1">Memory</h3>
+        <p class="text-xs text-secondary">The past as a living presence</p>
+      </div>
+      <div class="bg-light p-4 rounded-sm">
+        <h3 class="font-display text-base mb-1">Emotional Trauma</h3>
+        <p class="text-xs text-secondary">Pain transformed into visual language</p>
+      </div>
+      <div class="bg-light p-4 rounded-sm">
+        <h3 class="font-display text-base mb-1">Tenderness</h3>
+        <p class="text-xs text-secondary">Fragility as strength</p>
+      </div>
+      <div class="bg-light p-4 rounded-sm">
+        <h3 class="font-display text-base mb-1">Distorted Reality</h3>
+        <p class="text-xs text-secondary">Seeing beyond the surface</p>
+      </div>
+      <div class="bg-light p-4 rounded-sm">
+        <h3 class="font-display text-base mb-1">Communication</h3>
+        <p class="text-xs text-secondary">Words left unspoken, masks we wear</p>
+      </div>
+      <div class="bg-light p-4 rounded-sm">
+        <h3 class="font-display text-base mb-1">City Life</h3>
+        <p class="text-xs text-secondary">Urban landscapes as emotional maps</p>
+      </div>
+      <div class="bg-light p-4 rounded-sm">
+        <h3 class="font-display text-base mb-1">Symbolic Objects</h3>
+        <p class="text-xs text-secondary">Everyday items charged with meaning</p>
+      </div>
+      <div class="bg-light p-4 rounded-sm">
+        <h3 class="font-display text-base mb-1">Flowers</h3>
+        <p class="text-xs text-secondary">Femininity, beauty, preserved moments</p>
+      </div>
+      <div class="bg-light p-4 rounded-sm">
+        <h3 class="font-display text-base mb-1">Inner Transformation</h3>
+        <p class="text-xs text-secondary">Breaking and rebuilding</p>
+      </div>
+    </div>
+  </section>
+
+  <hr class="border-gray-200 max-w-4xl mx-auto" />
+
+  <!-- Biography -->
+  <section class="px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto py-16">
+    <h2 class="text-sm uppercase tracking-[0.3em] text-secondary mb-6">Biography</h2>
+    <div class="prose prose-lg max-w-none">
+      <p class="text-secondary leading-relaxed mb-4">
+        Alena Mart is a contemporary artist from Eastern Europe whose work explores the complex terrain of human emotion through painting, drawing and mixed media.
+      </p>
+      <p class="text-secondary leading-relaxed mb-4">
+        Her artistic journey began in 2013 with her first exhibition in Minsk, featuring 30 works and attracting over a thousand visitors. Since then, she has developed a distinctive visual language that transforms personal experience into universal emotional statements.
+      </p>
+      <p class="text-secondary leading-relaxed mb-4">
+        Alena's work has been presented in exhibitions across Europe, including shows in Warsaw, Prague, Wroclaw and Italy. Her pieces are held in private collections internationally.
+      </p>
+      <p class="text-secondary leading-relaxed">
+        She works across multiple techniques — from oil painting and acrylics to pastels, gouache and the experimental grattage technique. Each series represents a different emotional landscape, from the urban energy of "Big City Life" to the intimate confessions of her most personal work.
+      </p>
+    </div>
+  </section>
+
+  <hr class="border-gray-200 max-w-4xl mx-auto" />
+
+  <!-- Professional Context -->
+  <section class="px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto py-16">
+    <h2 class="text-sm uppercase tracking-[0.3em] text-secondary mb-6">Exhibitions & Recognition</h2>
+    <ul class="space-y-4">
+      <li class="flex items-start gap-3">
+        <span class="text-accent mt-1">•</span>
+        <div>
+          <h3 class="font-display text-base">First Expo — Minsk, 2013</h3>
+          <p class="text-sm text-secondary">Debut exhibition with 30 artworks, attended by over 1,000 visitors</p>
+        </div>
+      </li>
+      <li class="flex items-start gap-3">
+        <span class="text-accent mt-1">•</span>
+        <div>
+          <h3 class="font-display text-base">The "35" Expo — Minsk, 2018</h3>
+          <p class="text-sm text-secondary">Anniversary exhibition featuring exactly 35 works with live performance by Stary Olsa band</p>
+        </div>
+      </li>
+      <li class="flex items-start gap-3">
+        <span class="text-accent mt-1">•</span>
+        <div>
+          <h3 class="font-display text-base">Auction in Wroclaw, Poland</h3>
+          <p class="text-sm text-secondary">Grattage work sold at auction organized by Students Artworks Foundation</p>
+        </div>
+      </li>
+      <li class="flex items-start gap-3">
+        <span class="text-accent mt-1">•</span>
+        <div>
+          <h3 class="font-display text-base">"Contro la Violenza sulle Donne" — Italy</h3>
+          <p class="text-sm text-secondary">Participation in exhibition raising awareness about domestic violence</p>
+        </div>
+      </li>
+      <li class="flex items-start gap-3">
+        <span class="text-accent mt-1">•</span>
+        <div>
+          <h3 class="font-display text-base">Confessions in Warsaw — 2025</h3>
+          <p class="text-sm text-secondary">First exhibition of the "Confessions" collection at ALAR art-beauty shop</p>
+        </div>
+      </li>
+      <li class="flex items-start gap-3">
+        <span class="text-accent mt-1">•</span>
+        <div>
+          <h3 class="font-display text-base">Presentation in Prague — 2025</h3>
+          <p class="text-sm text-secondary">Collection presentation at SANTE Prague with live music and community</p>
+        </div>
+      </li>
+    </ul>
+  </section>
+
+  <!-- Trust Block -->
+  <section class="py-16 bg-light">
+    <div class="max-w-4xl mx-auto px-4 text-center">
+      <p class="text-secondary text-sm uppercase tracking-widest">
+        Works in private collections · Exhibitions across Europe · Original paintings available · Open for collaborations
+      </p>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="py-16 text-center">
+    <div class="max-w-3xl mx-auto px-4">
+      <h2 class="text-2xl md:text-3xl font-display mb-4">Interested in a work or collaboration?</h2>
+      <p class="text-secondary mb-6">For available artworks, replicas, commissions or exhibition proposals, please get in touch.</p>
+      <a href="/contact/" class="inline-block bg-primary text-white px-8 py-3 text-sm uppercase tracking-wider font-medium hover:bg-primary/90 transition-colors">
+        Contact the Artist
+      </a>
+    </div>
+  </section>
+</BaseLayout>

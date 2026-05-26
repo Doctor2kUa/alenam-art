@@ -1,89 +1,95 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 
-const title = 'Exhibitions';
+const title = 'Exhibitions & Events';
 const description = 'Upcoming and past exhibitions, art events, and presentations by Alena Martsyanava.';
 const base = 'https://alenam.art/wp-content/uploads/';
 
-const posts = [
+const events = [
   {
     slug: 'amazing-evening-amazing-place-amazing-people',
     title: 'Amazing evening, amazing place, amazing people!',
     date: '2025-09-27',
+    city: 'Prague',
+    venue: 'SANTE',
     image: base + '2025/06/Screenshot_2025-09-27_13-00-03.png',
-    category: 'Exhibitions',
     excerpt: 'Thanks a million to @sante_praha for hosting my art collection "Confessions should be better planned", to @wine.you.prague for supporting my idea in all the ways, to @trambitskaya_photo for being my dearest content maker!!! And everyone who attended and keeps attending!',
   },
   {
     slug: 'a-presentation-of-the-art-collection-confessions-should-be-better-planned-by-alena-martsyanava',
-    title: 'A presentation of the art collection "Confessions Should Be Better Planned" by Alena Martsyanava.',
+    title: 'A presentation of the art collection "Confessions Should Be Better Planned"',
     date: '2025-05-23',
+    city: 'Prague',
+    venue: 'SANTE',
     image: base + '2025/05/alena.avif',
-    category: 'Exhibitions',
     excerpt: 'On the 23rd of May, a cozy place SANTE in Prague is welcoming the audience for a special event: A presentation of the art collection "Confessions Should Be Better Planned" by Alena Martsyanava.',
   },
   {
     slug: 'confessions-should-be-better-planned-1-0-in-warsaw',
-    title: 'Confessions should be better planned 1.0 in Warsaw',
+    title: 'Confessions should be better planned 1.0',
     date: '2025-02-16',
+    city: 'Warsaw',
+    venue: 'ALAR art-beauty shop',
     image: base + '2025/03/photo_5334917533247075316_y-1.avif',
-    category: 'Exhibitions',
     excerpt: 'On February 16, 2025, the art-beauty shop ALAR in Warsaw launched the first expo of Alena\'s collection "Confessions should be better planned". This time only 8 works from this very load of paintings were exhibited to the audience.',
   },
   {
     slug: 'taking-part-in-contro-la-violenza-sulle-donne-expo',
-    title: 'Taking part in "Contro la Violenza sulle Donne" expo',
+    title: '"Contro la Violenza sulle Donne" expo',
     date: '2025-01-03',
+    city: 'Italy',
     image: base + '2025/01/photo_5458821030429715645_x.avif',
-    category: 'Exhibitions',
     excerpt: 'So proud to have had a chance of participating in the event raising awareness of the domestic violence towards women in Italy. My artwork "oops I spilt the paint" organically fitted into the collection of works and drew a lot of attention.',
   },
   {
     slug: 'auction-in-wroclaw-poland',
-    title: 'Auction in Wroclaw, Poland',
+    title: 'Auction',
     date: '2025-01-03',
+    city: 'Wroclaw',
+    country: 'Poland',
+    venue: 'Students Artworks Foundation',
     image: base + '2025/01/photo_5458821030429715635_y.avif',
-    category: 'Exhibitions',
     excerpt: 'Alena\'s artwork in an unusual technique – Grattage – took part in the auction organized by Students Artworks Foundation and was sold to the local art admirer.',
   },
   {
     slug: 'interpretation-of-moments-boys-vs-girls',
     title: 'Interpretation of moments: boys vs girls',
     date: '2024-12-15',
+    city: 'Minsk',
+    venue: 'Beetlejuice cafe',
     image: base + '2025/01/photo_5458821030429715607_y.avif',
-    category: 'Exhibitions',
     excerpt: 'Another join-forces-expo with a famous rock musician from Minsk — Eugene Buzouski. The expo took place in the iconic Beetlejuice cafe in Minsk in December 2019 and lasted over 2 months.',
   },
   {
     slug: 'the-dream-on-expo',
     title: 'The "Dream on" Expo',
     date: '2024-12-10',
+    city: 'Minsk',
     image: base + '2025/01/photo_5458821030429715600_y.avif',
-    category: 'Exhibitions',
     excerpt: 'The first time Alena introduced a new young talent — Anna Trusevich from Minsk. In October 2019 the artworks were presented.',
   },
   {
     slug: 'the-35-expo',
     title: 'The "35" Expo',
     date: '2024-12-05',
+    city: 'Minsk',
     image: base + '2025/01/photo_5458821030429715571_y.avif',
-    category: 'Exhibitions',
     excerpt: 'Dedicated to Alena\'s 35th anniversary. The Stary Olsa band performed. The expo contained exactly 35 artworks and was available the whole April 2018.',
   },
   {
     slug: 'сhaotic-still-life',
     title: 'Сhaotic still-life',
     date: '2024-11-27',
+    city: 'Minsk',
     image: base + '2025/01/photo_5458821030429715563_x.avif',
-    category: 'Exhibitions',
     excerpt: 'Took place in autumn 2014 while Alena was expecting her baby. About 25 new works of various techniques: from oil painting to sketches and Grattage.',
   },
   {
     slug: 'first-expo',
     title: 'First Expo',
     date: '2024-11-27',
+    city: 'Minsk',
     image: base + '2025/01/IMG_5665.avif',
-    category: 'Exhibitions',
     excerpt: 'First Alena\'s Expo happened back in 2013 with 30 artworks. A local rock band performed at the opening. It lasted 30 days and attracted more than a thousand visitors.',
   },
 ];
@@ -98,28 +104,38 @@ const posts = [
     </p>
   </section>
 
-  <!-- Posts List -->
+  <!-- Events List -->
   <section class="px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto pb-20">
     <ul class="space-y-0">
-      {posts.map((post) => (
+      {events.map((event) => (
         <li class="py-10 border-b border-gray-200 last:border-b-0">
           <figure class="mb-5">
             <img
-              src={post.image}
-              alt={post.title}
+              src={event.image}
+              alt={event.title}
               class="w-full h-auto rounded-sm"
               loading="lazy"
             />
           </figure>
-          <div class="flex items-center gap-3 mb-3">
-            <span class="text-xs font-medium text-accent uppercase tracking-wider">{post.category}</span>
-            <span class="text-xs text-gray-300">·</span>
-            <time class="text-xs text-gray-400">{new Date(post.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</time>
+          <div class="flex flex-wrap items-center gap-x-3 gap-y-1 mb-3">
+            <time class="text-xs text-gray-400 uppercase tracking-wider">{new Date(event.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long' })}</time>
+            {event.city && (
+              <>
+                <span class="text-xs text-gray-300">·</span>
+                <span class="text-xs text-secondary">{event.city}</span>
+              </>
+            )}
+            {event.venue && (
+              <>
+                <span class="text-xs text-gray-300">·</span>
+                <span class="text-xs text-secondary">{event.venue}</span>
+              </>
+            )}
           </div>
           <h2 class="text-2xl md:text-3xl font-display mb-4 leading-tight">
-            {post.title}
+            {event.title}
           </h2>
-          <p class="text-secondary leading-relaxed">{post.excerpt}</p>
+          <p class="text-secondary leading-relaxed">{event.excerpt}</p>
         </li>
       ))}
     </ul>
@@ -128,8 +144,8 @@ const posts = [
   <!-- CTA -->
   <section class="py-16 bg-light text-center">
     <div class="max-w-3xl mx-auto px-4">
-      <h2 class="text-2xl md:text-3xl font-display mb-4">Interested in a work?</h2>
-      <p class="text-secondary mb-6">If you wish to buy Alena's works or invite her to an exhibition, please get in touch.</p>
+      <h2 class="text-2xl md:text-3xl font-display mb-4">Interested in a collaboration?</h2>
+      <p class="text-secondary mb-6">For exhibition proposals, commissions or partnerships, please get in touch.</p>
       <a href="/contact/" class="inline-block bg-primary text-white px-8 py-3 text-sm uppercase tracking-wider font-medium hover:bg-primary/90 transition-colors">
         Contact the Artist
       </a>

@@ -18,8 +18,8 @@ const collections = {
     subtitle: 'Cities as chapters of a life lived fully.',
     description: 'A tribute to the places that shaped Alena\'s journey — real, remembered, imagined and loved. Each image captures a fleeting moment, a memory etched into the soul.',
     cta: 'Interested in a city-inspired work?',
-    prevSlug: 'bits-and-pieces', prevTitle: 'Bits and Pieces',
-    nextSlug: 'flora', nextTitle: 'Flora',
+    prevSlug: null, prevTitle: null,
+    nextSlug: 'bits-and-pieces', nextTitle: 'Bits and Pieces',
     artworks: [
       { slug: 'the-tram', name: 'The Tram', technique: 'Oil on canvas', size: '90×60 cm', year: 'August 2013', status: 'Private collection', image: base + '2025/02/tram-1024x679.avif' },
       { slug: 'lisbon-tram', name: 'Lisbon Tram', technique: 'Oil on canvas', size: '50×70 cm', year: '2013', status: 'Sold', image: base + '2025/01/IMG_5826-773x1024.avif' },
@@ -39,8 +39,8 @@ const collections = {
     subtitle: 'Small details. Grand impressions. Emotional traces.',
     description: 'A collection about sensory memory, nostalgia and the quiet beauty hidden in ordinary things.',
     cta: 'Looking for a quiet emotional piece?',
-    prevSlug: 'little-pleasures', prevTitle: 'Little Pleasures',
-    nextSlug: 'big-city-life', nextTitle: 'Big City Life',
+    prevSlug: 'big-city-life', prevTitle: 'Big City Life',
+    nextSlug: 'little-pleasures', nextTitle: 'Little Pleasures',
     artworks: [
       { slug: 'bits-and-pieces-i', name: 'Bits and pieces I', technique: 'Mixed media', size: 'A3', year: '2021', status: 'Private collection', image: base + '2025/01/IMG_5836-679x1024.avif' },
       { slug: 'bits-and-pieces-ii', name: 'Bits and pieces II', technique: 'Mixed media', size: 'A3', year: '2021', status: 'Private collection', image: base + '2025/01/IMG_5837-1024x670.avif' },
@@ -60,8 +60,8 @@ const collections = {
     subtitle: 'Everyday objects turned into quiet joy.',
     description: 'A soft pastel collection about light, reflection and the beauty we notice only when we slow down.',
     cta: 'Bring a quiet pleasure into your space.',
-    prevSlug: 'at-the-seaside', prevTitle: 'At the Seaside',
-    nextSlug: 'bits-and-pieces', nextTitle: 'Bits and Pieces',
+    prevSlug: 'bits-and-pieces', prevTitle: 'Bits and Pieces',
+    nextSlug: 'at-the-seaside', nextTitle: 'At the Seaside',
     artworks: [
       { slug: 'little-pleasure-i', name: 'Little pleasure I', technique: 'Pastel, paper', size: 'A4', year: '2021', status: 'Available', image: base + '2025/01/IMG_5795-1024x754.avif', cta: 'Request price' },
       { slug: 'little-pleasure-ii', name: 'Little pleasure II', technique: 'Pastel, paper', size: 'A4', year: '2021', status: 'Private collection', image: base + '2025/01/IMG_5796-1024x764.avif' },
@@ -80,8 +80,8 @@ const collections = {
     subtitle: 'Water as strength, peace and release.',
     description: 'A collection inspired by lakes, seas, oceans and the feeling of breathing freely again.',
     cta: 'Interested in a seaside-inspired piece?',
-    prevSlug: 'mind-games', prevTitle: 'Mind Games',
-    nextSlug: 'little-pleasures', nextTitle: 'Little Pleasures',
+    prevSlug: 'little-pleasures', prevTitle: 'Little Pleasures',
+    nextSlug: 'mind-games', nextTitle: 'Mind Games',
     artworks: [
       { slug: 'seaside-i', name: 'Seaside I', technique: 'Oil on canvas', size: '50×70 cm', year: '2021', status: 'Private collection', image: base + '2025/01/IMG_5805-1024x840.avif' },
       { slug: 'seaside-ii', name: 'Seaside II', technique: 'Oil on canvas', size: '50×70 cm', year: '2021', status: 'Private collection', image: base + '2025/01/IMG_5806-1024x770.avif' },
@@ -98,8 +98,8 @@ const collections = {
     subtitle: 'Symbols, puzzles and hidden meanings.',
     description: 'A black-and-white sketch series with sharp red accents and stories that reveal themselves only when you look closer.',
     cta: 'Explore this symbolic series.',
-    prevSlug: 'confessions-should-be-better-planned', prevTitle: 'Confessions',
-    nextSlug: 'at-the-seaside', prevTitle: 'At the Seaside',
+    prevSlug: 'at-the-seaside', prevTitle: 'At the Seaside',
+    nextSlug: 'confessions-should-be-better-planned', nextTitle: 'Confessions should be better planned',
     artworks: [
       { slug: 'night-dweller', name: 'Night dweller', technique: 'Paper, pencil', size: 'A3', year: 'July 2021', status: 'Private collection', image: base + '2025/01/IMG_5785-1024x718.avif' },
       { slug: 'flowers-never-die', name: 'Flowers never die', technique: 'Paper, pencil', size: 'A3', year: 'April 2021', status: 'Private collection', image: base + '2025/01/IMG_5786-820x1024.avif' },
@@ -116,10 +116,10 @@ const collections = {
   'confessions-should-be-better-planned': {
     title: 'Confessions should be better planned',
     subtitle: 'Raw expression, hidden truths and emotional chaos.',
-    description: 'A series about words left unspoken, desires misread and emotions too intense to stay inside. Selected works from this collection are available for purchase.',
+    description: 'A series about words left unspoken, desires misread and emotions too intense to stay inside.',
     cta: 'Interested in a confession?',
-    prevSlug: null, prevTitle: null,
-    nextSlug: 'mind-games', nextTitle: 'Mind Games',
+    prevSlug: 'mind-games', prevTitle: 'Mind Games',
+    nextSlug: 'flora', nextTitle: 'Flora',
     hasAvailableBanner: true,
     artworks: [
       { slug: 'a-thought', name: 'A thought', technique: 'Acrylic, canvas', size: '100×70 cm', year: 'September 2021', status: 'Private collection', image: base + '2025/01/IMG_5550-827x1024.avif' },
@@ -141,7 +141,7 @@ const collections = {
     subtitle: 'Flowers, femininity, fragility and preserved memory.',
     description: 'The timeless bond between girls and flowers finds eternal life on canvas.',
     cta: 'Looking for a floral piece?',
-    prevSlug: 'big-city-life', prevTitle: 'Big City Life',
+    prevSlug: 'confessions-should-be-better-planned', prevTitle: 'Confessions should be better planned',
     nextSlug: null, nextTitle: null,
     artworks: [
       { slug: 'flora-i', name: 'Flora I', technique: 'Oil on canvas', size: '50×70 cm', year: '2022', status: 'Available', image: base + '2025/02/5332760235598803087-1024x674.avif', cta: 'Request price' },

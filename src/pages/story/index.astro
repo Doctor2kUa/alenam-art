@@ -3,19 +3,42 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 
 const title = 'Story';
 const description = 'Artist biography and personal story of Alena Martsyanava â€” contemporary artist exploring memory, trauma, tenderness and emotional transformation.';
+const base = 'https://alenam.art/wp-content/uploads/';
 ---
 
 <BaseLayout title={title} description={description}>
-  <!-- Hero -->
-  <section class="pt-24 pb-16 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto">
-    <h1 class="text-4xl md:text-6xl font-display mb-6">{title}</h1>
-    <p class="text-lg text-secondary leading-relaxed">
-      Alena Mart creates emotionally charged works about memory, pain, tenderness, distorted reality and inner transformation.
-    </p>
+  <!-- Hero (full-width image) -->
+  <section class="relative w-full">
+    <img
+      src={base + '2024/12/alena-mart-1.avif'}
+      alt="Alena Martsyanava"
+      class="w-full h-auto object-cover max-h-[80vh]"
+    />
+    <div class="absolute inset-0 flex items-center justify-center bg-black/20">
+      <h1 class="text-4xl md:text-6xl font-display text-white text-center px-4">ART NEVER COMES FROM HAPPINESS</h1>
+    </div>
   </section>
 
+  <!-- MY ART section with images -->
+  <section class="py-20 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto">
+    <h2 class="text-sm uppercase tracking-[0.3em] text-center text-secondary mb-4">My Art</h2>
+    <p class="text-xl md:text-2xl text-center max-w-3xl mx-auto mb-12 leading-relaxed">
+      Art is the magic glue that is capable of sticking a broken heart back together and filling it with hope and love
+    </p>
+
+    <!-- 2x2 Grid of images -->
+    <div class="grid grid-cols-2 gap-4 mb-8">
+      <img src={base + '2024/12/4.avif'} alt="Alena artwork" class="w-full h-auto rounded-sm" loading="lazy" />
+      <img src={base + '2024/12/3.avif'} alt="Alena artwork" class="w-full h-auto rounded-sm" loading="lazy" />
+      <img src={base + '2024/12/tramvai-alena.avif'} alt="Alena artwork" class="w-full h-auto rounded-sm" loading="lazy" />
+      <img src={base + '2024/12/photo_5262762490696168254_y-1.avif'} alt="Alena artwork" class="w-full h-auto rounded-sm" loading="lazy" />
+    </div>
+  </section>
+
+  <hr class="border-gray-200 max-w-4xl mx-auto" />
+
   <!-- Artist Statement -->
-  <section class="px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto pb-16">
+  <section class="py-16 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto">
     <h2 class="text-sm uppercase tracking-[0.3em] text-secondary mb-6">Artist Statement</h2>
     <div class="prose prose-lg max-w-none">
       <p class="text-secondary leading-relaxed mb-4">
@@ -32,53 +55,8 @@ const description = 'Artist biography and personal story of Alena Martsyanava â€
 
   <hr class="border-gray-200 max-w-4xl mx-auto" />
 
-  <!-- Artistic Themes -->
-  <section class="px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto py-16">
-    <h2 class="text-sm uppercase tracking-[0.3em] text-secondary mb-6">Artistic Themes</h2>
-    <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
-      <div class="bg-light p-4 rounded-sm">
-        <h3 class="font-display text-base mb-1">Memory</h3>
-        <p class="text-xs text-secondary">The past as a living presence</p>
-      </div>
-      <div class="bg-light p-4 rounded-sm">
-        <h3 class="font-display text-base mb-1">Emotional Trauma</h3>
-        <p class="text-xs text-secondary">Pain transformed into visual language</p>
-      </div>
-      <div class="bg-light p-4 rounded-sm">
-        <h3 class="font-display text-base mb-1">Tenderness</h3>
-        <p class="text-xs text-secondary">Fragility as strength</p>
-      </div>
-      <div class="bg-light p-4 rounded-sm">
-        <h3 class="font-display text-base mb-1">Distorted Reality</h3>
-        <p class="text-xs text-secondary">Seeing beyond the surface</p>
-      </div>
-      <div class="bg-light p-4 rounded-sm">
-        <h3 class="font-display text-base mb-1">Communication</h3>
-        <p class="text-xs text-secondary">Words left unspoken, masks we wear</p>
-      </div>
-      <div class="bg-light p-4 rounded-sm">
-        <h3 class="font-display text-base mb-1">City Life</h3>
-        <p class="text-xs text-secondary">Urban landscapes as emotional maps</p>
-      </div>
-      <div class="bg-light p-4 rounded-sm">
-        <h3 class="font-display text-base mb-1">Symbolic Objects</h3>
-        <p class="text-xs text-secondary">Everyday items charged with meaning</p>
-      </div>
-      <div class="bg-light p-4 rounded-sm">
-        <h3 class="font-display text-base mb-1">Flowers</h3>
-        <p class="text-xs text-secondary">Femininity, beauty, preserved moments</p>
-      </div>
-      <div class="bg-light p-4 rounded-sm">
-        <h3 class="font-display text-base mb-1">Inner Transformation</h3>
-        <p class="text-xs text-secondary">Breaking and rebuilding</p>
-      </div>
-    </div>
-  </section>
-
-  <hr class="border-gray-200 max-w-4xl mx-auto" />
-
   <!-- Biography -->
-  <section class="px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto py-16">
+  <section class="py-16 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto">
     <h2 class="text-sm uppercase tracking-[0.3em] text-secondary mb-6">Biography</h2>
     <div class="prose prose-lg max-w-none">
       <p class="text-secondary leading-relaxed mb-4">
@@ -91,15 +69,41 @@ const description = 'Artist biography and personal story of Alena Martsyanava â€
         Alena's work has been presented in exhibitions across Europe, including shows in Warsaw, Prague, Wroclaw and Italy. Her pieces are held in private collections internationally.
       </p>
       <p class="text-secondary leading-relaxed">
-        She works across multiple techniques â€” from oil painting and acrylics to pastels, gouache and the experimental grattage technique. Each series represents a different emotional landscape, from the urban energy of "Big City Life" to the intimate confessions of her most personal work.
+        She works across multiple techniques â€” from oil painting and acrylics to pastels, gouache and the experimental grattage technique.
       </p>
     </div>
   </section>
 
   <hr class="border-gray-200 max-w-4xl mx-auto" />
 
-  <!-- Professional Context -->
-  <section class="px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto py-16">
+  <!-- Collections preview -->
+  <section class="py-16 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto">
+    <h2 class="text-sm uppercase tracking-[0.3em] text-center text-secondary mb-10">Collections</h2>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <a href="/art/big-city-life/" class="group">
+        <img src={base + '2025/01/tramvai-alena.avif'} alt="Big City Life" class="w-full h-auto rounded-sm mb-4 group-hover:opacity-90 transition-opacity" loading="lazy" />
+        <h3 class="font-display text-lg">Big City Life</h3>
+      </a>
+      <a href="/art/bits-and-pieces/" class="group">
+        <img src={base + '2025/01/IMG_5841.avif'} alt="Bits and Pieces" class="w-full h-auto rounded-sm mb-4 group-hover:opacity-90 transition-opacity" loading="lazy" />
+        <h3 class="font-display text-lg">Bits and Pieces</h3>
+      </a>
+      <a href="/art/little-pleasures/" class="group">
+        <img src={base + '2025/01/IMG_5801.avif'} alt="Little Pleasures" class="w-full h-auto rounded-sm mb-4 group-hover:opacity-90 transition-opacity" loading="lazy" />
+        <h3 class="font-display text-lg">Little Pleasures</h3>
+      </a>
+    </div>
+    <div class="text-center mt-10">
+      <a href="/art/" class="inline-block border border-primary text-primary px-8 py-3 text-sm uppercase tracking-wider font-medium hover:bg-primary hover:text-white transition-colors">
+        View All Collections
+      </a>
+    </div>
+  </section>
+
+  <hr class="border-gray-200 max-w-4xl mx-auto" />
+
+  <!-- Exhibitions & Recognition -->
+  <section class="py-16 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto">
     <h2 class="text-sm uppercase tracking-[0.3em] text-secondary mb-6">Exhibitions & Recognition</h2>
     <ul class="space-y-4">
       <li class="flex items-start gap-3">

@@ -11,3 +11,7 @@ deploy.zip
 deploy.zip
 dist_clean
 dist/
+deploy.zip
+*.zip
+dist/
+dist_clean/

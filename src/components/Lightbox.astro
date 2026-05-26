@@ -7,46 +7,57 @@
     </svg>
   </button>
 
-  <!-- Prev button -->
-  <button class="absolute left-4 top-1/2 -translate-y-1/2 text-white/70 hover:text-white z-10 p-2" onclick="prevImage(event)" aria-label="Previous">
+  <!-- Prev button (desktop) -->
+  <button class="hidden md:block absolute left-4 top-1/2 -translate-y-1/2 text-white/70 hover:text-white z-10 p-2" onclick="prevImage(event)" aria-label="Previous">
     <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <polyline points="15 18 9 12 15 6"></polyline>
     </svg>
   </button>
 
-  <!-- Next button -->
-  <button class="absolute right-4 top-1/2 -translate-y-1/2 text-white/70 hover:text-white z-10 p-2" onclick="nextImage(event)" aria-label="Next">
+  <!-- Next button (desktop) -->
+  <button class="hidden md:block absolute right-4 top-1/2 -translate-y-1/2 text-white/70 hover:text-white z-10 p-2" onclick="nextImage(event)" aria-label="Next">
     <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <polyline points="9 18 15 12 9 6"></polyline>
     </svg>
   </button>
 
-  <!-- Image -->
-  <img id="lightbox-img" src="" alt="" class="max-w-[90vw] max-h-[90vh] object-contain" onclick="event.stopPropagation()">
+  <!-- Image container for swipe -->
+  <div id="lightbox-swipe" class="w-full h-full flex items-center justify-center" onclick="event.stopPropagation()">
+    <img id="lightbox-img" src="" alt="" class="max-w-[90vw] max-h-[90vh] object-contain select-none" draggable="false">
+  </div>
 
   <!-- Caption -->
-  <div id="lightbox-caption" class="absolute bottom-4 left-0 right-0 text-center text-white/70 text-sm"></div>
+  <div id="lightbox-caption" class="absolute bottom-4 left-0 right-0 text-center text-white/70 text-sm px-4 pointer-events-none"></div>
+
+  <!-- Mobile swipe indicator -->
+  <div class="md:hidden absolute bottom-12 left-0 right-0 text-center text-white/40 text-xs pointer-events-none">
+    Swipe to navigate
+  </div>
 </div>
 
 <script>
   let lightboxImages = [];
   let currentIndex = 0;
+  let touchStartX = 0;
+  let touchEndX = 0;
+  let touchStartY = 0;
+  let isSwiping = false;
 
   function initLightbox() {
-    // Find all images in artwork grids
-    const grids = document.querySelectorAll('.artwork-grid img, .grid img');
-    grids.forEach((img, index) => {
-      img.style.cursor = 'pointer';
-      img.addEventListener('click', (e) => {
-        e.preventDefault();
-        // Collect all images from the same grid
-        const grid = img.closest('.artwork-grid') || img.closest('.grid');
-        if (grid) {
-          lightboxImages = Array.from(grid.querySelectorAll('img'));
-          currentIndex = lightboxImages.indexOf(img);
-          openLightbox();
-        }
-      });
+    const grids = document.querySelectorAll('.artwork-grid img');
+    grids.forEach((img) => {
+      const link = img.closest('a');
+      if (link) {
+        link.addEventListener('click', (e) => {
+          e.preventDefault();
+          const grid = img.closest('.artwork-grid');
+          if (grid) {
+            lightboxImages = Array.from(grid.querySelectorAll('img'));
+            currentIndex = lightboxImages.indexOf(img);
+            openLightbox();
+          }
+        });
+      }
     });
   }
 
@@ -60,7 +71,6 @@
     lbImg.src = img.src;
     lbImg.alt = img.alt;
 
-    // Get caption from sibling elements
     const card = img.closest('.group') || img.closest('div');
     if (card) {
       const title = card.querySelector('h3');
@@ -74,9 +84,7 @@
   }
 
   function closeLightbox(e) {
-    if (e.target.id === 'lightbox') {
-      doClose();
-    }
+    if (e.target.id === 'lightbox') doClose();
   }
 
   function closeLightboxBtn(e) {
@@ -124,6 +132,38 @@
     }
   }
 
+  // Touch/swipe support
+  const swipeContainer = document.getElementById('lightbox-swipe');
+  if (swipeContainer) {
+    swipeContainer.addEventListener('touchstart', (e) => {
+      touchStartX = e.changedTouches[0].screenX;
+      touchStartY = e.changedTouches[0].screenY;
+      isSwiping = false;
+    }, { passive: true });
+
+    swipeContainer.addEventListener('touchmove', (e) => {
+      const diffX = Math.abs(e.changedTouches[0].screenX - touchStartX);
+      const diffY = Math.abs(e.changedTouches[0].screenY - touchStartY);
+      if (diffX > 10 && diffX > diffY) {
+        isSwiping = true;
+      }
+    }, { passive: true });
+
+    swipeContainer.addEventListener('touchend', (e) => {
+      if (!isSwiping) return;
+      touchEndX = e.changedTouches[0].screenX;
+      const diff = touchStartX - touchEndX;
+      if (Math.abs(diff) > 50) {
+        if (diff > 0) {
+          nextImage(e);
+        } else {
+          prevImage(e);
+        }
+      }
+      isSwiping = false;
+    }, { passive: true });
+  }
+
   // Keyboard navigation
   document.addEventListener('keydown', (e) => {
     const lb = document.getElementById('lightbox');
@@ -134,7 +174,7 @@
     if (e.key === 'ArrowRight') { e.preventDefault(); currentIndex = (currentIndex + 1) % lightboxImages.length; updateLightboxImage(); }
   });
 
-  // Initialize on DOM ready
+  // Initialize
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', initLightbox);
   } else {

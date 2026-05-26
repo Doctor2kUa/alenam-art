@@ -14,10 +14,19 @@ const description = 'Get in touch with Alena Mart for available artworks, replic
   </section>
 
   <section class="px-4 sm:px-6 lg:px-8 max-w-2xl mx-auto pb-20">
+    <!-- Request context from artwork -->
+    <div id="request-context" class="hidden mb-6 p-4 bg-accent/5 border border-accent/20 rounded-sm">
+      <p class="text-sm text-secondary">You are requesting price for:</p>
+      <p id="request-artwork-name" class="text-base font-display text-primary mb-1"></p>
+      <p class="text-sm text-secondary">
+        Collection: <span id="request-collection-name"></span>
+      </p>
+    </div>
+
     <form name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field" class="space-y-6">
       <input type="hidden" name="form-name" value="contact" />
-      <p hidden>
-        <label>Don't fill this out: <input name="bot-field" /></label>
+      <p hidden aria-hidden="true" tabindex="-1">
+        <label>Don't fill this out: <input name="bot-field" tabindex="-1" autocomplete="off" /></label>
       </p>
 
       <input type="hidden" name="artwork" id="artwork-field" value="" />
@@ -107,15 +116,26 @@ const description = 'Get in touch with Alena Mart for available artworks, replic
       if (artwork) {
         var subjectField = document.getElementById('subject');
         if (subjectField) subjectField.value = 'Price request: ' + artwork;
+
+        // Show request context block
+        var requestContext = document.getElementById('request-context');
+        var artworkName = document.getElementById('request-artwork-name');
+        var collectionName = document.getElementById('request-collection-name');
+        if (requestContext) requestContext.classList.remove('hidden');
+        if (artworkName) artworkName.textContent = artwork;
+        if (collectionName) collectionName.textContent = decodeURIComponent(collection || '');
       }
 
       if (collection) {
         var msgField = document.getElementById('message');
-        var artworkName = artwork || '';
-        var prefix = 'Hello, I am interested in the artwork "' + artworkName + '"';
-      if (collection) prefix += ' from the collection "' + collection + '"';
-      prefix += '. Please send me price and availability details.';
-      if (msgField) msgField.value = prefix;
+        // Message is already set in the artwork block above
+        if (msgField && !msgField.value) {
+          var artworkName2 = artwork || '';
+          var prefix = 'Hello, I am interested in the artwork "' + artworkName2 + '"';
+          if (collection) prefix += ' from the collection "' + collection + '"';
+          prefix += '. Please send me price and availability details.';
+          msgField.value = prefix;
+        }
       }
 
       // Form submission handling

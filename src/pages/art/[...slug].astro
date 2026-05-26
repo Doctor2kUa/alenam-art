@@ -184,16 +184,16 @@ if (!col) return new Response(null, { status: 404 });
 
     <!-- Filters -->
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mb-8">
-      <div class="flex flex-wrap gap-2 artwork-filters">
-        <button class="filter-btn px-3 py-1 text-xs uppercase tracking-wider bg-primary text-white rounded-sm" data-filter="all">All</button>
-        <button class="filter-btn px-3 py-1 text-xs uppercase tracking-wider bg-gray-100 text-secondary hover:bg-gray-200 rounded-sm transition-colors" data-filter="available">Available</button>
-        <button class="filter-btn px-3 py-1 text-xs uppercase tracking-wider bg-gray-100 text-secondary hover:bg-gray-200 rounded-sm transition-colors" data-filter="sold">Sold</button>
-        <button class="filter-btn px-3 py-1 text-xs uppercase tracking-wider bg-gray-100 text-secondary hover:bg-gray-200 rounded-sm transition-colors" data-filter="private-collection">Private collection</button>
+      <div class="flex flex-wrap gap-2 artwork-filters" role="group" aria-label="Filter artworks by status">
+        <button class="filter-btn px-3 py-1 text-xs uppercase tracking-wider bg-primary text-white rounded-sm" data-filter="all" aria-pressed="true">All (<span id="count-all">0</span>)</button>
+        <button class="filter-btn px-3 py-1 text-xs uppercase tracking-wider bg-gray-100 text-secondary hover:bg-gray-200 rounded-sm transition-colors" data-filter="available" aria-pressed="false">Available (<span id="count-available">0</span>)</button>
+        <button class="filter-btn px-3 py-1 text-xs uppercase tracking-wider bg-gray-100 text-secondary hover:bg-gray-200 rounded-sm transition-colors" data-filter="sold" aria-pressed="false">Sold (<span id="count-sold">0</span>)</button>
+        <button class="filter-btn px-3 py-1 text-xs uppercase tracking-wider bg-gray-100 text-secondary hover:bg-gray-200 rounded-sm transition-colors" data-filter="private-collection" aria-pressed="false">Private collection (<span id="count-private-collection">0</span>)</button>
       </div>
     </div>
 
     <!-- Empty state -->
-    <div id="artwork-empty" class="hidden text-center py-16">
+    <div id="artwork-empty" class="hidden text-center py-16" role="status" aria-live="polite">
       <p class="text-secondary">No works in this category right now.</p>
     </div>
 
@@ -269,6 +269,24 @@ if (!col) return new Response(null, { status: 404 });
       var cards = document.querySelectorAll('.artwork-card');
       var emptyMsg = document.getElementById('artwork-empty');
 
+      // Count works by status
+      var counts = { all: 0, available: 0, sold: 0, 'private-collection': 0 };
+      cards.forEach(function(card) {
+        counts.all++;
+        var status = card.getAttribute('data-status');
+        if (counts[status] !== undefined) counts[status]++;
+      });
+
+      // Update filter button counts
+      var countAll = document.getElementById('count-all');
+      var countAvailable = document.getElementById('count-available');
+      var countSold = document.getElementById('count-sold');
+      var countPrivate = document.getElementById('count-private-collection');
+      if (countAll) countAll.textContent = counts.all;
+      if (countAvailable) countAvailable.textContent = counts.available;
+      if (countSold) countSold.textContent = counts.sold;
+      if (countPrivate) countPrivate.textContent = counts['private-collection'];
+
       buttons.forEach(function(btn) {
         btn.addEventListener('click', function(e) {
           e.preventDefault();
@@ -278,9 +296,11 @@ if (!col) return new Response(null, { status: 404 });
           buttons.forEach(function(b) {
             b.classList.remove('bg-primary', 'text-white');
             b.classList.add('bg-gray-100', 'text-secondary');
+            b.setAttribute('aria-pressed', 'false');
           });
           btn.classList.remove('bg-gray-100', 'text-secondary');
           btn.classList.add('bg-primary', 'text-white');
+          btn.setAttribute('aria-pressed', 'true');
 
           // Filter cards
           var visible = 0;
@@ -294,7 +314,7 @@ if (!col) return new Response(null, { status: 404 });
             }
           });
 
-          // Empty state
+          // Empty state — only show when filter returns zero results
           if (emptyMsg) {
             emptyMsg.style.display = visible === 0 ? 'block' : 'none';
           }

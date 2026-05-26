@@ -9,7 +9,7 @@ const events = [
   {
     slug: 'amazing-evening-amazing-place-amazing-people',
     title: 'Amazing evening, amazing place, amazing people!',
-    date: '2025-09-27',
+    date: 'September 2025',
     city: 'Prague',
     venue: 'SANTE',
     image: base + '2025/06/Screenshot_2025-09-27_13-00-03.png',
@@ -18,7 +18,7 @@ const events = [
   {
     slug: 'a-presentation-of-the-art-collection-confessions-should-be-better-planned-by-alena-martsyanava',
     title: 'A presentation of the art collection "Confessions Should Be Better Planned"',
-    date: '2025-05-23',
+    date: 'May 2025',
     city: 'Prague',
     venue: 'SANTE',
     image: base + '2025/05/alena.avif',
@@ -27,7 +27,7 @@ const events = [
   {
     slug: 'confessions-should-be-better-planned-1-0-in-warsaw',
     title: 'Confessions should be better planned 1.0',
-    date: '2025-02-16',
+    date: 'February 2025',
     city: 'Warsaw',
     venue: 'ALAR art-beauty shop',
     image: base + '2025/03/photo_5334917533247075316_y-1.avif',
@@ -36,7 +36,7 @@ const events = [
   {
     slug: 'taking-part-in-contro-la-violenza-sulle-donne-expo',
     title: '"Contro la Violenza sulle Donne" expo',
-    date: '2025-01-03',
+    date: 'January 2025',
     city: 'Italy',
     image: base + '2025/01/photo_5458821030429715645_x.avif',
     excerpt: 'So proud to have had a chance of participating in the event raising awareness of the domestic violence towards women in Italy. My artwork "oops I spilt the paint" organically fitted into the collection of works and drew a lot of attention.',
@@ -44,7 +44,7 @@ const events = [
   {
     slug: 'auction-in-wroclaw-poland',
     title: 'Auction',
-    date: '2025-01-03',
+    date: 'January 2025',
     city: 'Wroclaw',
     country: 'Poland',
     venue: 'Students Artworks Foundation',
@@ -54,7 +54,7 @@ const events = [
   {
     slug: 'interpretation-of-moments-boys-vs-girls',
     title: 'Interpretation of moments: boys vs girls',
-    date: '2024-12-15',
+    date: 'December 2019',
     city: 'Minsk',
     venue: 'Beetlejuice cafe',
     image: base + '2025/01/photo_5458821030429715607_y.avif',
@@ -63,7 +63,7 @@ const events = [
   {
     slug: 'the-dream-on-expo',
     title: 'The "Dream on" Expo',
-    date: '2024-12-10',
+    date: 'October 2019',
     city: 'Minsk',
     image: base + '2025/01/photo_5458821030429715600_y.avif',
     excerpt: 'The first time Alena introduced a new young talent — Anna Trusevich from Minsk. In October 2019 the artworks were presented.',
@@ -71,7 +71,7 @@ const events = [
   {
     slug: 'the-35-expo',
     title: 'The "35" Expo',
-    date: '2024-12-05',
+    date: 'April 2018',
     city: 'Minsk',
     image: base + '2025/01/photo_5458821030429715571_y.avif',
     excerpt: 'Dedicated to Alena\'s 35th anniversary. The Stary Olsa band performed. The expo contained exactly 35 artworks and was available the whole April 2018.',
@@ -79,7 +79,7 @@ const events = [
   {
     slug: 'сhaotic-still-life',
     title: 'Сhaotic still-life',
-    date: '2024-11-27',
+    date: 'Autumn 2014',
     city: 'Minsk',
     image: base + '2025/01/photo_5458821030429715563_x.avif',
     excerpt: 'Took place in autumn 2014 while Alena was expecting her baby. About 25 new works of various techniques: from oil painting to sketches and Grattage.',
@@ -87,7 +87,7 @@ const events = [
   {
     slug: 'first-expo',
     title: 'First Expo',
-    date: '2024-11-27',
+    date: '2013',
     city: 'Minsk',
     image: base + '2025/01/IMG_5665.avif',
     excerpt: 'First Alena\'s Expo happened back in 2013 with 30 artworks. A local rock band performed at the opening. It lasted 30 days and attracted more than a thousand visitors.',
@@ -118,7 +118,7 @@ const events = [
             />
           </figure>
           <div class="flex flex-wrap items-center gap-x-3 gap-y-1 mb-3">
-            <time class="text-xs text-gray-400 uppercase tracking-wider">{new Date(event.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long' })}</time>
+            <time class="text-xs text-gray-400 uppercase tracking-wider">{event.date}</time>
             {event.city && (
               <>
                 <span class="text-xs text-gray-300">·</span>

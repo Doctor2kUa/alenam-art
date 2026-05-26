@@ -14,7 +14,7 @@ export function getStaticPaths() {
         { slug: 'angie', name: 'Angie', technique: 'Acrylic on canvas', size: '120×120 cm', year: '2022', status: 'Available', image: base + '2025/01/IMG_5562-1024x1024.avif' },
         { slug: 'time-to-rest', name: 'Time to rest', technique: 'Acrylic on canvas', size: '100×70 cm', year: '2024', status: 'Available', image: base + '2025/01/Untitled-1-819x1024.avif' },
         { slug: 'what-have-i-done', name: 'What have I done?', technique: 'Acrylic on canvas', size: '70×100 cm', year: '2025', status: 'Available', image: base + '2025/02/5330074966210769581-779x1024.avif' },
-        { slug: 'the-tune', name: 'The tune', technique: 'Acrylic on canvas', size: '50×70 cm', year: 'Available', image: base + '2025/01/IMG_5552-1024x733.avif' },
+        { slug: 'the-tune', name: 'The tune', technique: 'Acrylic on canvas', size: '50×70 cm', year: '2022', status: 'Available', image: base + '2025/01/IMG_5552-1024x733.avif' },
         { slug: 'a-thought', name: 'A thought', technique: 'Acrylic on canvas', size: '100×70 cm', year: '2021', status: 'Private collection', image: base + '2025/01/IMG_5550-827x1024.avif' },
         { slug: 'no-more-stories', name: 'No more stories', technique: 'Acrylic on canvas', size: '100×100 cm', year: '2021', status: 'Private collection', image: base + '2025/01/IMG_5558-1024x1019.avif' },
         { slug: 'a-red-stone', name: 'A red stone', technique: 'Acrylic on canvas', size: '120×100 cm', year: '2021', status: 'Private collection', image: base + '2025/01/IMG_5571-818x1024.avif' },
@@ -130,10 +130,10 @@ const { artwork, collection } = Astro.props;
 
           {artwork.status === 'Available' ? (
             <div class="space-y-3">
-              <a href="/contact/" class="block w-full bg-primary text-white px-6 py-3 text-sm uppercase tracking-wider font-medium text-center hover:bg-primary/90 transition-colors">
+              <a href={`/contact/?interest=buy&artwork=${encodeURIComponent(artwork.name)}&collection=${encodeURIComponent(collection.title)}`} class="block w-full bg-primary text-white px-6 py-3 text-sm uppercase tracking-wider font-medium text-center hover:bg-primary/90 transition-colors">
                 Request price
               </a>
-              <a href="/contact/" class="block w-full border border-primary text-primary px-6 py-3 text-sm uppercase tracking-wider font-medium text-center hover:bg-primary/5 transition-colors">
+              <a href={`/contact/?interest=buy&artwork=${encodeURIComponent(artwork.name)}&collection=${encodeURIComponent(collection.title)}`} class="block w-full border border-primary text-primary px-6 py-3 text-sm uppercase tracking-wider font-medium text-center hover:bg-primary/5 transition-colors">
                 Ask about this work
               </a>
             </div>

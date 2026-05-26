@@ -70,9 +70,15 @@ const description = 'Get in touch with Alena Mart for available artworks, replic
         <textarea id="message" name="message" rows="5" required class="w-full px-4 py-3 border border-gray-200 rounded-sm focus:outline-none focus:border-primary transition-colors resize-none"></textarea>
       </div>
 
-      <button type="submit" class="w-full bg-primary text-white px-8 py-3 text-sm uppercase tracking-wider font-medium hover:bg-primary/90 transition-colors">
+      <button type="submit" id="submit-btn" class="w-full bg-primary text-white px-8 py-3 text-sm uppercase tracking-wider font-medium hover:bg-primary/90 transition-colors">
         Send request
       </button>
+
+      <div id="form-feedback" class="hidden mt-4 text-center">
+        <p id="form-success" class="hidden text-sm text-green-600">Thank you. Your request has been sent.</p>
+        <p id="form-error" class="hidden text-sm text-red-600">Something went wrong. Please try again or email directly at <a href="mailto:alenam.art@gmail.com" class="underline">alenam.art@gmail.com</a>.</p>
+        <p id="form-loading" class="hidden text-sm text-secondary">Sending...</p>
+      </div>
 
       <p class="text-xs text-secondary text-center">Your message will be sent directly to the artist.</p>
     </form>
@@ -107,9 +113,53 @@ const description = 'Get in touch with Alena Mart for available artworks, replic
         var msgField = document.getElementById('message');
         var artworkName = artwork || '';
         var prefix = 'Hello, I am interested in the artwork "' + artworkName + '"';
-        if (collection) prefix += ' from the collection "' + collection + '"';
-        prefix += '. Please send me price and availability details.';
-        if (msgField) msgField.value = prefix;
+      if (collection) prefix += ' from the collection "' + collection + '"';
+      prefix += '. Please send me price and availability details.';
+      if (msgField) msgField.value = prefix;
+      }
+
+      // Form submission handling
+      var form = document.querySelector('form[name="contact"]');
+      var submitBtn = document.getElementById('submit-btn');
+      var formFeedback = document.getElementById('form-feedback');
+      var formSuccess = document.getElementById('form-success');
+      var formError = document.getElementById('form-error');
+      var formLoading = document.getElementById('form-loading');
+
+      if (form) {
+        form.addEventListener('submit', function(e) {
+          // Show loading state
+          if (submitBtn) {
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Sending...';
+            submitBtn.classList.add('opacity-75');
+          }
+          if (formFeedback) formFeedback.classList.remove('hidden');
+          if (formLoading) formLoading.classList.remove('hidden');
+
+          // For Netlify Forms, we need to allow the form to submit normally
+          // but show success/error feedback based on the response
+          // Since Netlify handles the redirect, we'll use a timeout to show feedback
+          setTimeout(function() {
+            if (submitBtn) {
+              submitBtn.disabled = false;
+              submitBtn.textContent = 'Send request';
+              submitBtn.classList.remove('opacity-75');
+            }
+          }, 3000);
+        });
+      }
+
+      // Check for success/error in URL (Netlify redirects back with query params)
+      var urlParams = new URLSearchParams(window.location.search);
+      if (urlParams.get('success') === 'true') {
+        if (formFeedback) formFeedback.classList.remove('hidden');
+        if (formSuccess) formSuccess.classList.remove('hidden');
+        if (form) form.style.display = 'none';
+      }
+      if (urlParams.get('error') === 'true') {
+        if (formFeedback) formFeedback.classList.remove('hidden');
+        if (formError) formError.classList.remove('hidden');
       }
     })();
   </script>

@@ -72,16 +72,23 @@ def check_image_url(url: str) -> tuple[bool, str]:
     })
     try:
         resp = urllib.request.urlopen(req, timeout=15)
-        size = len(resp.read())
+        # Сначала читаем заголовки
         content_type = resp.headers.get("Content-Type", "unknown")
+        # Потом читаем тело
+        data = resp.read()
+        size = len(data)
         
-        # Проверяем MIME type
+        # Проверяем MIME type — файл должен быть изображением, не HTML
         if "image" not in content_type and "octet-stream" not in content_type:
-            return False, f"Invalid Content-Type: {content_type} ({size:,} bytes)"
+            return False, f"Invalid Content-Type: {content_type} ({size:,} bytes) — file may not be a real image"
         
-        # Проверяем минимальный размер (меньше 1KB — подозрительно)
+        # Проверяем минимальный размер
         if size < 1000:
             return False, f"Too small: {size} bytes ({content_type})"
+        
+        # Проверяем что файл начинается с магических байтов изображения (не HTML)
+        if data[:4] in [b'<!DO', b'<htm', b'<HTM']:
+            return False, f"File starts with HTML markup, not image data ({size:,} bytes)"
         
         return True, f"OK ({size:,} bytes, {content_type})"
     except urllib.error.HTTPError as e:

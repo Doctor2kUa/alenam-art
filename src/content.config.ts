@@ -1,9 +1,9 @@
 import { defineCollection, z } from 'astro:content';
-import { file, glob } from 'astro/loaders';
+import { glob } from 'astro/loaders';
 
-// Site settings — single file
+// Site settings
 const settings = defineCollection({
-  loader: file('src/content/settings/site.json'),
+  loader: glob({ pattern: 'site.json', base: './src/content/settings' }),
   schema: z.object({
     site_title: z.string(),
     site_description: z.string(),
@@ -11,17 +11,15 @@ const settings = defineCollection({
     email: z.string().email(),
     instagram_url: z.string().url().optional(),
     facebook_url: z.string().url().optional(),
-    linkedin_url: z.string().url().optional(),
     logo: z.string().optional(),
     og_image: z.string().optional(),
-    favicon: z.string().optional(),
     media_base_url: z.string().url().default('https://media.alenam.art'),
   }),
 });
 
-// Pages — home (JSON), story (MD with frontmatter)
+// Pages (home.json, story.md, etc.)
 const pages = defineCollection({
-  loader: glob({ pattern: '**/*.{json,md}', base: 'src/content/pages' }),
+  loader: glob({ pattern: '**/*.{json,md}', base: './src/content/pages' }),
   schema: z.object({
     title: z.string().optional(),
     hero_title: z.string().optional(),
@@ -32,24 +30,27 @@ const pages = defineCollection({
 
 // Art collections
 const art_collections = defineCollection({
-  loader: glob({ pattern: '*.json', base: 'src/content/collections' }),
+  loader: glob({
+    pattern: '**/*.json',
+    base: './src/content/collections',
+  }),
   schema: z.object({
     slug: z.string(),
     title: z.string(),
     subtitle: z.string().optional(),
     description: z.string().optional(),
     cover_image: z.string().optional(),
-    order: z.number().default(0),
-    prev_slug: z.string().optional(),
-    next_slug: z.string().optional(),
+    order: z.number().optional(),
+    prev_slug: z.string().nullable().optional(),
+    next_slug: z.string().nullable().optional(),
     cta: z.string().optional(),
-    featured_on_home: z.boolean().default(false),
+    featured_on_home: z.boolean().optional(),
   }),
 });
 
 // Artworks
 const artworks = defineCollection({
-  loader: glob({ pattern: '**/*.json', base: 'src/content/artworks' }),
+  loader: glob({ pattern: '**/*.json', base: './src/content/artworks' }),
   schema: z.object({
     slug: z.string(),
     name: z.string(),
@@ -59,18 +60,14 @@ const artworks = defineCollection({
     year: z.string(),
     status: z.enum(['Available', 'Sold', 'Private collection']).default('Available'),
     image: z.string().optional(),
-    images: z.array(z.object({ image: z.string() })).optional(),
-    description: z.string().optional(),
     order: z.number().default(0),
-    featured_on_home: z.boolean().default(false),
     featured_available: z.boolean().default(false),
-    cta: z.string().optional(),
   }),
 });
 
-// Events
+// Events (blog posts)
 const events = defineCollection({
-  loader: glob({ pattern: '*.md', base: 'src/content/events' }),
+  loader: glob({ pattern: '*.md', base: './src/content/events' }),
   schema: z.object({
     title: z.string(),
     event_date: z.coerce.date(),
@@ -79,10 +76,8 @@ const events = defineCollection({
     country: z.string().optional(),
     venue: z.string().optional(),
     cover_image: z.string().optional(),
-    gallery: z.array(z.object({ image: z.string() })).optional(),
     excerpt: z.string().optional(),
     related_collection: z.string().optional(),
-    related_artworks: z.array(z.string()).optional(),
   }),
 });
 

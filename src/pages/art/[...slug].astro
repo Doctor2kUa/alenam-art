@@ -1,189 +1,240 @@
 ---
-import BaseLayout from '../../../layouts/BaseLayout.astro';
-import { getCollection, getEntries } from 'astro:content';
-import { normalizeImageUrl } from '../../../lib/media';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+import { normalizeImageUrl } from '../../lib/media';
 
 export async function getStaticPaths() {
+  const paths = [];
+
+  // Collection pages
   const collections = await getCollection('art_collections');
-  return collections.map((col) => ({
-    params: { slug: col.data.slug },
-    props: { collection: col },
-  }));
+  for (const col of collections) {
+    paths.push({
+      params: { slug: col.data.slug },
+      props: { type: 'collection', collection: col },
+    });
+  }
+
+  // Artwork detail pages
+  const artworks = await getCollection('artworks');
+  for (const artwork of artworks) {
+    paths.push({
+      params: { slug: `${artwork.data.collection}/${artwork.data.slug}` },
+      props: { type: 'artwork', artwork },
+    });
+  }
+
+  return paths;
 }
 
-const { collection } = Astro.props;
-const slug = collection.data.slug;
-const title = collection.data.title;
-const subtitle = collection.data.subtitle || '';
-const description = collection.data.description || '';
-const cta = collection.data.cta || '';
+const { type } = Astro.props;
 
-// Load artworks for this collection
-const allArtworks = await getCollection('artworks');
-const artworks = allArtworks
-  .filter(a => a.data.collection === slug)
-  .sort((a, b) => (a.data.order || 0) - (b.data.order || 0));
+// ---- COLLECTION PAGE ----
+let collection, slug, title, subtitle, description, cta;
+let artworks = [], sortedCollections = [], prevCollection, nextCollection;
+let availableCount = 0, soldCount = 0, privateCount = 0;
 
-// Load prev/next collections
-const allCollections = await getCollection('art_collections');
-const sortedCollections = allCollections.sort((a, b) => (a.data.order || 0) - (b.data.order || 0));
-const currentIndex = sortedCollections.findIndex(c => c.data.slug === slug);
-const prevCollection = currentIndex > 0 ? sortedCollections[currentIndex - 1] : null;
-const nextCollection = currentIndex < sortedCollections.length - 1 ? sortedCollections[currentIndex + 1] : null;
+if (type === 'collection') {
+  collection = Astro.props.collection;
+  slug = collection.data.slug;
+  title = collection.data.title;
+  subtitle = collection.data.subtitle || '';
+  description = collection.data.description || '';
+  cta = collection.data.cta || '';
 
-// Count statuses
-const availableCount = artworks.filter(a => a.data.status === 'Available').length;
-const soldCount = artworks.filter(a => a.data.status === 'Sold').length;
-const privateCount = artworks.filter(a => a.data.status === 'Private collection').length;
+  const allArtworks = await getCollection('artworks');
+  artworks = allArtworks
+    .filter(a => a.data.collection === slug)
+    .sort((a, b) => (a.data.order || 0) - (b.data.order || 0));
+
+  const allCollections = await getCollection('art_collections');
+  sortedCollections = [...allCollections].sort((a, b) => (a.data.order || 0) - (b.data.order || 0));
+  const currentIndex = sortedCollections.findIndex(c => c.data.slug === slug);
+  prevCollection = currentIndex > 0 ? sortedCollections[currentIndex - 1] : null;
+  nextCollection = currentIndex < sortedCollections.length - 1 ? sortedCollections[currentIndex + 1] : null;
+
+  availableCount = artworks.filter(a => a.data.status === 'Available').length;
+  soldCount = artworks.filter(a => a.data.status === 'Sold').length;
+  privateCount = artworks.filter(a => a.data.status === 'Private collection').length;
+}
+
+// ---- ARTWORK DETAIL PAGE ----
+let artwork, collectionTitle, collectionSlug, imageUrl;
+let prevArtwork = null, nextArtwork = null;
+
+if (type === 'artwork') {
+  artwork = Astro.props.artwork;
+  title = artwork.data.name;
+  collectionSlug = artwork.data.collection;
+  imageUrl = normalizeImageUrl(artwork.data.image || '');
+
+  // Load collection info
+  const allCollections = await getCollection('art_collections');
+  const col = allCollections.find(c => c.data.slug === collectionSlug);
+  collectionTitle = col?.data?.title || collectionSlug;
+
+  // Prev/next in same collection
+  const allArtworks = await getCollection('artworks');
+  const collectionArtworks = allArtworks
+    .filter(a => a.data.collection === collectionSlug)
+    .sort((a, b) => (a.data.order || 0) - (b.data.order || 0));
+  const idx = collectionArtworks.findIndex(a => a.data.slug === artwork.data.slug);
+  if (idx > 0) prevArtwork = collectionArtworks[idx - 1];
+  if (idx < collectionArtworks.length - 1) nextArtwork = collectionArtworks[idx + 1];
+}
 ---
 
-<BaseLayout title={`${title} — Alena ART`} description={description}>
-  <article class="pt-24 pb-20">
-    <!-- Collection Hero -->
-    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mb-12">
-      <a href="/art/" class="text-sm text-secondary hover:text-primary transition-colors mb-4 inline-block">← Back to Collections</a>
-      <h1 class="text-3xl md:text-5xl font-display leading-tight mb-2">{title}</h1>
-      {subtitle && <p class="text-lg text-secondary font-display mb-4">{subtitle}</p>}
-      {description && <p class="text-secondary leading-relaxed">{description}</p>}
-    </div>
+{type === 'collection' && (
+  <BaseLayout title={`${title} — Alena ART`} description={description}>
+    <article class="pt-24 pb-20">
+      <!-- Collection Hero -->
+      <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mb-12">
+        <a href="/art/" class="text-sm text-secondary hover:text-primary transition-colors mb-4 inline-block">← Back to Collections</a>
+        <h1 class="text-3xl md:text-5xl font-display leading-tight mb-2">{title}</h1>
+        {subtitle && <p class="text-lg text-secondary font-display mb-4">{subtitle}</p>}
+        {description && <p class="text-secondary leading-relaxed">{description}</p>}
+      </div>
 
-    <!-- Available Works Banner -->
-    {availableCount > 0 && (
+      {availableCount > 0 && (
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mb-8">
+          <div class="bg-accent/10 border border-accent/20 rounded-sm p-4 text-center">
+            <p class="text-sm">Selected works from this collection are available for purchase.</p>
+            <a href="/contact/" class="inline-block mt-2 text-sm font-medium text-accent hover:text-accent/80">Ask about the collection →</a>
+          </div>
+        </div>
+      )}
+
+      <!-- Filters -->
       <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mb-8">
-        <div class="bg-accent/10 border border-accent/20 rounded-sm p-4 text-center">
-          <p class="text-sm">Selected works from this collection are available for purchase.</p>
-          <a href="/contact/" class="inline-block mt-2 text-sm font-medium text-accent hover:text-accent/80">Ask about the collection →</a>
+        <div class="flex flex-wrap gap-2 artwork-filters" role="group" aria-label="Filter artworks by status">
+          <button class="filter-btn px-3 py-1 text-xs uppercase tracking-wider bg-primary text-white rounded-sm" data-filter="all" aria-pressed="true">All ({artworks.length})</button>
+          {availableCount > 0 && <button class="filter-btn px-3 py-1 text-xs uppercase tracking-wider bg-gray-100 text-secondary hover:bg-gray-200 rounded-sm transition-colors" data-filter="available" aria-pressed="false">Available ({availableCount})</button>}
+          {soldCount > 0 && <button class="filter-btn px-3 py-1 text-xs uppercase tracking-wider bg-gray-100 text-secondary hover:bg-gray-200 rounded-sm transition-colors" data-filter="sold" aria-pressed="false">Sold ({soldCount})</button>}
+          {privateCount > 0 && <button class="filter-btn px-3 py-1 text-xs uppercase tracking-wider bg-gray-100 text-secondary hover:bg-gray-200 rounded-sm transition-colors" data-filter="private-collection" aria-pressed="false">Private collection ({privateCount})</button>}
         </div>
       </div>
-    )}
 
-    <!-- Filters -->
-    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mb-8">
-      <div class="flex flex-wrap gap-2 artwork-filters" role="group" aria-label="Filter artworks by status">
-        <button class="filter-btn px-3 py-1 text-xs uppercase tracking-wider bg-primary text-white rounded-sm" data-filter="all" aria-pressed="true">All ({artworks.length})</button>
-        {availableCount > 0 && (
-          <button class="filter-btn px-3 py-1 text-xs uppercase tracking-wider bg-gray-100 text-secondary hover:bg-gray-200 rounded-sm transition-colors" data-filter="available" aria-pressed="false">Available ({availableCount})</button>
-        )}
-        {soldCount > 0 && (
-          <button class="filter-btn px-3 py-1 text-xs uppercase tracking-wider bg-gray-100 text-secondary hover:bg-gray-200 rounded-sm transition-colors" data-filter="sold" aria-pressed="false">Sold ({soldCount})</button>
-        )}
-        {privateCount > 0 && (
-          <button class="filter-btn px-3 py-1 text-xs uppercase tracking-wider bg-gray-100 text-secondary hover:bg-gray-200 rounded-sm transition-colors" data-filter="private-collection" aria-pressed="false">Private collection ({privateCount})</button>
-        )}
+      <div id="artwork-empty" class="hidden text-center py-16" role="status" aria-live="polite">
+        <p class="text-secondary">No works in this category right now.</p>
       </div>
-    </div>
 
-    <!-- Empty state -->
-    <div id="artwork-empty" class="hidden text-center py-16" role="status" aria-live="polite">
-      <p class="text-secondary">No works in this category right now.</p>
-    </div>
-
-    <!-- Artwork Grid -->
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="grid artwork-grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        {artworks.map((artwork) => (
-          <div class="group artwork-card" data-status={artwork.data.status.toLowerCase().replace(' ', '-')}>
-            <figure class="m-0 mb-3">
-              <a href={`/art/${slug}/${artwork.data.slug}/`} class="block">
-                <img
-                  src={normalizeImageUrl(artwork.data.image || '')}
-                  alt={artwork.data.name}
-                  class="w-full h-auto rounded-sm group-hover:opacity-90 transition-opacity"
-                  loading="lazy"
-                />
-              </a>
-            </figure>
-            <h3 class="font-display text-base mb-1">
-              <a href={`/art/${slug}/${artwork.data.slug}/`} class="hover:text-accent transition-colors">{artwork.data.name}</a>
-            </h3>
-            <p class="text-xs text-secondary">{artwork.data.technique} · {artwork.data.size} · {artwork.data.year}</p>
-            <div class="mt-2 flex items-center justify-between">
-              {artwork.data.status === 'Available' ? (
-                <span class="text-xs font-medium text-accent">Available</span>
-              ) : artwork.data.status === 'Sold' ? (
-                <span class="text-xs text-gray-400">Sold</span>
-              ) : (
-                <span class="text-xs text-gray-400">{artwork.data.status}</span>
-              )}
+      <!-- Artwork Grid -->
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid artwork-grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          {artworks.map((art) => (
+            <div class="group artwork-card" data-status={art.data.status.toLowerCase().replace(' ', '-')}>
+              <figure class="m-0 mb-3">
+                <a href={`/art/${slug}/${art.data.slug}/`} class="block">
+                  <img src={normalizeImageUrl(art.data.image || '')} alt={art.data.name} class="w-full h-auto rounded-sm group-hover:opacity-90 transition-opacity" loading="lazy" />
+                </a>
+              </figure>
+              <h3 class="font-display text-base mb-1">
+                <a href={`/art/${slug}/${art.data.slug}/`} class="hover:text-accent transition-colors">{art.data.name}</a>
+              </h3>
+              <p class="text-xs text-secondary">{art.data.technique} · {art.data.size} · {art.data.year}</p>
+              <div class="mt-2 flex items-center justify-between">
+                {art.data.status === 'Available' ? <span class="text-xs font-medium text-accent">Available</span> : art.data.status === 'Sold' ? <span class="text-xs text-gray-400">Sold</span> : <span class="text-xs text-gray-400">{art.data.status}</span>}
+              </div>
             </div>
-            {artwork.data.cta && (
-              <a href={`/contact/?interest=buy&artwork=${encodeURIComponent(artwork.data.name)}&collection=${encodeURIComponent(title)}`} class="mt-2 inline-block text-xs font-medium text-accent hover:text-accent/80">
-                {artwork.data.cta}
-              </a>
+          ))}
+        </div>
+      </div>
+
+      {cta && (
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mt-16 text-center">
+          <p class="text-secondary mb-4">{cta}</p>
+          <a href="/contact/" class="inline-block bg-primary text-white px-6 py-3 text-sm uppercase tracking-wider font-medium hover:bg-primary/90 transition-colors">Contact the Artist</a>
+        </div>
+      )}
+
+      <nav class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mt-16 pt-8 border-t border-gray-200">
+        <div class="flex justify-between items-center gap-4">
+          {prevCollection ? <a href={`/art/${prevCollection.data.slug}/`} class="text-sm hover:text-accent transition-colors max-w-[40%]"><span class="block text-xs uppercase tracking-wider text-secondary mb-1">← Previous</span><span class="font-display text-base text-primary">{prevCollection.data.title}</span></a> : <div class="max-w-[40%]" />}
+          <a href="/art/" class="text-xs text-secondary hover:text-primary transition-colors flex-shrink-0">All Collections</a>
+          {nextCollection ? <a href={`/art/${nextCollection.data.slug}/`} class="text-sm hover:text-accent transition-colors max-w-[40%] text-right"><span class="block text-xs uppercase tracking-wider text-secondary mb-1">Next →</span><span class="font-display text-base text-primary">{nextCollection.data.title}</span></a> : <div class="max-w-[40%]" />}
+        </div>
+      </nav>
+    </article>
+
+    <script>
+      (function() {
+        var filterContainer = document.querySelector('.artwork-filters');
+        if (!filterContainer) return;
+        var buttons = filterContainer.querySelectorAll('.filter-btn');
+        var cards = document.querySelectorAll('.artwork-card');
+        var emptyMsg = document.getElementById('artwork-empty');
+        buttons.forEach(function(btn) {
+          btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            var filter = btn.getAttribute('data-filter');
+            buttons.forEach(function(b) {
+              b.classList.remove('bg-primary', 'text-white');
+              b.classList.add('bg-gray-100', 'text-secondary');
+              b.setAttribute('aria-pressed', 'false');
+            });
+            btn.classList.remove('bg-gray-100', 'text-secondary');
+            btn.classList.add('bg-primary', 'text-white');
+            btn.setAttribute('aria-pressed', 'true');
+            var visible = 0;
+            cards.forEach(function(card) {
+              var status = card.getAttribute('data-status');
+              if (filter === 'all' || status === filter) { card.style.display = ''; visible++; } else { card.style.display = 'none'; }
+            });
+            if (emptyMsg) emptyMsg.style.display = visible === 0 ? 'block' : 'none';
+          });
+        });
+      })();
+    </script>
+  </BaseLayout>
+)}
+
+{type === 'artwork' && (
+  <BaseLayout title={`${title} — ${collectionTitle} — Alena ART`}>
+    <article class="pt-24 pb-20">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <a href={`/art/${collectionSlug}/`} class="text-sm text-secondary hover:text-primary transition-colors mb-8 inline-block">← Back to {collectionTitle}</a>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+          <div>
+            <img src={imageUrl} alt={title} class="w-full h-auto rounded-sm" />
+          </div>
+          <div class="flex flex-col justify-center">
+            <h1 class="text-3xl md:text-4xl font-display mb-4">{title}</h1>
+            <p class="text-secondary mb-2">{artwork.data.technique}</p>
+            <p class="text-secondary mb-2">{artwork.data.size}</p>
+            <p class="text-secondary mb-6">{artwork.data.year}</p>
+
+            {artwork.data.status === 'Available' ? (
+              <div class="mb-6"><span class="inline-block bg-accent/10 text-accent px-3 py-1 text-sm font-medium rounded-sm">Available</span></div>
+            ) : artwork.data.status === 'Sold' ? (
+              <div class="mb-6"><span class="inline-block bg-gray-100 text-gray-400 px-3 py-1 text-sm rounded-sm">Sold</span></div>
+            ) : (
+              <div class="mb-6"><span class="inline-block bg-gray-100 text-gray-400 px-3 py-1 text-sm rounded-sm">{artwork.data.status}</span></div>
+            )}
+
+            <p class="text-sm text-secondary mb-6">Part of the <a href={`/art/${collectionSlug}/`} class="text-accent hover:text-accent/80">{collectionTitle}</a> collection.</p>
+
+            {artwork.data.status === 'Available' ? (
+              <div class="space-y-3">
+                <a href={`/contact/?interest=buy&artwork=${encodeURIComponent(title)}&collection=${encodeURIComponent(collectionTitle)}`} class="block w-full bg-primary text-white px-6 py-3 text-sm uppercase tracking-wider font-medium text-center hover:bg-primary/90 transition-colors">Request price</a>
+                <a href={`/contact/?interest=info&artwork=${encodeURIComponent(title)}&collection=${encodeURIComponent(collectionTitle)}`} class="block w-full border border-primary text-primary px-6 py-3 text-sm uppercase tracking-wider font-medium text-center hover:bg-primary/5 transition-colors">Ask about this work</a>
+              </div>
+            ) : (
+              <a href="/contact/" class="block w-full border border-gray-200 text-secondary px-6 py-3 text-sm uppercase tracking-wider font-medium text-center hover:bg-gray-50 transition-colors">Ask about similar work</a>
             )}
           </div>
-        ))}
+        </div>
+
+        {(prevArtwork || nextArtwork) && (
+          <nav class="mt-16 pt-8 border-t border-gray-200">
+            <div class="flex justify-between items-center gap-4">
+              {prevArtwork ? <a href={`/art/${collectionSlug}/${prevArtwork.data.slug}/`} class="text-sm hover:text-accent transition-colors max-w-[40%]"><span class="block text-xs uppercase tracking-wider text-secondary mb-1">← Previous</span><span class="font-display text-base text-primary">{prevArtwork.data.name}</span></a> : <div class="max-w-[40%]" />}
+              <a href={`/art/${collectionSlug}/`} class="text-xs text-secondary hover:text-primary transition-colors flex-shrink-0">All in {collectionTitle}</a>
+              {nextArtwork ? <a href={`/art/${collectionSlug}/${nextArtwork.data.slug}/`} class="text-sm hover:text-accent transition-colors max-w-[40%] text-right"><span class="block text-xs uppercase tracking-wider text-secondary mb-1">Next →</span><span class="font-display text-base text-primary">{nextArtwork.data.name}</span></a> : <div class="max-w-[40%]" />}
+            </div>
+          </nav>
+        )}
       </div>
-    </div>
-
-    <!-- CTA -->
-    {cta && (
-      <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mt-16 text-center">
-        <p class="text-secondary mb-4">{cta}</p>
-        <a href="/contact/" class="inline-block bg-primary text-white px-6 py-3 text-sm uppercase tracking-wider font-medium hover:bg-primary/90 transition-colors">
-          Contact the Artist
-        </a>
-      </div>
-    )}
-
-    <!-- Navigation between collections -->
-    <nav class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mt-16 pt-8 border-t border-gray-200">
-      <div class="flex justify-between items-center gap-4">
-        {prevCollection ? (
-          <a href={`/art/${prevCollection.data.slug}/`} class="text-sm hover:text-accent transition-colors max-w-[40%]">
-            <span class="block text-xs uppercase tracking-wider text-secondary mb-1">← Previous</span>
-            <span class="font-display text-base text-primary">{prevCollection.data.title}</span>
-          </a>
-        ) : <div class="max-w-[40%]" />}
-        <a href="/art/" class="text-xs text-secondary hover:text-primary transition-colors flex-shrink-0">All Collections</a>
-        {nextCollection ? (
-          <a href={`/art/${nextCollection.data.slug}/`} class="text-sm hover:text-accent transition-colors max-w-[40%] text-right">
-            <span class="block text-xs uppercase tracking-wider text-secondary mb-1">Next →</span>
-            <span class="font-display text-base text-primary">{nextCollection.data.title}</span>
-          </a>
-        ) : <div class="max-w-[40%]" />}
-      </div>
-    </nav>
-  </article>
-
-  <script>
-    (function() {
-      var filterContainer = document.querySelector('.artwork-filters');
-      if (!filterContainer) return;
-      var buttons = filterContainer.querySelectorAll('.filter-btn');
-      var cards = document.querySelectorAll('.artwork-card');
-      var emptyMsg = document.getElementById('artwork-empty');
-
-      buttons.forEach(function(btn) {
-        btn.addEventListener('click', function(e) {
-          e.preventDefault();
-          var filter = btn.getAttribute('data-filter');
-
-          buttons.forEach(function(b) {
-            b.classList.remove('bg-primary', 'text-white');
-            b.classList.add('bg-gray-100', 'text-secondary');
-            b.setAttribute('aria-pressed', 'false');
-          });
-          btn.classList.remove('bg-gray-100', 'text-secondary');
-          btn.classList.add('bg-primary', 'text-white');
-          btn.setAttribute('aria-pressed', 'true');
-
-          var visible = 0;
-          cards.forEach(function(card) {
-            var status = card.getAttribute('data-status');
-            if (filter === 'all' || status === filter) {
-              card.style.display = '';
-              visible++;
-            } else {
-              card.style.display = 'none';
-            }
-          });
-
-          if (emptyMsg) {
-            emptyMsg.style.display = visible === 0 ? 'block' : 'none';
-          }
-        });
-      });
-    })();
-  </script>
-</BaseLayout>
+    </article>
+  </BaseLayout>
+)}

@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "slug": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "collection": {
+      "type": "string"
+    },
+    "technique": {
+      "type": "string"
+    },
+    "size": {
+      "type": "string"
+    },
+    "year": {
+      "type": "string"
+    },
+    "status": {
+      "default": "Available",
+      "type": "string",
+      "enum": [
+        "Available",
+        "Sold",
+        "Private collection"
+      ]
+    },
+    "image": {
+      "type": "string"
+    },
+    "order": {
+      "default": 0,
+      "type": "number"
+    },
+    "featured_available": {
+      "default": false,
+      "type": "boolean"
+    },
+    "$schema": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "slug",
+    "name",
+    "collection",
+    "technique",
+    "size",
+    "year"
+  ]
+}

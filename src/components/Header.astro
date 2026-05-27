@@ -1,5 +1,9 @@
 ---
+import { getEntry } from 'astro:content';
+import { normalizeImageUrl } from '../lib/media';
 
+const settings = await getEntry('settings', 'site');
+const logoUrl = normalizeImageUrl(settings?.data?.logo || 'uploads/2024/12/photo_5262728453080344965_y-3.avif');
 ---
 
 <nav class="fixed top-0 left-0 right-0 z-50 bg-black text-white">
@@ -8,7 +12,7 @@
       <!-- Logo -->
       <a href="/" class="flex items-center justify-center" aria-label="Alena Martsyanava — Home">
         <img
-          src="https://alenam.art/wp-content/uploads/2024/12/photo_5262728453080344965_y-3.avif"
+          src={logoUrl}
           alt="Alena Mart"
           class="max-h-14 w-auto"
         />

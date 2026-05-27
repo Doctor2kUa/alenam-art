@@ -1,10 +1,21 @@
 ---
+import { getEntry } from 'astro:content';
+import { normalizeImageUrl } from '../lib/media';
 
+const settings = await getEntry('settings', 'site');
+const socialBaseUrl = (settings?.data?.media_base_url || 'https://media.alenam.art') + '/';
+const fbImg = normalizeImageUrl('uploads/2025/03/fb.avif');
+const inImg = normalizeImageUrl('uploads/2025/03/in.avif');
+const mlImg = normalizeImageUrl('uploads/2025/03/ml.avif');
+const instagramUrl = settings?.data?.instagram_url || 'https://www.instagram.com/martsyanava/';
+const facebookUrl = settings?.data?.facebook_url || 'https://www.facebook.com/share/1ATWtirP4e/';
+const email = settings?.data?.email || 'alenam.art@gmail.com';
+const artistName = settings?.data?.artist_name || 'Alena Mart';
 ---
 
 <footer class="bg-primary text-white/70 py-12 mt-0">
   <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-    <h3 class="font-display text-white text-lg mb-2">Alena Mart</h3>
+    <h3 class="font-display text-white text-lg mb-2">{artistName}</h3>
     <p class="text-sm mb-6">Contemporary artist exploring memory, emotion and distorted reality.</p>
 
     <div class="flex flex-wrap justify-center gap-4 mb-6">
@@ -14,17 +25,17 @@
     </div>
 
     <div class="flex justify-center gap-4 mb-6">
-      <a href="https://www.facebook.com/share/1ATWtirP4e/?mibextid=wwXIfr" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
-        <img src="https://alenam.art/wp-content/uploads/2025/03/fb.avif" alt="Facebook" width="30" height="30" class="rounded-sm" />
+      <a href={facebookUrl} target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+        <img src={fbImg} alt="Facebook" width="30" height="30" class="rounded-sm" />
       </a>
-      <a href="https://www.instagram.com/martsyanava/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
-        <img src="https://alenam.art/wp-content/uploads/2025/03/in.avif" alt="Instagram" width="30" height="30" class="rounded-sm" />
+      <a href={instagramUrl} target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+        <img src={inImg} alt="Instagram" width="30" height="30" class="rounded-sm" />
       </a>
-      <a href="mailto:alenam.art@gmail.com" aria-label="Email">
-        <img src="https://alenam.art/wp-content/uploads/2025/03/ml.avif" alt="Email" width="30" height="30" class="rounded-sm" />
+      <a href={`mailto:${email}`} aria-label="Email">
+        <img src={mlImg} alt="Email" width="30" height="30" class="rounded-sm" />
       </a>
     </div>
 
-    <p class="text-xs text-white/50">&copy; {new Date().getFullYear()} Alena Mart</p>
+    <p class="text-xs text-white/50">&copy; {new Date().getFullYear()} {artistName}</p>
   </div>
 </footer>

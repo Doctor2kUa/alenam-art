@@ -1,68 +1,24 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+import { normalizeImageUrl } from '../../lib/media';
 
 const title = 'Art Collections — Alena Mart';
 const description = 'Explore the art collections by Alena Martsyanava — from city memories to hidden confessions, symbolic sketches and fragile flowers.';
-const base = 'https://alenam.art/wp-content/uploads/';
 
-const collections = [
-  {
-    slug: 'big-city-life',
-    title: 'Big City Life',
-    image: base + '2025/01/tramvai-alena.avif',
-    description: 'Cities, memories and emotional landscapes.',
-    works: 11,
-    available: 2,
-  },
-  {
-    slug: 'bits-and-pieces',
-    title: 'Bits and Pieces',
-    image: base + '2025/01/IMG_5841.avif',
-    description: 'Small details, grand impressions, emotional traces.',
-    works: 11,
-    available: 0,
-  },
-  {
-    slug: 'little-pleasures',
-    title: 'Little Pleasures',
-    image: base + '2025/01/IMG_5801.avif',
-    description: 'Everyday objects turned into quiet joy.',
-    works: 10,
-    available: 1,
-  },
-  {
-    slug: 'at-the-seaside',
-    title: 'At the Seaside',
-    image: base + '2025/01/IMG_5810.avif',
-    description: 'Water as strength, peace and release.',
-    works: 8,
-    available: 0,
-  },
-  {
-    slug: 'mind-games',
-    title: 'Mind Games',
-    image: base + '2025/01/IMG_5785.avif',
-    description: 'Symbols, puzzles and hidden meanings.',
-    works: 10,
-    available: 0,
-  },
-  {
-    slug: 'confessions-should-be-better-planned',
-    title: 'Confessions should be better planned',
-    image: base + '2025/01/IMG_5550-2-scaled.avif',
-    description: 'Raw expression, masks, hidden emotions.',
-    works: 12,
-    available: 7,
-  },
-  {
-    slug: 'flora',
-    title: 'Flora',
-    image: base + '2025/02/5330074966210769632.avif',
-    description: 'Flowers, femininity, fragility and preserved memory.',
-    works: 10,
-    available: 2,
-  },
-];
+// Load collections
+const allCollections = await getCollection('art_collections');
+const collections = allCollections.sort((a, b) => (a.data.order || 0) - (b.data.order || 0));
+
+// Count artworks per collection
+const allArtworks = await getCollection('artworks');
+const collectionCounts = {};
+for (const artwork of allArtworks) {
+  const coll = artwork.data.collection;
+  if (!collectionCounts[coll]) collectionCounts[coll] = { total: 0, available: 0 };
+  collectionCounts[coll].total++;
+  if (artwork.data.status === 'Available') collectionCounts[coll].available++;
+}
 ---
 
 <BaseLayout title={title} description={description}>
@@ -75,24 +31,27 @@ const collections = [
 
   <section class="px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto pb-20">
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-      {collections.map((col) => (
-        <a href={`/art/${col.slug}/`} class="group block">
-          <img
-            src={col.image}
-            alt={col.title}
-            class="w-full h-auto rounded-sm mb-4 group-hover:opacity-90 transition-opacity"
-            loading="lazy"
-          />
-          <h2 class="font-display text-xl mb-1 group-hover:text-accent transition-colors">{col.title}</h2>
-          <p class="text-sm text-secondary mb-2">{col.description}</p>
-          <div class="flex items-center justify-between">
-            <span class="text-xs text-secondary">{col.works} works{col.available > 0 && <span class="text-accent"> · {col.available} available</span>}</span>
-          </div>
-          <span class="inline-block mt-3 text-sm font-medium text-accent hover:text-accent/80 transition-colors">
-            View collection →
-          </span>
-        </a>
-      ))}
+      {collections.map((col) => {
+        const counts = collectionCounts[col.data.slug] || { total: 0, available: 0 };
+        return (
+          <a href={`/art/${col.data.slug}/`} class="group">
+            <img
+              src={normalizeImageUrl(col.data.cover_image || '')}
+              alt={col.data.title}
+              class="w-full h-auto rounded-sm mb-4 group-hover:opacity-90 transition-opacity"
+              loading="lazy"
+            />
+            <h2 class="font-display text-xl mb-1 group-hover:text-accent transition-colors">{col.data.title}</h2>
+            <p class="text-sm text-secondary mb-2">{col.data.description}</p>
+            <div class="flex items-center justify-between">
+              <span class="text-xs text-secondary">{counts.total} works{counts.available > 0 && <span class="text-accent"> · {counts.available} available</span>}</span>
+            </div>
+            <span class="inline-block mt-3 text-sm font-medium text-accent hover:text-accent/80 transition-colors">
+              View collection →
+            </span>
+          </a>
+        );
+      })}
     </div>
 
     <div class="mt-16 pt-8 border-t border-gray-200 text-center">

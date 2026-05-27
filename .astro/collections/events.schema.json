@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string"
+    },
+    "event_date": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "published_date": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "city": {
+      "type": "string"
+    },
+    "country": {
+      "type": "string"
+    },
+    "venue": {
+      "type": "string"
+    },
+    "cover_image": {
+      "type": "string"
+    },
+    "excerpt": {
+      "type": "string"
+    },
+    "related_collection": {
+      "type": "string"
+    },
+    "$schema": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "title",
+    "event_date"
+  ]
+}

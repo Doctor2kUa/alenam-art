@@ -1,0 +1,111 @@
+backend:
+  name: github
+  repo: Doctor2kUa/alenam-art
+  branch: feature/sveltia-cms-r2-migration
+
+# На финальном production PR изменить branch на main
+# или использовать editorial workflow
+
+media_folder: "public/uploads"
+public_folder: "/uploads"
+
+# Cloudflare R2 media storage (опционально, настраивается через UI)
+# media_libraries:
+#   cloudflare_r2:
+#     access_key_id: REPLACE_WITH_R2_ACCESS_KEY_ID
+#     bucket: REPLACE_WITH_R2_BUCKET
+#     account_id: REPLACE_WITH_CLOUDFLARE_ACCOUNT_ID
+#     public_url: https://media.alenam.art
+#     prefix: uploads/
+#     jurisdiction: default
+# Примечание: secret_access_key НЕ хранить в репозитории!
+# Пользователь вводит его в UI CMS при первом использовании.
+
+collections:
+  - name: "site_settings"
+    label: "Site Settings"
+    files:
+      - name: "site"
+        label: "Site Configuration"
+        file: "src/content/settings/site.json"
+        fields:
+          - { label: "Site Title", name: "site_title", widget: "string" }
+          - { label: "Site Description", name: "site_description", widget: "text" }
+          - { label: "Artist Name", name: "artist_name", widget: "string" }
+          - { label: "Email", name: "email", widget: "string" }
+          - { label: "Instagram URL", name: "instagram_url", widget: "string", required: false }
+          - { label: "Facebook URL", name: "facebook_url", widget: "string", required: false }
+          - { label: "Media Base URL", name: "media_base_url", widget: "string", default: "https://media.alenam.art" }
+
+  - name: "pages"
+    label: "Pages"
+    files:
+      - name: "home"
+        label: "Home Page"
+        file: "src/content/pages/home.json"
+        fields:
+          - { label: "Hero Title", name: "hero_title", widget: "string" }
+          - { label: "Hero Statement", name: "hero_statement", widget: "text" }
+          - { label: "Featured Collections", name: "featured_collections", widget: "list", required: false }
+      - name: "story"
+        label: "Story Page"
+        file: "src/content/pages/story.md"
+        fields:
+          - { label: "Title", name: "title", widget: "string" }
+          - { label: "Body", name: "body", widget: "markdown" }
+
+  - name: "collections"
+    label: "Art Collections"
+    folder: "src/content/collections"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "Slug", name: "slug", widget: "string" }
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Subtitle", name: "subtitle", widget: "string", required: false }
+      - { label: "Description", name: "description", widget: "text", required: false }
+      - { label: "Cover Image", name: "cover_image", widget: "image", required: false }
+      - { label: "Order", name: "order", widget: "number", default: 0 }
+      - { label: "Previous Collection Slug", name: "prev_slug", widget: "string", required: false }
+      - { label: "Next Collection Slug", name: "next_slug", widget: "string", required: false }
+      - { label: "CTA Text", name: "cta", widget: "string", required: false }
+      - { label: "Featured on Home", name: "featured_on_home", widget: "boolean", default: false }
+
+  - name: "artworks"
+    label: "Artworks"
+    folder: "src/content/artworks"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "Slug", name: "slug", widget: "string" }
+      - { label: "Name", name: "name", widget: "string" }
+      - { label: "Collection", name: "collection", widget: "relation", collection: "collections", value_field: "slug", search_fields: ["title"], display_fields: ["title"] }
+      - { label: "Technique", name: "technique", widget: "string" }
+      - { label: "Size", name: "size", widget: "string" }
+      - { label: "Year", name: "year", widget: "string" }
+      - { label: "Status", name: "status", widget: "select", options: ["Available", "Sold", "Private collection"], default: "Available" }
+      - { label: "Image", name: "image", widget: "image", required: false }
+      - { label: "Images", name: "images", widget: "list", field: { label: "Image", name: "image", widget: "image" }, required: false }
+      - { label: "Description", name: "description", widget: "text", required: false }
+      - { label: "Order", name: "order", widget: "number", default: 0 }
+      - { label: "Featured on Home", name: "featured_on_home", widget: "boolean", default: false }
+      - { label: "Featured Available", name: "featured_available", widget: "boolean", default: false }
+
+  - name: "events"
+    label: "Events"
+    folder: "src/content/events"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "Slug", name: "slug", widget: "string" }
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Event Date", name: "event_date", widget: "datetime" }
+      - { label: "Published Date", name: "published_date", widget: "datetime", required: false }
+      - { label: "City", name: "city", widget: "string", required: false }
+      - { label: "Country", name: "country", widget: "string", required: false }
+      - { label: "Venue", name: "venue", widget: "string", required: false }
+      - { label: "Cover Image", name: "cover_image", widget: "image", required: false }
+      - { label: "Gallery", name: "gallery", widget: "list", field: { label: "Image", name: "image", widget: "image" }, required: false }
+      - { label: "Excerpt", name: "excerpt", widget: "text", required: false }
+      - { label: "Related Collection", name: "related_collection", widget: "relation", collection: "collections", value_field: "slug", search_fields: ["title"], display_fields: ["title"], required: false }
+      - { label: "Body", name: "body", widget: "markdown", required: false }

@@ -65,7 +65,7 @@ def extract_available_works(filepath: str) -> list[dict]:
 
 
 def check_image_url(url: str) -> tuple[bool, str]:
-    """Проверяет что изображение доступно. Возвращает (ok, message)."""
+    """Проверяет что изображение доступно и корректно. Возвращает (ok, message)."""
     req = urllib.request.Request(url, headers={
         "User-Agent": "Mozilla/5.0 (Artwork Image Checker)",
         "Accept": "image/avif,image/*,*/*",
@@ -73,7 +73,17 @@ def check_image_url(url: str) -> tuple[bool, str]:
     try:
         resp = urllib.request.urlopen(req, timeout=15)
         size = len(resp.read())
-        return True, f"OK ({size:,} bytes)"
+        content_type = resp.headers.get("Content-Type", "unknown")
+        
+        # Проверяем MIME type
+        if "image" not in content_type and "octet-stream" not in content_type:
+            return False, f"Invalid Content-Type: {content_type} ({size:,} bytes)"
+        
+        # Проверяем минимальный размер (меньше 1KB — подозрительно)
+        if size < 1000:
+            return False, f"Too small: {size} bytes ({content_type})"
+        
+        return True, f"OK ({size:,} bytes, {content_type})"
     except urllib.error.HTTPError as e:
         return False, f"HTTP {e.code}: {e.reason}"
     except urllib.error.URLError as e:

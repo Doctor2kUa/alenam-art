@@ -1,102 +1,17 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+import { normalizeImageUrl } from '../../lib/media';
 
 const title = 'Exhibitions & Events — Alena Mart';
 const description = 'Upcoming and past exhibitions, art events, and presentations by Alena Martsyanava — from the first exhibition in 2013 to recent international shows.';
-const base = 'https://alenam.art/wp-content/uploads/';
 
-const events = [
-  {
-    slug: 'amazing-evening-amazing-place-amazing-people',
-    title: 'A presentation of the art collection "Confessions should be better planned"',
-    date: 'September 2025',
-    city: 'Prague',
-    venue: 'SANTE',
-    image: base + '2025/06/Screenshot_2025-09-27_13-00-03.png',
-    excerpt: 'A presentation of the "Confessions should be better planned" collection at SANTE Prague, supported by local partners and attended by the Prague art community.',
-  },
-  {
-    slug: 'a-presentation-of-the-art-collection-confessions-should-be-better-planned-by-alena-martsyanava',
-    title: 'A presentation of the art collection "Confessions Should Be Better Planned"',
-    date: 'May 2025',
-    city: 'Prague',
-    venue: 'SANTE',
-    image: base + '2025/05/alena.avif',
-    excerpt: 'A presentation of the art collection "Confessions Should Be Better Planned" by Alena Martsyanava at SANTE Prague.',
-  },
-  {
-    slug: 'confessions-should-be-better-planned-1-0-in-warsaw',
-    title: 'Confessions should be better planned 1.0',
-    date: 'February 2025',
-    city: 'Warsaw',
-    venue: 'ALAR art-beauty shop',
-    image: base + '2025/03/photo_5334917533247075316_y-1.avif',
-    excerpt: 'The first expo of the "Confessions should be better planned" collection at ALAR art-beauty shop in Warsaw, featuring 8 works from the series.',
-  },
-  {
-    slug: 'taking-part-in-contro-la-violenza-sulle-donne-expo',
-    title: '"Contro la Violenza sulle Donne" expo',
-    date: 'January 2025',
-    city: 'Italy',
-    image: base + '2025/01/photo_5458821030429715645_x.avif',
-    excerpt: 'Participation in an exhibition raising awareness about domestic violence towards women in Italy. The artwork "Oops I spilt the paint" was featured in the collection.',
-  },
-  {
-    slug: 'auction-in-wroclaw-poland',
-    title: 'Auction',
-    date: 'January 2025',
-    city: 'Wroclaw',
-    country: 'Poland',
-    venue: 'Students Artworks Foundation',
-    image: base + '2025/01/photo_5458821030429715635_y.avif',
-    excerpt: 'An artwork in the Grattage technique was sold at auction organized by Students Artworks Foundation in Wroclaw, Poland.',
-  },
-  {
-    slug: 'interpretation-of-moments-boys-vs-girls',
-    title: 'Interpretation of moments: boys vs girls',
-    date: 'December 2019',
-    city: 'Minsk',
-    venue: 'Beetlejuice cafe',
-    image: base + '2025/01/photo_5458821030429715607_y.avif',
-    excerpt: 'A joint exhibition with rock musician Eugene Buzouski at the iconic Beetlejuice cafe in Minsk, lasting over 2 months.',
-  },
-  {
-    slug: 'the-dream-on-expo',
-    title: 'The "Dream on" Expo',
-    date: 'October 2019',
-    city: 'Minsk',
-    image: base + '2025/01/photo_5458821030429715600_y.avif',
-    excerpt: 'An exhibition featuring emerging young talent Anna Trusevich from Minsk, presented alongside Alena\'s works.',
-  },
-  {
-    slug: 'the-35-expo',
-    title: 'The "35" Expo',
-    date: 'April 2018',
-    city: 'Minsk',
-    image: base + '2025/01/photo_5458821030429715571_y.avif',
-    excerpt: 'An anniversary exhibition dedicated to Alena\'s 35th birthday, featuring exactly 35 artworks and a live performance by Stary Olsa band.',
-  },
-  {
-    slug: 'сhaotic-still-life',
-    title: 'Chaotic still-life',
-    date: 'Autumn 2014',
-    city: 'Minsk',
-    image: base + '2025/01/photo_5458821030429715563_x.avif',
-    excerpt: 'An exhibition of approximately 25 works in various techniques, from oil painting to sketches and Grattage.',
-  },
-  {
-    slug: 'first-expo',
-    title: 'First Expo',
-    date: '2013',
-    city: 'Minsk',
-    image: base + '2025/01/IMG_5665.avif',
-    excerpt: 'Alena\'s debut exhibition featuring 30 artworks, with a live rock band performance at the opening. The exhibition ran for 30 days and attracted over 1,000 visitors.',
-  },
-];
+// Load events
+const allEvents = await getCollection('events');
+const events = allEvents.sort((a, b) => new Date(b.data.event_date).getTime() - new Date(a.data.event_date).getTime());
 ---
 
 <BaseLayout title={title} description={description}>
-  <!-- Hero -->
   <section class="pt-24 pb-12 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto">
     <h1 class="text-4xl md:text-6xl font-display mb-6">{title}</h1>
     <p class="text-lg text-secondary leading-relaxed">
@@ -104,38 +19,43 @@ const events = [
     </p>
   </section>
 
-  <!-- Events List -->
   <section class="px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto pb-20">
     <ul class="space-y-0">
       {events.map((event) => (
         <li class="py-10 border-b border-gray-200 last:border-b-0">
-          <figure class="mb-5">
-            <img
-              src={event.image}
-              alt={event.title}
-              class="w-full h-auto rounded-sm"
-              loading="lazy"
-            />
-          </figure>
+          {event.data.cover_image && (
+            <figure class="mb-5">
+              <img
+                src={normalizeImageUrl(event.data.cover_image)}
+                alt={event.data.title}
+                class="w-full h-auto rounded-sm"
+                loading="lazy"
+              />
+            </figure>
+          )}
           <div class="flex flex-wrap items-center gap-x-3 gap-y-1 mb-3">
-            <time class="text-xs text-gray-400 uppercase tracking-wider">{event.date}</time>
-            {event.city && (
+            <time class="text-xs text-gray-400 uppercase tracking-wider">
+              {new Date(event.data.event_date).toLocaleDateString('en-US', { year: 'numeric', month: 'long' })}
+            </time>
+            {event.data.city && (
               <>
                 <span class="text-xs text-gray-300">·</span>
-                <span class="text-xs text-secondary">{event.city}</span>
+                <span class="text-xs text-secondary">{event.data.city}</span>
               </>
             )}
-            {event.venue && (
+            {event.data.venue && (
               <>
                 <span class="text-xs text-gray-300">·</span>
-                <span class="text-xs text-secondary">{event.venue}</span>
+                <span class="text-xs text-secondary">{event.data.venue}</span>
               </>
             )}
           </div>
           <h2 class="text-2xl md:text-3xl font-display mb-4 leading-tight">
-            {event.title}
+            {event.data.title}
           </h2>
-          <p class="text-secondary leading-relaxed">{event.excerpt}</p>
+          {event.data.excerpt && (
+            <p class="text-secondary leading-relaxed">{event.data.excerpt}</p>
+          )}
           <a href={`/blog/${event.slug}/`} class="inline-block mt-4 text-sm font-medium text-accent hover:text-accent/80 transition-colors">
             View event →
           </a>

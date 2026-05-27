@@ -1,24 +1,19 @@
 ---
 import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+import { normalizeImageUrl } from '../../../lib/media';
 
 const title = 'Available Works — Alena Mart';
 const description = 'Original artworks currently available for purchase by Alena Martsyanava. Browse available paintings and send a request for pricing and shipping details.';
-const base = 'https://alenam.art/wp-content/uploads/';
 
-const availableWorks = [
-  { name: 'April in Minsk', technique: 'Oil on canvas', size: '60×60 cm', year: 'May 2013', collection: 'Big City Life', collectionSlug: 'big-city-life', type: 'painting', format: 'small', image: base + '2025/01/IMG_5829.avif' },
-  { name: 'Madam Tussauds in NY', technique: 'Oil on canvas', size: '50×70 cm', year: 'April 2013', collection: 'Big City Life', collectionSlug: 'big-city-life', type: 'painting', format: 'small', image: base + '2025/02/1.avif' },
-  { name: 'Little pleasure I', technique: 'Pastel, paper', size: 'A4', year: '2021', collection: 'Little Pleasures', collectionSlug: 'little-pleasures', type: 'drawing', format: 'small', image: base + '2025/01/IMG_5795.avif' },
-  { name: 'Gone', technique: 'Acrylic on canvas', size: '40×60 cm', year: 'February 2022', collection: 'Confessions should be better planned', collectionSlug: 'confessions-should-be-better-planned', type: 'painting', format: 'small', image: base + '2025/01/IMG_5567-scaled.avif' },
-  { name: 'The tune', technique: 'Acrylic on canvas', size: '50×70 cm', year: '2022', collection: 'Confessions should be better planned', collectionSlug: 'confessions-should-be-better-planned', type: 'painting', format: 'small', image: base + '2025/01/IMG_5552-scaled.avif' },
-  { name: 'Disconnect', technique: 'Acrylic on canvas', size: '50×70 cm', year: 'March 2024', collection: 'Confessions should be better planned', collectionSlug: 'confessions-should-be-better-planned', type: 'painting', format: 'small', image: base + '2025/01/IMG_5560-scaled.avif' },
-  { name: 'Apple', technique: 'Acrylic on canvas', size: '100×70 cm', year: 'May 2022', collection: 'Confessions should be better planned', collectionSlug: 'confessions-should-be-better-planned', type: 'painting', format: 'large', image: base + '2025/01/IMG_5556-scaled.avif' },
-  { name: 'Angie', technique: 'Acrylic on canvas', size: '120×120 cm', year: 'April 2022', collection: 'Confessions should be better planned', collectionSlug: 'confessions-should-be-better-planned', type: 'painting', format: 'large', image: base + '2025/01/IMG_5562-scaled.avif' },
-  { name: 'Time to rest', technique: 'Acrylic on canvas', size: '100×70 cm', year: 'January 2024', collection: 'Confessions should be better planned', collectionSlug: 'confessions-should-be-better-planned', type: 'painting', format: 'large', image: base + '2024/11/Untitled-1.avif' },
-  { name: 'What have I done?', technique: 'Acrylic on canvas', size: '70×100 cm', year: 'January 2025', collection: 'Confessions should be better planned', collectionSlug: 'confessions-should-be-better-planned', type: 'painting', format: 'large', image: base + '2025/02/5330074966210769581.avif' },
-  { name: 'Flora I', technique: 'Oil on canvas', size: '50×70 cm', year: '2022', collection: 'Flora', collectionSlug: 'flora', type: 'painting', format: 'small', image: base + '2025/02/5332760235598803087.avif' },
-  { name: 'Flora VIII', technique: 'Oil on canvas', size: '50×70 cm', year: '2022', collection: 'Flora', collectionSlug: 'flora', type: 'painting', format: 'small', image: base + '2025/02/5330510415765039716.avif' },
-];
+// Load only available works
+const allArtworks = await getCollection('artworks');
+const availableWorks = allArtworks
+  .filter(a => a.data.status === 'Available')
+  .sort((a, b) => (a.data.order || 0) - (b.data.order || 0));
+
+// Get unique collections for filter
+const collections = [...new Set(availableWorks.map(a => a.data.collection))];
 ---
 
 <BaseLayout title={title} description={description}>
@@ -36,10 +31,9 @@ const availableWorks = [
     <!-- Filters -->
     <div class="flex flex-wrap gap-2 mb-8 available-filters">
       <button class="filter-btn active px-3 py-1 text-xs uppercase tracking-wider bg-primary text-white rounded-sm" data-filter="all" data-group="collection">All collections</button>
-      <button class="filter-btn px-3 py-1 text-xs uppercase tracking-wider bg-gray-100 text-secondary hover:bg-gray-200 rounded-sm transition-colors" data-filter="big-city-life" data-group="collection">Big City Life</button>
-      <button class="filter-btn px-3 py-1 text-xs uppercase tracking-wider bg-gray-100 text-secondary hover:bg-gray-200 rounded-sm transition-colors" data-filter="little-pleasures" data-group="collection">Little Pleasures</button>
-      <button class="filter-btn px-3 py-1 text-xs uppercase tracking-wider bg-gray-100 text-secondary hover:bg-gray-200 rounded-sm transition-colors" data-filter="confessions-should-be-better-planned" data-group="collection">Confessions</button>
-      <button class="filter-btn px-3 py-1 text-xs uppercase tracking-wider bg-gray-100 text-secondary hover:bg-gray-200 rounded-sm transition-colors" data-filter="flora" data-group="collection">Flora</button>
+      {collections.map((coll) => (
+        <button class="filter-btn px-3 py-1 text-xs uppercase tracking-wider bg-gray-100 text-secondary hover:bg-gray-200 rounded-sm transition-colors" data-filter={coll} data-group="collection">{coll}</button>
+      ))}
     </div>
 
     <!-- Empty state -->
@@ -50,22 +44,22 @@ const availableWorks = [
     <!-- Grid -->
     <div class="grid artwork-grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
       {availableWorks.map((work) => (
-        <div class="group available-card" data-collection={work.collectionSlug}>
+        <div class="group available-card" data-collection={work.data.collection}>
           <figure class="m-0 mb-3">
             <img
-              src={work.image}
-              alt={`${work.name}, ${work.technique} by Alena Mart from the ${work.collection} collection`}
+              src={normalizeImageUrl(work.data.image || '')}
+              alt={work.data.name}
               class="w-full h-auto rounded-sm group-hover:opacity-90 transition-opacity"
               loading="lazy"
             />
           </figure>
-          <h3 class="font-display text-base mb-1">{work.name}</h3>
-          <p class="text-xs text-secondary">{work.technique} · {work.size} · {work.year}</p>
+          <h3 class="font-display text-base mb-1">{work.data.name}</h3>
+          <p class="text-xs text-secondary">{work.data.technique} · {work.data.size} · {work.data.year}</p>
           <p class="text-xs text-secondary mt-1">
-            <a href={`/art/${work.collectionSlug}/`} class="hover:text-accent transition-colors">{work.collection}</a>
+            <a href={`/art/${work.data.collection}/`} class="hover:text-accent transition-colors">{work.data.collection}</a>
           </p>
           <p class="mt-2 text-xs font-medium text-accent">Available</p>
-          <a href={`/contact/?interest=buy&artwork=${encodeURIComponent(work.name)}&collection=${encodeURIComponent(work.collection)}`} class="block mt-3 text-xs font-medium text-accent hover:text-accent/80">
+          <a href={`/contact/?interest=buy&artwork=${encodeURIComponent(work.data.name)}&collection=${encodeURIComponent(work.data.collection)}`} class="block mt-3 text-xs font-medium text-accent hover:text-accent/80">
             Request price →
           </a>
         </div>
@@ -82,16 +76,16 @@ const availableWorks = [
 
   <script>
     (function() {
-      var activeFilter = 'all';
+      var filters = { collection: 'all' };
       var cards = document.querySelectorAll('.available-card');
       var emptyMsg = document.getElementById('available-empty');
       var buttons = document.querySelectorAll('.available-filters .filter-btn');
 
-      function applyFilter(filter) {
-        activeFilter = filter;
+      function applyFilters() {
         var visible = 0;
         cards.forEach(function(card) {
-          if (filter === 'all' || card.getAttribute('data-collection') === filter) {
+          var matchCollection = filters.collection === 'all' || card.getAttribute('data-collection') === filters.collection;
+          if (matchCollection) {
             card.style.display = '';
             visible++;
           } else {
@@ -106,19 +100,22 @@ const availableWorks = [
       buttons.forEach(function(btn) {
         btn.addEventListener('click', function(e) {
           e.preventDefault();
+          var group = btn.getAttribute('data-group');
           var filter = btn.getAttribute('data-filter');
+
           buttons.forEach(function(b) {
-            b.classList.remove('bg-primary', 'text-white');
-            b.classList.add('bg-gray-100', 'text-secondary');
+            if (b.getAttribute('data-group') === group) {
+              b.classList.remove('bg-primary', 'text-white');
+              b.classList.add('bg-gray-100', 'text-secondary');
+            }
           });
           btn.classList.remove('bg-gray-100', 'text-secondary');
           btn.classList.add('bg-primary', 'text-white');
-          applyFilter(filter);
+
+          filters[group] = filter;
+          applyFilters();
         });
       });
-
-      // Initialize
-      applyFilter('all');
     })();
   </script>
 </BaseLayout>

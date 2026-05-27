@@ -1,167 +1,185 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { getCollection, getEntry } from 'astro:content';
+import { normalizeImageUrl } from '../lib/media';
 
-const title = 'Alena Mart — Contemporary Artist';
-const description = 'Alena Martsyanava — contemporary artist exploring memory, trauma, tenderness and distorted reality. View collections, available works and exhibitions.';
-const base = 'https://alenam.art/wp-content/uploads/';
+// Load site settings
+const siteSettings = await getEntry('settings', 'site');
+const siteTitle = siteSettings?.data?.site_title || 'Alena Mart — Contemporary Artist';
+const siteDescription = siteSettings?.data?.site_description || '';
+
+// Load home page content
+const homePage = await getEntry('pages', 'home');
+const heroTitle = homePage?.data?.hero_title || 'ART NEVER COMES FROM HAPPINESS';
+const heroStatement = homePage?.data?.hero_statement || '';
+
+// Load collections for display
+const allCollections = await getCollection('art_collections');
+const featuredCollections = allCollections
+  .filter(c => c.data.featured_on_home)
+  .sort((a, b) => (a.data.order || 0) - (b.data.order || 0));
+
+// Load available works for preview
+const allArtworks = await getCollection('artworks');
+const availableWorks = allArtworks
+  .filter(a => a.data.status === 'Available')
+  .slice(0, 6);
+
+// Load upcoming events
+const events = await getCollection('events');
+const upcomingEvents = events
+  .sort((a, b) => new Date(a.data.event_date).getTime() - new Date(b.data.event_date).getTime())
+  .slice(0, 3);
 ---
 
-<BaseLayout title={title} description={description}>
-    <!-- Hero Cover -->
+<BaseLayout title={siteTitle} description={siteDescription}>
+  <!-- Hero Cover -->
   <section class="relative h-[80vh] min-h-[500px] flex items-center justify-center overflow-hidden bg-[#3d3636]">
     <img
-      src={base + "2024/12/alena-mart-1.avif"}
+      src={normalizeImageUrl(siteSettings?.data?.og_image || 'uploads/2024/12/alena-mart-1.avif')}
       alt=""
       class="absolute inset-0 w-full h-full object-cover object-position-bottom opacity-60"
     />
     <div class="relative z-10 text-center max-w-4xl mx-auto px-4">
-      <p class="text-white/70 text-sm uppercase tracking-widest mb-4">Alena Mart</p>
+      <p class="text-white/70 text-sm uppercase tracking-widest mb-4">{siteSettings?.data?.artist_name || 'Alena Mart'}</p>
       <h1 class="text-4xl md:text-6xl lg:text-7xl font-display text-white mb-6">
-        ART NEVER COMES FROM HAPPINESS
+        {heroTitle}
       </h1>
-      <p class="text-white/80 text-lg md:text-xl mb-8 max-w-2xl mx-auto">
-        Contemporary artist exploring memory, trauma, tenderness and distorted reality.
-      </p>
-      <div class="flex flex-col sm:flex-row flex-wrap justify-center gap-4">
+      {heroStatement && (
+        <p class="text-lg md:text-xl text-white/80 max-w-2xl mx-auto leading-relaxed mb-8">
+          {heroStatement}
+        </p>
+      )}
+      <div class="flex flex-col sm:flex-row justify-center gap-4">
         <a href="/art/" class="inline-block bg-white text-primary px-8 py-3 text-sm uppercase tracking-wider font-medium hover:bg-white/90 transition-colors">
           View Collections
         </a>
-        <a href="/art/available/" class="inline-block border-2 border-white text-white px-8 py-3 text-sm uppercase tracking-wider font-medium hover:bg-white/10 transition-colors">
+        <a href="/art/available/" class="inline-block border border-white text-white px-8 py-3 text-sm uppercase tracking-wider font-medium hover:bg-white/10 transition-colors">
           Available Works
         </a>
-        <a href="/contact/" class="inline-block border border-white/50 text-white/90 px-8 py-3 text-sm uppercase tracking-wider font-medium hover:bg-white/10 transition-colors">
+        <a href="/contact/" class="inline-block border border-white text-white px-8 py-3 text-sm uppercase tracking-wider font-medium hover:bg-white/10 transition-colors">
           Contact the Artist
         </a>
       </div>
     </div>
   </section>
 
-  <!-- MY ART section -->
-  <section class="py-16">
-    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-      <h2 class="text-sm uppercase tracking-[0.3em] text-secondary mb-4">My Art</h2>
-      <h3 class="text-2xl md:text-3xl font-display leading-relaxed mb-4">
-        Art is the magic glue that is capable of sticking a broken heart back together and filling it with hope and love
-      </h3>
-      <p class="text-secondary leading-relaxed max-w-2xl mx-auto">
-        Alena's work turns emotional tension, memories and fragile moments into expressive visual stories.
-      </p>
-    </div>
+  <!-- MY ART section with images -->
+  <section class="py-20 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto">
+    <h2 class="text-sm uppercase tracking-[0.3em] text-center text-secondary mb-4">My Art</h2>
+    <p class="text-xl md:text-2xl text-center max-w-3xl mx-auto mb-12 leading-relaxed">
+      Art is the magic glue that is capable of sticking a broken heart back together and filling it with hope and love
+    </p>
 
-    <!-- Art images grid -->
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 mt-12">
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-        <img src={base + "2024/12/4.avif"} alt="Alena artwork" class="w-full h-auto rounded-sm" loading="lazy" />
-        <img src={base + "2024/12/3.avif"} alt="Alena artwork" class="w-full h-auto rounded-sm" loading="lazy" />
-      </div>
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <img src={base + "2024/12/tramvai-alena.avif"} alt="Alena artwork" class="w-full h-auto rounded-sm" loading="lazy" />
-        <img src={base + "2024/12/photo_5262762490696168254_y-1.avif"} alt="Alena artwork" class="w-full h-auto rounded-sm" loading="lazy" />
-      </div>
+    <!-- 2x2 Grid of images -->
+    <div class="grid grid-cols-2 gap-4 mb-8">
+      <img src={normalizeImageUrl('uploads/2024/12/4.avif')} alt="Abstract painting by Alena Mart" class="w-full h-auto rounded-sm" loading="lazy" />
+      <img src={normalizeImageUrl('uploads/2024/12/3.avif')} alt="Abstract painting by Alena Mart" class="w-full h-auto rounded-sm" loading="lazy" />
+      <img src={normalizeImageUrl('uploads/2024/12/tramvai-alena.avif')} alt="City tram painting by Alena Mart" class="w-full h-auto rounded-sm" loading="lazy" />
+      <img src={normalizeImageUrl('uploads/2024/12/photo_5262762490696168254_y-1.avif')} alt="Art exhibition by Alena Mart" class="w-full h-auto rounded-sm" loading="lazy" />
     </div>
   </section>
 
   <hr class="border-gray-200 max-w-4xl mx-auto" />
 
   <!-- COLLECTIONS section -->
-  <section class="py-16">
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-      <h2 class="text-sm uppercase tracking-[0.3em] text-secondary mb-8 text-center">Collections</h2>
-
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-        <div>
-          <a href="/art/big-city-life/" class="block">
-            <img src={base + "2025/01/tramvai-alena.avif"} alt="Big City Life" class="w-full h-auto rounded-sm mb-4" loading="lazy" />
-          </a>
-          <h3 class="font-display text-lg text-center mb-2">
-            <a href="/art/big-city-life/" class="hover:text-accent transition-colors">Big City Life</a>
-          </h3>
-          <p class="text-sm text-secondary text-center">Cities, memories and emotional landscapes.</p>
-        </div>
-
-        <div>
-          <a href="/art/bits-and-pieces/" class="block">
-            <img src={base + "2025/01/IMG_5841.avif"} alt="Bits and Pieces" class="w-full h-auto rounded-sm mb-4" loading="lazy" />
-          </a>
-          <h3 class="font-display text-lg text-center mb-2">
-            <a href="/art/bits-and-pieces/" class="hover:text-accent transition-colors">Bits and Pieces</a>
-          </h3>
-          <p class="text-sm text-secondary text-center">Small details, grand impressions, emotional traces.</p>
-        </div>
-
-        <div>
-          <a href="/art/little-pleasures/" class="block">
-            <img src={base + "2025/01/IMG_5801.avif"} alt="Little Pleasures" class="w-full h-auto rounded-sm mb-4" loading="lazy" />
-          </a>
-          <h3 class="font-display text-lg text-center mb-2">
-            <a href="/art/little-pleasures/" class="hover:text-accent transition-colors">Little Pleasures</a>
-          </h3>
-          <p class="text-sm text-secondary text-center">Everyday objects turned into quiet joy.</p>
-        </div>
-      </div>
-
-      <div class="text-center mt-8">
-        <a href="/art/" class="inline-block text-sm font-medium uppercase tracking-wider hover:text-accent transition-colors border-b border-current pb-0.5">
-          View All Collections
+  <section class="py-16 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto">
+    <h2 class="text-sm uppercase tracking-[0.3em] text-center text-secondary mb-10">Collections</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      {featuredCollections.map((col) => (
+        <a href={`/art/${col.data.slug}/`} class="group">
+          <img
+            src={normalizeImageUrl(col.data.cover_image || '')}
+            alt={col.data.title}
+            class="w-full h-auto rounded-sm mb-4 group-hover:opacity-90 transition-opacity"
+            loading="lazy"
+          />
+          <h3 class="font-display text-lg">{col.data.title}</h3>
         </a>
-      </div>
+      ))}
+    </div>
+    <div class="text-center mt-10">
+      <a href="/art/" class="inline-block border border-primary text-primary px-8 py-3 text-sm uppercase tracking-wider font-medium hover:bg-primary hover:text-white transition-colors">
+        View All Collections
+      </a>
     </div>
   </section>
 
   <hr class="border-gray-200 max-w-4xl mx-auto" />
 
   <!-- AVAILABLE WORKS section -->
-  <section class="py-16 bg-light">
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-      <h2 class="text-sm uppercase tracking-[0.3em] text-secondary mb-4 text-center">Available Works</h2>
-      <p class="text-center text-secondary mb-8 max-w-2xl mx-auto">Selected artworks currently available for purchase.</p>
-
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-        <div>
-      <img src={base + "2025/01/IMG_5567-669x1024.avif"} alt="Gone" class="w-full h-auto rounded-sm mb-4" loading="lazy" />
-      <h3 class="font-display text-lg mb-1">Gone</h3>
-      <p class="text-sm text-secondary">Acrylic on canvas · 40×60 cm · 2022</p>
-      <p class="text-sm text-accent font-medium mt-1">Available</p>
-    </div>
-    <div>
-      <img src={base + "2025/01/IMG_5560-1012x1024.avif"} alt="Disconnect" class="w-full h-auto rounded-sm mb-4" loading="lazy" />
-      <h3 class="font-display text-lg mb-1">Disconnect</h3>
-      <p class="text-sm text-secondary">Acrylic on canvas · 50×70 cm · 2024</p>
-      <p class="text-sm text-accent font-medium mt-1">Available</p>
-    </div>
-    <div>
-      <img src={base + "2025/01/IMG_5556-786x1024.avif"} alt="Apple" class="w-full h-auto rounded-sm mb-4" loading="lazy" />
-      <h3 class="font-display text-lg mb-1">Apple</h3>
-      <p class="text-sm text-secondary">Acrylic on canvas · 100×70 cm · 2022</p>
-      <p class="text-sm text-accent font-medium mt-1">Available</p>
-        </div>
-      </div>
-
-      <div class="text-center mt-8">
-        <a href="/art/available/" class="inline-block text-sm font-medium uppercase tracking-wider hover:text-accent transition-colors border-b border-current pb-0.5">
-          View All Available Works
+  <section class="py-16 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto">
+    <h2 class="text-sm uppercase tracking-[0.3em] text-center text-secondary mb-10">Available Works</h2>
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+      {availableWorks.map((work) => (
+        <a href={`/art/${work.data.collection}/${work.data.slug}/`} class="group">
+          <figure class="m-0 mb-3">
+            <img
+              src={normalizeImageUrl(work.data.image || '')}
+              alt={work.data.name}
+              class="w-full h-auto rounded-sm group-hover:opacity-90 transition-opacity"
+              loading="lazy"
+            />
+          </figure>
+          <h3 class="font-display text-base mb-1">{work.data.name}</h3>
+          <p class="text-xs text-secondary">{work.data.technique} · {work.data.size} · {work.data.year}</p>
         </a>
-      </div>
+      ))}
+    </div>
+    <div class="text-center mt-10">
+      <a href="/art/available/" class="inline-block border border-primary text-primary px-8 py-3 text-sm uppercase tracking-wider font-medium hover:bg-primary hover:text-white transition-colors">
+        View All Available Works
+      </a>
     </div>
   </section>
 
   <hr class="border-gray-200 max-w-4xl mx-auto" />
 
-  <!-- Exhibitions & Events -->
-  <section class="py-16 text-center">
-    <h2 class="text-sm uppercase tracking-[0.3em] text-secondary mb-4">Exhibitions & Events</h2>
-    <p class="text-secondary mb-6 max-w-2xl mx-auto">Recent presentations, auctions and exhibitions.</p>
-    <a href="/blog/" class="font-display text-xl hover:text-accent transition-colors">View Exhibitions</a>
-  </section>
+  <!-- EXHIBITIONS & EVENTS section -->
+  {upcomingEvents.length > 0 && (
+    <section class="py-16 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto">
+      <h2 class="text-sm uppercase tracking-[0.3em] text-center text-secondary mb-10">Exhibitions & Events</h2>
+      <div class="space-y-8">
+        {upcomingEvents.map((event) => (
+          <div class="border-b border-gray-200 pb-8 last:border-b-0">
+            <div class="flex flex-wrap items-center gap-x-3 gap-y-1 mb-3">
+              <time class="text-xs text-gray-400 uppercase tracking-wider">
+                {new Date(event.data.event_date).toLocaleDateString('en-US', { year: 'numeric', month: 'long' })}
+              </time>
+              {event.data.city && (
+                <>
+                  <span class="text-xs text-gray-300">·</span>
+                  <span class="text-xs text-secondary">{event.data.city}</span>
+                </>
+              )}
+              {event.data.venue && (
+                <>
+                  <span class="text-xs text-gray-300">·</span>
+                  <span class="text-xs text-secondary">{event.data.venue}</span>
+                </>
+              )}
+            </div>
+            <h3 class="font-display text-xl mb-2">{event.data.title}</h3>
+            {event.data.excerpt && (
+              <p className="text-sm text-secondary">{event.data.excerpt}</p>
+            )}
+          </div>
+        ))}
+      </div>
+      <div class="text-center mt-10">
+        <a href="/blog/" class="inline-block text-sm font-medium text-accent hover:text-accent/80 transition-colors">
+          View Exhibitions →
+        </a>
+      </div>
+    </section>
+  )}
 
-  <!-- Final CTA -->
-  <section class="py-20 bg-primary text-white text-center">
+  <!-- CTA -->
+  <section class="py-16 bg-light text-center">
     <div class="max-w-3xl mx-auto px-4">
-      <h2 class="text-3xl md:text-4xl font-display mb-6">Interested in a work?</h2>
-      <p class="text-white/70 text-lg mb-8">
-        If you wish to buy Alena's works, order a replica, or discuss a collaboration, please get in touch.
-      </p>
-      <a href="/contact/" class="inline-block bg-white text-primary px-8 py-3 text-sm uppercase tracking-wider font-medium hover:bg-white/90 transition-colors">
+      <h2 class="text-2xl md:text-3xl font-display mb-4">Interested in a work?</h2>
+      <p class="text-secondary mb-6">If you wish to buy Alena's works or invite her to an exhibition, please get in touch.</p>
+      <a href="/contact/" class="inline-block bg-primary text-white px-8 py-3 text-sm uppercase tracking-wider font-medium hover:bg-primary/90 transition-colors">
         Contact the Artist
       </a>
     </div>

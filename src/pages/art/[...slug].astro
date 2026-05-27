@@ -1,179 +1,54 @@
 ---
-import BaseLayout from '../../layouts/BaseLayout.astro';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { getCollection, getEntries } from 'astro:content';
+import { normalizeImageUrl } from '../../../lib/media';
 
-export function getStaticPaths() {
-  return [
-    'big-city-life', 'bits-and-pieces', 'little-pleasures', 'at-the-seaside',
-    'mind-games', 'confessions-should-be-better-planned', 'flora'
-  ].map(slug => ({ params: { slug } }));
+export async function getStaticPaths() {
+  const collections = await getCollection('art_collections');
+  return collections.map((col) => ({
+    params: { slug: col.data.slug },
+    props: { collection: col },
+  }));
 }
 
-const { slug } = Astro.params;
+const { collection } = Astro.props;
+const slug = collection.data.slug;
+const title = collection.data.title;
+const subtitle = collection.data.subtitle || '';
+const description = collection.data.description || '';
+const cta = collection.data.cta || '';
 
-const base = 'https://alenam.art/wp-content/uploads/';
+// Load artworks for this collection
+const allArtworks = await getCollection('artworks');
+const artworks = allArtworks
+  .filter(a => a.data.collection === slug)
+  .sort((a, b) => (a.data.order || 0) - (b.data.order || 0));
 
-const collections = {
-  'big-city-life': {
-    title: 'Big City Life',
-    subtitle: 'Cities as chapters of a life lived fully.',
-    description: 'A tribute to the places that shaped Alena\'s journey — real, remembered, imagined and loved. Each image captures a fleeting moment, a memory etched into the soul.',
-    cta: 'Interested in a city-inspired work?',
-    prevSlug: null, prevTitle: null,
-    nextSlug: 'bits-and-pieces', nextTitle: 'Bits and Pieces',
-    artworks: [
-      { slug: 'the-tram', name: 'The Tram', technique: 'Oil on canvas', size: '90×60 cm', year: 'August 2013', status: 'Private collection', image: base + '2025/02/tram.avif' },
-      { slug: 'lisbon-tram', name: 'Lisbon Tram', technique: 'Oil on canvas', size: '50×70 cm', year: '2013', status: 'Sold', image: base + '2025/01/IMG_5826.avif' },
-      { slug: 'train-in-the-rain', name: 'Train in the rain', technique: 'Oil on canvas', size: '40×60 cm', year: 'July 2016', status: 'Sold', image: base + '2025/01/IMG_5827.avif' },
-      { slug: 'magnetic-times-square', name: 'Magnetic Times Square', technique: 'Oil on canvas', size: '75×100 cm', year: 'November 2013', status: 'Private collection', image: base + '2025/01/IMG_5828.avif' },
-      { slug: 'april-in-minsk', name: 'April in Minsk', technique: 'Oil on canvas', size: '60×60 cm', year: 'May 2013', status: 'Available', image: base + '2025/01/IMG_5829.avif', cta: 'Request price' },
-      { slug: 'rainy-eiffel', name: 'Rainy Eiffel', technique: 'Oil on canvas', size: '50×60 cm', year: 'November 2013', status: 'Private collection', image: base + '2025/01/IMG_5830.avif' },
-      { slug: 'rainy-eiffel-ii', name: 'Rainy Eiffel II', technique: 'Oil on canvas', size: '50×60 cm', year: 'November 2013', status: 'Sold', image: base + '2025/01/IMG_5831.avif' },
-      { slug: 'basils', name: 'Basils', technique: 'Oil on canvas', size: '60×60 cm', year: 'September 2013', status: 'Sold', image: base + '2025/01/IMG_5833.avif' },
-      { slug: 'madam-tussauds-in-ny', name: 'Madam Tussauds in NY', technique: 'Oil on canvas', size: '50×70 cm', year: 'April 2013', status: 'Available', image: base + '2025/02/1.avif', cta: 'Request price' },
-      { slug: 'waiting-for-the-miracle', name: 'Waiting for the miracle', technique: 'Oil on canvas', size: '60×80 cm', year: 'December 2017', status: 'Private collection', image: base + '2025/02/2.avif' },
-      { slug: 'the-city-of-love', name: 'The city of love', technique: 'Oil on canvas', size: '100×70 cm', year: '2014', status: 'Private collection', image: base + '2025/02/5330074966210769603.avif' },
-    ],
-  },
-  'bits-and-pieces': {
-    title: 'Bits and Pieces',
-    subtitle: 'Small details. Grand impressions. Emotional traces.',
-    description: 'A collection about sensory memory, nostalgia and the quiet beauty hidden in ordinary things.',
-    cta: 'Looking for a quiet emotional piece?',
-    prevSlug: 'big-city-life', prevTitle: 'Big City Life',
-    nextSlug: 'little-pleasures', nextTitle: 'Little Pleasures',
-    artworks: [
-      { slug: 'bits-and-pieces-i', name: 'Bits and pieces I', technique: 'Mixed media', size: 'A3', year: '2021', status: 'Private collection', image: base + '2025/01/IMG_5836.avif' },
-      { slug: 'bits-and-pieces-ii', name: 'Bits and pieces II', technique: 'Mixed media', size: 'A3', year: '2021', status: 'Private collection', image: base + '2025/01/IMG_5837.avif' },
-      { slug: 'bits-and-pieces-iii', name: 'Bits and pieces III', technique: 'Mixed media', size: 'A3', year: '2021', status: 'Private collection', image: base + '2025/01/IMG_5839.avif' },
-      { slug: 'bits-and-pieces-iv', name: 'Bits and pieces IV', technique: 'Mixed media', size: 'A3', year: '2021', status: 'Private collection', image: base + '2025/01/IMG_5840.avif' },
-      { slug: 'bits-and-pieces-v', name: 'Bits and pieces V', technique: 'Mixed media', size: 'A3', year: '2021', status: 'Private collection', image: base + '2025/01/IMG_5841.avif' },
-      { slug: 'bits-and-pieces-vi', name: 'Bits and pieces VI', technique: 'Mixed media', size: 'A3', year: '2021', status: 'Private collection', image: base + '2025/01/IMG_5842.avif' },
-      { slug: 'bits-and-pieces-vii', name: 'Bits and pieces VII', technique: 'Mixed media', size: 'A3', year: '2021', status: 'Private collection', image: base + '2025/01/IMG_5843.avif' },
-      { slug: 'bits-and-pieces-viii', name: 'Bits and pieces VIII', technique: 'Mixed media', size: 'A3', year: '2021', status: 'Private collection', image: base + '2025/01/IMG_5844.avif' },
-      { slug: 'bits-and-pieces-ix', name: 'Bits and pieces IX', technique: 'Mixed media', size: 'A3', year: '2021', status: 'Private collection', image: base + '2025/01/IMG_5845.avif' },
-      { slug: 'nostalgia', name: 'Nostalgia', technique: 'Mixed media', size: 'A3', year: '2021', status: 'Private collection', image: base + '2024/12/photo_5262762490696168254_y-1.avif' },
-      { slug: 'sensory', name: 'Sensory', technique: 'Mixed media', size: 'A3', year: '2021', status: 'Private collection', image: base + '2025/02/5328222409377049919.avif' },
-    ],
-  },
-  'little-pleasures': {
-    title: 'Little Pleasures',
-    subtitle: 'Everyday objects turned into quiet joy.',
-    description: 'A soft pastel collection about light, reflection and the beauty we notice only when we slow down.',
-    cta: 'Bring a quiet pleasure into your space.',
-    prevSlug: 'bits-and-pieces', prevTitle: 'Bits and Pieces',
-    nextSlug: 'at-the-seaside', nextTitle: 'At the Seaside',
-    artworks: [
-      { slug: 'little-pleasure-i', name: 'Little pleasure I', technique: 'Pastel, paper', size: 'A4', year: '2021', status: 'Available', image: base + '2025/01/IMG_5795.avif', cta: 'Request price' },
-      { slug: 'little-pleasure-ii', name: 'Little pleasure II', technique: 'Pastel, paper', size: 'A4', year: '2021', status: 'Private collection', image: base + '2025/01/IMG_5796.avif' },
-      { slug: 'little-pleasure-iii', name: 'Little pleasure III', technique: 'Pastel, paper', size: 'A4', year: '2021', status: 'Private collection', image: base + '2025/01/IMG_5797.avif' },
-      { slug: 'little-pleasure-iv', name: 'Little pleasure IV', technique: 'Pastel, paper', size: 'A4', year: '2021', status: 'Private collection', image: base + '2025/01/IMG_5798.avif' },
-      { slug: 'little-pleasure-v', name: 'Little pleasure V', technique: 'Pastel, paper', size: 'A4', year: '2021', status: 'Private collection', image: base + '2025/01/IMG_5799.avif' },
-      { slug: 'little-pleasure-vi', name: 'Little pleasure VI', technique: 'Pastel, paper', size: 'A4', year: '2021', status: 'Private collection', image: base + '2025/01/IMG_5800.avif' },
-      { slug: 'little-pleasure-vii', name: 'Little pleasure VII', technique: 'Pastel, paper', size: 'A4', year: '2021', status: 'Private collection', image: base + '2025/01/IMG_5801.avif' },
-      { slug: 'little-pleasure-viii', name: 'Little pleasure VIII', technique: 'Pastel, paper', size: 'A4', year: '2021', status: 'Private collection', image: base + '2025/01/IMG_5802.avif' },
-      { slug: 'little-pleasure-ix', name: 'Little pleasure IX', technique: 'Pastel, paper', size: 'A4', year: '2021', status: 'Private collection', image: base + '2025/01/IMG_5803.avif' },
-      { slug: 'little-pleasure-x', name: 'Little pleasure X', technique: 'Pastel, paper', size: 'A4', year: '2021', status: 'Private collection', image: base + '2025/01/IMG_5804.avif' },
-    ],
-  },
-  'at-the-seaside': {
-    title: 'At the Seaside',
-    subtitle: 'Water as strength, peace and release.',
-    description: 'A collection inspired by lakes, seas, oceans and the feeling of breathing freely again.',
-    cta: 'Interested in a seaside-inspired piece?',
-    prevSlug: 'little-pleasures', prevTitle: 'Little Pleasures',
-    nextSlug: 'mind-games', nextTitle: 'Mind Games',
-    artworks: [
-      { slug: 'seaside-i', name: 'Seaside I', technique: 'Oil on canvas', size: '50×70 cm', year: '2021', status: 'Private collection', image: base + '2025/01/IMG_5805.avif' },
-      { slug: 'seaside-ii', name: 'Seaside II', technique: 'Oil on canvas', size: '50×70 cm', year: '2021', status: 'Private collection', image: base + '2025/01/IMG_5806.avif' },
-      { slug: 'seaside-iii', name: 'Seaside III', technique: 'Oil on canvas', size: '50×70 cm', year: '2021', status: 'Private collection', image: base + '2025/01/IMG_5807.avif' },
-      { slug: 'seaside-iv', name: 'Seaside IV', technique: 'Oil on canvas', size: '50×70 cm', year: '2021', status: 'Private collection', image: base + '2025/01/IMG_5808.avif' },
-      { slug: 'seaside-v', name: 'Seaside V', technique: 'Oil on canvas', size: '50×70 cm', year: '2021', status: 'Private collection', image: base + '2025/01/IMG_5809.avif' },
-      { slug: 'seaside-vi', name: 'Seaside VI', technique: 'Oil on canvas', size: '50×70 cm', year: '2021', status: 'Private collection', image: base + '2025/01/IMG_5810.avif' },
-      { slug: 'seaside-vii', name: 'Seaside VII', technique: 'Oil on canvas', size: '50×70 cm', year: '2021', status: 'Private collection', image: base + '2025/01/IMG_5811.avif' },
-      { slug: 'seaside-viii', name: 'Seaside VIII', technique: 'Oil on canvas', size: '50×70 cm', year: '2021', status: 'Private collection', image: base + '2025/02/5330074966210769592.avif' },
-    ],
-  },
-  'mind-games': {
-    title: 'Mind Games',
-    subtitle: 'Symbols, puzzles and hidden meanings.',
-    description: 'A black-and-white sketch series with sharp red accents and stories that reveal themselves only when you look closer.',
-    cta: 'Explore this symbolic series.',
-    prevSlug: 'at-the-seaside', prevTitle: 'At the Seaside',
-    nextSlug: 'confessions-should-be-better-planned', nextTitle: 'Confessions should be better planned',
-    artworks: [
-      { slug: 'night-dweller', name: 'Night dweller', technique: 'Paper, pencil', size: 'A3', year: 'July 2021', status: 'Private collection', image: base + '2025/01/IMG_5785.avif' },
-      { slug: 'flowers-never-die', name: 'Flowers never die', technique: 'Paper, pencil', size: 'A3', year: 'April 2021', status: 'Private collection', image: base + '2025/01/IMG_5786.avif' },
-      { slug: 'a-drop', name: 'A drop', technique: 'Paper, acrylic, charcoal, pencil', size: 'A3', year: 'November 2021', status: 'Private collection', image: base + '2025/01/IMG_5787.avif' },
-      { name: 'My heart\'s stopped, my heart\'s frozen', technique: 'Paper, gouache, pencil', size: 'A3', year: 'July 2021', status: 'Private collection', image: base + '2025/01/IMG_5788.avif' },
-      { slug: 'game-of-chairs', name: 'Game of chairs', technique: 'Paper, pencil, gouache', size: 'A3', year: 'July 2021', status: 'Private collection', image: base + '2025/01/IMG_5789.avif' },
-      { slug: 'tears-of-pomegranates', name: 'Tears of pomegranates', technique: 'Pencil, gouache, paper', size: 'A3', year: 'July 2021', status: 'Private collection', image: base + '2025/01/IMG_5790.avif' },
-      { slug: 'fusion', name: 'Fusion', technique: 'Paper, pencil', size: 'A3', year: 'April 2021', status: 'Private collection', image: base + '2025/01/IMG_5791.avif' },
-      { slug: 'oops-i-spilt-the-paint', name: 'Oops, I spilt the paint', technique: 'Gouache, pencil, paper', size: 'A3', year: 'July 2021', status: 'Sold', image: base + '2025/01/IMG_5792.avif' },
-      { slug: 'good-evening-candles', name: 'Good evening candles', technique: 'Paper, pencil, gouache', size: 'A3', year: 'July 2021', status: 'Sold', image: base + '2025/01/IMG_5793.avif' },
-      { slug: 'dandelion-earrings', name: 'Dandelion earrings', technique: 'Paper, pencil', size: 'A4', year: 'April 2021', status: 'Private collection', image: base + '2025/01/IMG_5794.avif' },
-    ],
-  },
-  'confessions-should-be-better-planned': {
-    title: 'Confessions should be better planned',
-    subtitle: 'Raw expression, hidden truths and emotional chaos.',
-    description: 'A series about words left unspoken, desires misread and emotions too intense to stay inside.',
-    cta: 'Interested in a confession?',
-    prevSlug: 'mind-games', prevTitle: 'Mind Games',
-    nextSlug: 'flora', nextTitle: 'Flora',
-    hasAvailableBanner: true,
-    artworks: [
-      { slug: 'a-thought', name: 'A thought', technique: 'Acrylic on canvas', size: '100×70 cm', year: 'September 2021', status: 'Private collection', image: base + '2025/01/IMG_5550-scaled.avif' },
-      { slug: 'no-more-stories', name: 'No more stories', technique: 'Acrylic on canvas', size: '100×100 cm', year: 'October 2021', status: 'Private collection', image: base + '2025/01/IMG_5558-scaled.avif' },
-      { slug: 'a-red-stone', name: 'A red stone', technique: 'Acrylic on canvas', size: '120×100 cm', year: 'November 2021', status: 'Private collection', image: base + '2025/01/IMG_5571-scaled.avif' },
-      { slug: 'connection', name: 'Connection', technique: 'Acrylic on canvas', size: '50×60 cm', year: 'October 2021', status: 'Private collection', image: base + '2025/01/IMG_5566-scaled.avif' },
-      { slug: 'gone', name: 'Gone', technique: 'Acrylic on canvas', size: '40×60 cm', year: 'February 2022', status: 'Available', image: base + '2025/01/IMG_5567-scaled.avif', cta: 'Request price' },
-      { slug: 'the-darkest-side', name: 'The darkest side', technique: 'Acrylic on canvas', size: '70×90 cm', year: 'December 2022', status: 'Private collection', image: base + '2025/01/IMG_5563-scaled-e1737661398416.avif' },
-      { slug: 'the-tune', name: 'The tune', technique: 'Acrylic on canvas', size: '50×70 cm', year: '2022', status: 'Available', image: base + '2025/01/IMG_5552-scaled.avif', cta: 'Request price' },
-      { slug: 'disconnect', name: 'Disconnect', technique: 'Acrylic on canvas', size: '50×70 cm', year: 'March 2024', status: 'Available', image: base + '2025/01/IMG_5560-scaled.avif', cta: 'Request price' },
-      { slug: 'apple', name: 'Apple', technique: 'Acrylic on canvas', size: '100×70 cm', year: 'May 2022', status: 'Available', image: base + '2025/01/IMG_5556-786x1024.avif', cta: 'Request price' },
-      { slug: 'angie', name: 'Angie', technique: 'Acrylic on canvas', size: '120×120 cm', year: 'April 2022', status: 'Available', image: base + '2025/01/IMG_5562-scaled.avif', cta: 'Request price' },
-      { slug: 'time-to-rest', name: 'Time to rest', technique: 'Acrylic on canvas', size: '100×70 cm', year: 'January 2024', status: 'Available', image: base + '2024/11/Untitled-1.avif', cta: 'Request price' },
-      { slug: 'what-have-i-done', name: 'What have I done?', technique: 'Acrylic on canvas', size: '70×100 cm', year: 'January 2025', status: 'Available', image: base + '2025/02/5330074966210769581.avif', cta: 'Request price' },
-    ],
-  },
-  'flora': {
-    title: 'Flora',
-    subtitle: 'Flowers, femininity, fragility and preserved memory.',
-    description: 'The timeless bond between girls and flowers finds eternal life on canvas.',
-    cta: 'Looking for a floral piece?',
-    prevSlug: 'confessions-should-be-better-planned', prevTitle: 'Confessions should be better planned',
-    nextSlug: null, nextTitle: null,
-    artworks: [
-      { slug: 'flora-i', name: 'Flora I', technique: 'Oil on canvas', size: '50×70 cm', year: '2022', status: 'Available', image: base + '2025/02/5332760235598803087.avif', cta: 'Request price' },
-      { slug: 'flora-ii', name: 'Flora II', technique: 'Oil on canvas', size: '50×70 cm', year: '2022', status: 'Private collection', image: base + '2025/02/5330074966210769624.avif' },
-      { slug: 'flora-iii', name: 'Flora III', technique: 'Oil on canvas', size: '50×70 cm', year: '2022', status: 'Private collection', image: base + '2025/02/5330074966210769625.avif' },
-      { slug: 'flora-iv', name: 'Flora IV', technique: 'Oil on canvas', size: '50×70 cm', year: '2022', status: 'Private collection', image: base + '2025/02/5330074966210769626.avif' },
-      { slug: 'flora-v', name: 'Flora V', technique: 'Oil on canvas', size: '50×70 cm', year: '2022', status: 'Private collection', image: base + '2025/02/5330074966210769627.avif' },
-      { slug: 'flora-vi', name: 'Flora VI', technique: 'Oil on canvas', size: '50×70 cm', year: '2022', status: 'Private collection', image: base + '2025/02/5330074966210769628.avif' },
-      { slug: 'flora-vii', name: 'Flora VII', technique: 'Oil on canvas', size: '50×70 cm', year: '2022', status: 'Private collection', image: base + '2025/02/5330074966210769629.avif' },
-      { slug: 'flora-viii', name: 'Flora VIII', technique: 'Oil on canvas', size: '50×70 cm', year: '2022', status: 'Available', image: base + '2025/02/5330510415765039716.avif', cta: 'Request price' },
-      { slug: 'flora-ix', name: 'Flora IX', technique: 'Oil on canvas', size: '50×70 cm', year: '2022', status: 'Private collection', image: base + '2025/02/5330510415765039717.avif' },
-      { slug: 'flora-x', name: 'Flora X', technique: 'Oil on canvas', size: '50×70 cm', year: '2022', status: 'Private collection', image: base + '2025/02/5330510415765039718.avif' },
-    ],
-  },
-};
+// Load prev/next collections
+const allCollections = await getCollection('art_collections');
+const sortedCollections = allCollections.sort((a, b) => (a.data.order || 0) - (b.data.order || 0));
+const currentIndex = sortedCollections.findIndex(c => c.data.slug === slug);
+const prevCollection = currentIndex > 0 ? sortedCollections[currentIndex - 1] : null;
+const nextCollection = currentIndex < sortedCollections.length - 1 ? sortedCollections[currentIndex + 1] : null;
 
-const col = collections[slug];
-if (!col) return new Response(null, { status: 404 });
+// Count statuses
+const availableCount = artworks.filter(a => a.data.status === 'Available').length;
+const soldCount = artworks.filter(a => a.data.status === 'Sold').length;
+const privateCount = artworks.filter(a => a.data.status === 'Private collection').length;
 ---
 
-<BaseLayout title={col.title}>
+<BaseLayout title={`${title} — Alena ART`} description={description}>
   <article class="pt-24 pb-20">
     <!-- Collection Hero -->
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mb-12">
       <a href="/art/" class="text-sm text-secondary hover:text-primary transition-colors mb-4 inline-block">← Back to Collections</a>
-      <h1 class="text-3xl md:text-5xl font-display leading-tight mb-2">{col.title}</h1>
-      <p class="text-lg text-secondary font-display mb-4">{col.subtitle}</p>
-      <p className="text-secondary leading-relaxed">{col.description}</p>
+      <h1 class="text-3xl md:text-5xl font-display leading-tight mb-2">{title}</h1>
+      {subtitle && <p class="text-lg text-secondary font-display mb-4">{subtitle}</p>}
+      {description && <p class="text-secondary leading-relaxed">{description}</p>}
     </div>
 
-    {/* Available Works Banner */}
-    {col.hasAvailableBanner && (
+    <!-- Available Works Banner -->
+    {availableCount > 0 && (
       <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mb-8">
         <div class="bg-accent/10 border border-accent/20 rounded-sm p-4 text-center">
           <p class="text-sm">Selected works from this collection are available for purchase.</p>
@@ -185,10 +60,16 @@ if (!col) return new Response(null, { status: 404 });
     <!-- Filters -->
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mb-8">
       <div class="flex flex-wrap gap-2 artwork-filters" role="group" aria-label="Filter artworks by status">
-        <button class="filter-btn px-3 py-1 text-xs uppercase tracking-wider bg-primary text-white rounded-sm" data-filter="all" aria-pressed="true">All (<span id="count-all">0</span>)</button>
-        <button class="filter-btn px-3 py-1 text-xs uppercase tracking-wider bg-gray-100 text-secondary hover:bg-gray-200 rounded-sm transition-colors" data-filter="available" aria-pressed="false">Available (<span id="count-available">0</span>)</button>
-        <button class="filter-btn px-3 py-1 text-xs uppercase tracking-wider bg-gray-100 text-secondary hover:bg-gray-200 rounded-sm transition-colors" data-filter="sold" aria-pressed="false">Sold (<span id="count-sold">0</span>)</button>
-        <button class="filter-btn px-3 py-1 text-xs uppercase tracking-wider bg-gray-100 text-secondary hover:bg-gray-200 rounded-sm transition-colors" data-filter="private-collection" aria-pressed="false">Private collection (<span id="count-private-collection">0</span>)</button>
+        <button class="filter-btn px-3 py-1 text-xs uppercase tracking-wider bg-primary text-white rounded-sm" data-filter="all" aria-pressed="true">All ({artworks.length})</button>
+        {availableCount > 0 && (
+          <button class="filter-btn px-3 py-1 text-xs uppercase tracking-wider bg-gray-100 text-secondary hover:bg-gray-200 rounded-sm transition-colors" data-filter="available" aria-pressed="false">Available ({availableCount})</button>
+        )}
+        {soldCount > 0 && (
+          <button class="filter-btn px-3 py-1 text-xs uppercase tracking-wider bg-gray-100 text-secondary hover:bg-gray-200 rounded-sm transition-colors" data-filter="sold" aria-pressed="false">Sold ({soldCount})</button>
+        )}
+        {privateCount > 0 && (
+          <button class="filter-btn px-3 py-1 text-xs uppercase tracking-wider bg-gray-100 text-secondary hover:bg-gray-200 rounded-sm transition-colors" data-filter="private-collection" aria-pressed="false">Private collection ({privateCount})</button>
+        )}
       </div>
     </div>
 
@@ -200,61 +81,65 @@ if (!col) return new Response(null, { status: 404 });
     <!-- Artwork Grid -->
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="grid artwork-grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        {col.artworks.map((artwork) => (
-          <div class="group artwork-card" data-status={artwork.status.toLowerCase().replace(' ', '-')}>
+        {artworks.map((artwork) => (
+          <div class="group artwork-card" data-status={artwork.data.status.toLowerCase().replace(' ', '-')}>
             <figure class="m-0 mb-3">
-              <a href={`/art/${slug}/${artwork.slug}/`} class="block">
+              <a href={`/art/${slug}/${artwork.data.slug}/`} class="block">
                 <img
-                  src={artwork.image}
-                  alt={`${artwork.name}, ${artwork.technique} by Alena Mart`}
+                  src={normalizeImageUrl(artwork.data.image || '')}
+                  alt={artwork.data.name}
                   class="w-full h-auto rounded-sm group-hover:opacity-90 transition-opacity"
                   loading="lazy"
                 />
               </a>
             </figure>
             <h3 class="font-display text-base mb-1">
-              <a href={`/art/${slug}/${artwork.slug}/`} class="hover:text-accent transition-colors">{artwork.name}</a>
+              <a href={`/art/${slug}/${artwork.data.slug}/`} class="hover:text-accent transition-colors">{artwork.data.name}</a>
             </h3>
-            <p class="text-xs text-secondary">{artwork.technique} · {artwork.size} · {artwork.year}</p>
+            <p class="text-xs text-secondary">{artwork.data.technique} · {artwork.data.size} · {artwork.data.year}</p>
             <div class="mt-2 flex items-center justify-between">
-              {artwork.status === 'Available' ? (
+              {artwork.data.status === 'Available' ? (
                 <span class="text-xs font-medium text-accent">Available</span>
-              ) : artwork.status === 'Sold' ? (
+              ) : artwork.data.status === 'Sold' ? (
                 <span class="text-xs text-gray-400">Sold</span>
               ) : (
-                <span class="text-xs text-gray-400">{artwork.status}</span>
-              )}
-              {artwork.cta && (
-                <a href={`/contact/?interest=buy&artwork=${encodeURIComponent(artwork.name)}&collection=${encodeURIComponent(col.title)}`} class="text-xs font-medium text-accent hover:text-accent/80">{artwork.cta}</a>
+                <span class="text-xs text-gray-400">{artwork.data.status}</span>
               )}
             </div>
+            {artwork.data.cta && (
+              <a href={`/contact/?interest=buy&artwork=${encodeURIComponent(artwork.data.name)}&collection=${encodeURIComponent(title)}`} class="mt-2 inline-block text-xs font-medium text-accent hover:text-accent/80">
+                {artwork.data.cta}
+              </a>
+            )}
           </div>
         ))}
       </div>
     </div>
 
-    {/* CTA */}
-    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mt-16 text-center">
-      <p class="text-secondary mb-4">{col.cta}</p>
-      <a href="/contact/" class="inline-block bg-primary text-white px-6 py-3 text-sm uppercase tracking-wider font-medium hover:bg-primary/90 transition-colors">
-        Contact the Artist
-      </a>
-    </div>
+    <!-- CTA -->
+    {cta && (
+      <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mt-16 text-center">
+        <p class="text-secondary mb-4">{cta}</p>
+        <a href="/contact/" class="inline-block bg-primary text-white px-6 py-3 text-sm uppercase tracking-wider font-medium hover:bg-primary/90 transition-colors">
+          Contact the Artist
+        </a>
+      </div>
+    )}
 
-    {/* Navigation between collections */}
+    <!-- Navigation between collections -->
     <nav class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mt-16 pt-8 border-t border-gray-200">
       <div class="flex justify-between items-center gap-4">
-        {col.prevSlug ? (
-          <a href={`/art/${col.prevSlug}/`} class="text-sm hover:text-accent transition-colors max-w-[40%]">
+        {prevCollection ? (
+          <a href={`/art/${prevCollection.data.slug}/`} class="text-sm hover:text-accent transition-colors max-w-[40%]">
             <span class="block text-xs uppercase tracking-wider text-secondary mb-1">← Previous</span>
-            <span class="font-display text-base text-primary">{col.prevTitle}</span>
+            <span class="font-display text-base text-primary">{prevCollection.data.title}</span>
           </a>
         ) : <div class="max-w-[40%]" />}
         <a href="/art/" class="text-xs text-secondary hover:text-primary transition-colors flex-shrink-0">All Collections</a>
-        {col.nextSlug ? (
-          <a href={`/art/${col.nextSlug}/`} class="text-sm hover:text-accent transition-colors max-w-[40%] text-right">
+        {nextCollection ? (
+          <a href={`/art/${nextCollection.data.slug}/`} class="text-sm hover:text-accent transition-colors max-w-[40%] text-right">
             <span class="block text-xs uppercase tracking-wider text-secondary mb-1">Next →</span>
-            <span class="font-display text-base text-primary">{col.nextTitle}</span>
+            <span class="font-display text-base text-primary">{nextCollection.data.title}</span>
           </a>
         ) : <div class="max-w-[40%]" />}
       </div>
@@ -269,30 +154,11 @@ if (!col) return new Response(null, { status: 404 });
       var cards = document.querySelectorAll('.artwork-card');
       var emptyMsg = document.getElementById('artwork-empty');
 
-      // Count works by status
-      var counts = { all: 0, available: 0, sold: 0, 'private-collection': 0 };
-      cards.forEach(function(card) {
-        counts.all++;
-        var status = card.getAttribute('data-status');
-        if (counts[status] !== undefined) counts[status]++;
-      });
-
-      // Update filter button counts
-      var countAll = document.getElementById('count-all');
-      var countAvailable = document.getElementById('count-available');
-      var countSold = document.getElementById('count-sold');
-      var countPrivate = document.getElementById('count-private-collection');
-      if (countAll) countAll.textContent = counts.all;
-      if (countAvailable) countAvailable.textContent = counts.available;
-      if (countSold) countSold.textContent = counts.sold;
-      if (countPrivate) countPrivate.textContent = counts['private-collection'];
-
       buttons.forEach(function(btn) {
         btn.addEventListener('click', function(e) {
           e.preventDefault();
           var filter = btn.getAttribute('data-filter');
 
-          // Update active state
           buttons.forEach(function(b) {
             b.classList.remove('bg-primary', 'text-white');
             b.classList.add('bg-gray-100', 'text-secondary');
@@ -302,7 +168,6 @@ if (!col) return new Response(null, { status: 404 });
           btn.classList.add('bg-primary', 'text-white');
           btn.setAttribute('aria-pressed', 'true');
 
-          // Filter cards
           var visible = 0;
           cards.forEach(function(card) {
             var status = card.getAttribute('data-status');
@@ -314,7 +179,6 @@ if (!col) return new Response(null, { status: 404 });
             }
           });
 
-          // Empty state — only show when filter returns zero results
           if (emptyMsg) {
             emptyMsg.style.display = visible === 0 ? 'block' : 'none';
           }

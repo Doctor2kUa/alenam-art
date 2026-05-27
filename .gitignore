@@ -15,3 +15,4 @@ deploy.zip
 *.zip
 dist/
 dist_clean/
+*.zip

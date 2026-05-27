@@ -18,10 +18,11 @@ def extract_astro_images(filepath: str) -> list[dict]:
     with open(filepath, "r") as f:
         content = f.read()
     
+    images = []
+    
     # Ищем все блоки artwork со статусом
     blocks = re.findall(r'\{[^{}]*slug:[^{}]*\}', content, re.DOTALL)
     
-    images = []
     for block in blocks:
         name = re.search(r"name: '([^']+)'", block)
         slug = re.search(r"slug: '([^']+)'", block)
@@ -36,6 +37,61 @@ def extract_astro_images(filepath: str) -> list[dict]:
                 "image": image.group(1),
                 "source": filepath,
             })
+    
+    # Ищем изображения в формате image: "uploads/..." (новый формат)
+    uploads_images = re.findall(r'image:\s*["\x27]uploads/([^"\x27]+)["\x27]', content)
+    for img_path in uploads_images:
+        # Проверяем что это не дубль
+        if not any(i["image"] == img_path for i in images):
+            images.append({
+                "name": img_path.split("/")[-1],
+                "slug": img_path,
+                "status": "unknown",
+                "image": img_path,
+                "source": filepath,
+            })
+    
+    return images
+
+
+def extract_json_images(filepath: str) -> list[dict]:
+    """Извлекает изображения из JSON content files."""
+    import json
+    
+    images = []
+    
+    with open(filepath, "r") as f:
+        try:
+            data = json.load(f)
+        except json.JSONDecodeError:
+            return images
+    
+    # Определяем имя файла для отчёта
+    rel_path = filepath.replace("/Users/roman_devops/Downloads/alenam-art/", "")
+    
+    # Ищем image и images поля
+    if isinstance(data, dict):
+        # Одиночное изображение
+        if "image" in data and isinstance(data["image"], str):
+            images.append({
+                "name": data.get("name", data.get("title", filepath.split("/")[-1])),
+                "slug": data.get("slug", ""),
+                "status": data.get("status", "unknown"),
+                "image": data["image"].replace("uploads/", ""),
+                "source": rel_path,
+            })
+        
+        # Массив изображений
+        if "images" in data and isinstance(data["images"], list):
+            for i, img in enumerate(data["images"]):
+                if isinstance(img, dict) and "image" in img:
+                    images.append({
+                        "name": f"{data.get('name', 'image')}_{i}",
+                        "slug": data.get("slug", ""),
+                        "status": data.get("status", "unknown"),
+                        "image": img["image"].replace("uploads/", ""),
+                        "source": rel_path,
+                    })
     
     return images
 
@@ -185,6 +241,65 @@ def main():
                     "url": url,
                     "error": msg,
                 })
+    
+    # 4. Проверяем изображения из JSON content files (artworks)
+    print()
+    print("=" * 60)
+    print("Checking artwork images in content files...")
+    print("=" * 60)
+    
+    content_artworks_dir = Path("src/content/artworks")
+    if content_artworks_dir.exists():
+        json_count = 0
+        for collection_dir in content_artworks_dir.iterdir():
+            if collection_dir.is_dir():
+                for json_file in collection_dir.glob("*.json"):
+                    images = extract_json_images(str(json_file))
+                    for img in images:
+                        url = BASE_URL + img["image"]
+                        ok, msg = check_image_url(url)
+                        checked += 1
+                        json_count += 1
+                        
+                        status_icon = "✓" if ok else "✗"
+                        print(f"  {status_icon} {img['name']} ({img['status']}) — {msg}")
+                        
+                        if not ok:
+                            errors.append({
+                                "file": img["source"],
+                                "artwork": img["name"],
+                                "slug": img["slug"],
+                                "url": url,
+                                "error": msg,
+                            })
+        print(f"Checked {json_count} images from JSON content files")
+    
+    # 5. Проверяем изображения из коллекций JSON
+    print()
+    print("=" * 60)
+    print("Checking collection cover images...")
+    print("=" * 60)
+    
+    collections_dir = Path("src/content/collections")
+    if collections_dir.exists():
+        for json_file in collections_dir.glob("*.json"):
+            images = extract_json_images(str(json_file))
+            for img in images:
+                url = BASE_URL + img["image"]
+                ok, msg = check_image_url(url)
+                checked += 1
+                
+                status_icon = "✓" if ok else "✗"
+                print(f"  {status_icon} {img['name']} — {msg}")
+                
+                if not ok:
+                    errors.append({
+                        "file": img["source"],
+                        "artwork": img["name"],
+                        "slug": img["slug"],
+                        "url": url,
+                        "error": msg,
+                    })
     
     # Итог
     print()
